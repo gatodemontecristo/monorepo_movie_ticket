@@ -1,33 +1,50 @@
 
 
-Create the folder backend and frontend
+/***************************************/
+ How to setup Prettier, ESLint, and Husky in my project?
+/***************************************/
 
-yarn add -D eslint prettier husky lint-staged 
+1. Create the folders backend and frontend, start the monorepo with Yarn
 
-add .prettierignore and .prettierrc
+    yarn init -y
 
-npx eslint --init
+2.  Install the necessary dependencies:
 
-✔ What do you want to lint? · javascript, json, jsonc, md, css
-✔ How would you like to use ESLint? · problems
-✔ What type of modules does your project use? · esm
-✔ Which framework does your project use? · react
-✔ Does your project use TypeScript? · No / Yes*
-✔ Where does your code run? · browser, node
-✔ Which language do you want your configuration file be written in? · ts
-✔ What flavor of Markdown do you want to lint? · gfm
-Jiti is required for Node.js <24.3.0 to read TypeScript configuration files.
-✔ Would you like to add Jiti as a devDependency? · No / Yes*
-The config that you've selected requires the following dependencies:
+    yarn add -D eslint prettier husky lint-staged 
 
-eslint, @eslint/js, globals, typescript-eslint, eslint-plugin-react, @eslint/json, @eslint/markdown, @eslint/css, jiti
-✔ Would you like to install them now? · No / Yes
-✔ Which package manager do you want to use? · yarn
+3. Add .prettierignore and .prettierrc
 
- git init
- npx husky init
+4. Configure ESLint
 
- add this code to the package.json
+    npx eslint --init
+
+    ✔ What do you want to lint? · javascript, json, jsonc, md, css
+    ✔ How would you like to use ESLint? · problems
+    ✔ What type of modules does your project use? · esm
+    ✔ Which framework does your project use? · react
+    ✔ Does your project use TypeScript? · No / Yes*
+    ✔ Where does your code run? · browser, node
+    ✔ Which language do you want your configuration file be written in? · ts
+    ✔ What flavor of Markdown do you want to lint? · gfm
+    Jiti is required for Node.js <24.3.0 to read TypeScript configuration files.
+    ✔ Would you like to add Jiti as a devDependency? · No / Yes*
+    The config that you've selected requires the following dependencies:
+
+    eslint, @eslint/js, globals, typescript-eslint, eslint-plugin-react, @eslint/json, @eslint/markdown, @eslint/css, jiti
+    ✔ Would you like to install them now? · No / Yes*
+    ✔ Which package manager do you want to use? · yarn
+
+    This action will create .eslintrc.json in the root
+
+5. Execute this command
+    
+    git init
+
+6. Install husky
+
+    npx husky init
+
+7. Add this code to the package.json
 
   "scripts": {
     "prepare": "husky",
@@ -35,8 +52,7 @@ eslint, @eslint/js, globals, typescript-eslint, eslint-plugin-react, @eslint/jso
     "format": "prettier --write ."
   }
 
-
-5.Configure lint-staged: Add the following configuration to your package.json:
+8.Configure lint-staged: Add the following configuration to your package.json:
 
 "lint-staged": {
   "*.{js,jsx,ts,tsx}": [
@@ -45,6 +61,57 @@ eslint, @eslint/js, globals, typescript-eslint, eslint-plugin-react, @eslint/jso
   ]
 }
 
-5.1 Init Husky
+9. Install TypeScript
+    
+    yarn add -D typescript
 
-npx husky init
+10. Configure the eslint.config.mts file. You shoudn't have the eslintrc.json (Deprecated)
+
+    import js from '@eslint/js';
+    import globals from 'globals';
+    import tseslint from 'typescript-eslint';
+    import pluginReact from 'eslint-plugin-react';
+
+    export default [
+    {
+        files: [
+        'frontend/**/*.{js,mjs,cjs,ts,tsx,jsx}',
+        'backend/**/*.{js,mjs,cjs,ts,tsx,jsx}',
+        ],
+        languageOptions: {
+        globals: {
+            ...globals.browser,
+            ...globals.node,
+        },
+        parserOptions: {
+            ecmaFeatures: {
+            jsx: true,
+            },
+        },
+        },
+    },
+    js.configs.recommended,
+    ...tseslint.configs.recommended,
+    {
+        files: ['frontend/**/*.{js,jsx,ts,tsx}', 'backend/**/*.{js,jsx,ts,tsx}'],
+        plugins: {
+        react: pluginReact,
+        },
+        rules: {
+        ...pluginReact.configs.recommended.rules,
+        },
+        settings: {
+        react: {
+            version: 'detect',
+        },
+        },
+    },
+    {
+        ignores: ['node_modules/**', 'dist/**', 'build/**', '**/node_modules/**'],
+    },
+    ];
+
+
+11. Test this command
+    
+    yarn lint
