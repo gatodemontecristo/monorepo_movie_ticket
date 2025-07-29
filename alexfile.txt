@@ -1,0 +1,50 @@
+
+
+Create the folder backend and frontend
+
+yarn add -D eslint prettier husky lint-staged 
+
+add .prettierignore and .prettierrc
+
+npx eslint --init
+
+✔ What do you want to lint? · javascript, json, jsonc, md, css
+✔ How would you like to use ESLint? · problems
+✔ What type of modules does your project use? · esm
+✔ Which framework does your project use? · react
+✔ Does your project use TypeScript? · No / Yes*
+✔ Where does your code run? · browser, node
+✔ Which language do you want your configuration file be written in? · ts
+✔ What flavor of Markdown do you want to lint? · gfm
+Jiti is required for Node.js <24.3.0 to read TypeScript configuration files.
+✔ Would you like to add Jiti as a devDependency? · No / Yes*
+The config that you've selected requires the following dependencies:
+
+eslint, @eslint/js, globals, typescript-eslint, eslint-plugin-react, @eslint/json, @eslint/markdown, @eslint/css, jiti
+✔ Would you like to install them now? · No / Yes
+✔ Which package manager do you want to use? · yarn
+
+ git init
+ npx husky init
+
+ add this code to the package.json
+
+  "scripts": {
+    "prepare": "husky",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  }
+
+
+5.Configure lint-staged: Add the following configuration to your package.json:
+
+"lint-staged": {
+  "*.{js,jsx,ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+}
+
+5.1 Init Husky
+
+npx husky init
