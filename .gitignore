@@ -2,4 +2,8 @@ node_modules
 dist
 build
 .env
+.next
 
+frontend/node_modules
+frontend/dist
+frontend/build
