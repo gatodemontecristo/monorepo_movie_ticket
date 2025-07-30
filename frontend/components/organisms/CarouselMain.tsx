@@ -76,7 +76,6 @@ export default function CarouselMain() {
                   <FaStar />
                   <FaStar />
                   <FaRegStarHalfStroke />
-
                   <FaRegStar />
                 </div>
 
