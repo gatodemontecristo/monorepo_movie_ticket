@@ -51,7 +51,7 @@
 }
 
 /* Custom CSS Variables */
-:root {
+@theme {
   /* Movie Theme Colors */
   --color-movie-black: #0a061e;
   --color-movie-grey: #4d4767;
