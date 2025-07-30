@@ -1,0 +1,39 @@
+# Get the commit message
+commit_message=$(cat "$1")
+
+# Define the regex pattern for conventional commits
+pattern="^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\(.+\))?: .{1,}$"
+
+# Check if commit message matches the pattern
+if ! echo "$commit_message" | grep -qE "$pattern"; then
+  echo ""
+  echo "❌ Invalid commit message format!"
+  echo ""
+  echo "📝 Your commit message should follow the Conventional Commits format:"
+  echo "   <type>[optional scope]: <description>"
+  echo ""
+  echo "📋 Valid types are:"
+  echo "   • feat:     New features"
+  echo "   • fix:      Bug fixes"
+  echo "   • docs:     Documentation changes"
+  echo "   • style:    Code style changes (formatting, etc.)"
+  echo "   • refactor: Code restructuring without functionality changes"
+  echo "   • perf:     Performance improvements"
+  echo "   • test:     Adding or updating tests"
+  echo "   • chore:    Maintenance tasks, dependency updates"
+  echo "   • ci:       CI/CD configuration changes"
+  echo "   • build:    Build system changes"
+  echo "   • revert:   Reverting previous commits"
+  echo ""
+  echo "✅ Examples:"
+  echo "   feat: add user authentication"
+  echo "   fix: resolve carousel navigation bug"
+  echo "   docs: update API documentation"
+  echo "   feat(auth): implement login functionality"
+  echo ""
+  echo "🚫 Your message: '$commit_message'"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Commit message format is valid!"
