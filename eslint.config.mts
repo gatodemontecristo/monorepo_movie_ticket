@@ -30,6 +30,10 @@ export default [
     },
     rules: {
       ...pluginReact.configs.recommended.rules,
+      // Custom rules
+      'no-unused-vars': 'warn',
+      'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
     settings: {
       react: {
@@ -38,6 +42,12 @@ export default [
     },
   },
   {
-    ignores: ['node_modules/**', 'dist/**', 'build/**', '**/node_modules/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      '**/node_modules/**',
+      '**/.next/**',
+    ],
   },
 ];
