@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { FaStar } from 'react-icons/fa6';
+import { FaRegStar, FaRegStarHalfStroke, FaStar } from 'react-icons/fa6';
 
 type Slide = {
   id: number;
@@ -71,12 +71,21 @@ export default function CarouselMain() {
             {/* Contenido */}
             <div className='absolute inset-0 flex flex-col justify-center items-center text-center px-4 text-white'>
               <div className='flex flex-row gap-4'>
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
+                <div className='flex items-center text-movie-duck text-sm gap-2'>
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaRegStarHalfStroke />
+                  <FaRegStar />
+                </div>
 
+                <div
+                  className='bg-movie-black text-movie-metal 
+              font-bold py-1 px-6 rounded-sm transition duration-300 transform mb-6
+                border-movie-metal border-2 font-caros text-sm flex items-center justify-center'
+                >
+                  <p>PG-13</p>
+                </div>
                 <button
                   className='bg-movie-duck hover:bg-movie-black hover:text-movie-duck text-movie-black 
               font-bold py-2 px-8 rounded-sm transition duration-300 transform mb-6
