@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FaRegStar, FaRegStarHalfStroke, FaStar } from 'react-icons/fa6';
+import { FaRegCalendar } from 'react-icons/fa6';
+import { TbClockHour2 } from 'react-icons/tb';
 
 type Slide = {
   id: number;
@@ -52,7 +54,7 @@ export default function CarouselMain() {
       {/* Carrusel contenedor */}
       <div
         className='flex transition-transform duration-1000 ease-in-out h-full w-full'
-        style={{ transform: `translateX(-${current * 100}%)` }}
+        // style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {slides.map(slide => (
           <div key={slide.id} className='w-full flex-shrink-0 h-full relative'>
@@ -69,51 +71,76 @@ export default function CarouselMain() {
             <div className='absolute inset-0 bg-black/60' />
 
             {/* Contenido */}
-            <div className='absolute inset-0 flex flex-col justify-center items-center text-center px-4 text-white'>
-              <div className='flex flex-row gap-4'>
-                <div className='flex items-center text-movie-duck text-sm gap-2'>
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaRegStarHalfStroke />
-                  <FaRegStar />
+            <div className='absolute flex flex-row bottom-0 justify-evenly items-center text-center px-0 py-8 gap-10 text-white'>
+              <div className='flex flex-col gap-4 w-1/3  justify-start text-left'>
+                <h2 className='text-6xl  font-bold  font-mont'>Oppenheimer</h2>
+                <div className='flex flex-row  gap-4 text-sm'>
+                  <p>Biography, Drama, History</p>
+                  <div className='flex flex-row gap-1 items-center'>
+                    <FaRegCalendar className='text-movie-yellow' />
+                    <p>2023</p>
+                  </div>
+                  <div className='flex flex-row gap-1 items-center'>
+                    <TbClockHour2 className='text-movie-yellow' />
+                    <p>3h 1 m</p>
+                  </div>
                 </div>
-
-                <div
-                  className='bg-movie-black text-movie-metal 
-              font-bold py-1 px-6 rounded-sm transition duration-300 transform mb-6
+                <div className='flex flex-row  gap-4  text-sm'>
+                  <div className='flex flex-row items-center justify-center text-movie-duck text-sm gap-2'>
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaRegStarHalfStroke />
+                    <FaRegStar />
+                  </div>
+                  <div
+                    className='bg-movie-black text-movie-metal 
+              font-bold py-1 px-6 rounded-sm transition duration-300 transform 
                 border-movie-metal border-2 font-caros text-sm flex items-center justify-center'
-                >
-                  <p>PG-13</p>
+                  >
+                    <p>PG-13</p>
+                  </div>
                 </div>
-                <button
-                  className='bg-movie-duck hover:bg-movie-black hover:text-movie-duck text-movie-black 
+                <div className='flex flex-row  gap-2 text-sm'>
+                  <button
+                    className='bg-movie-duck hover:bg-movie-black hover:text-movie-duck text-movie-black 
               font-bold py-2 px-8 rounded-sm transition duration-300 transform mb-6
                 border-movie-duck border-2 font-caros'
-                >
-                  Book Tickets
-                </button>
-                <button
-                  className='bg-movie-black hover:bg-movie-duck hover:text-movie-black text-movie-duck 
+                  >
+                    Book Tickets
+                  </button>
+                  <button
+                    className='bg-movie-black hover:bg-movie-duck hover:text-movie-black text-movie-duck 
               font-bold py-2 px-8 rounded-sm transition duration-300 transform mb-6
                 border-movie-duck border-2 font-caros'
-                >
-                  Review
-                </button>
-                <button
-                  className='bg-movie-black hover:bg-movie-duck hover:text-movie-black text-movie-duck 
+                  >
+                    Review
+                  </button>
+                  <button
+                    className='bg-movie-black hover:bg-movie-duck hover:text-movie-black text-movie-duck 
               font-bold py-2 px-8 rounded-sm transition duration-300 transform mb-6
                 border-movie-duck border-2 font-caros'
-                >
-                  More
-                </button>
+                  >
+                    More
+                  </button>
+                </div>
               </div>
-              <h2 className='text-4xl md:text-6xl font-bold mb-4 font-mont'>
-                {slide.title}
-              </h2>
-              <p className='text-lg md:text-2xl max-w-xl'>
-                {slide.description}
-              </p>
+              <div className='flex flex-col gap-2  w-1/3 text-right text-sm'>
+                <p>
+                  Christopher Nolan :{' '}
+                  <span className='text-movie-yellow'>Director</span>
+                </p>
+                <p>
+                  Cillian Murphy, Emily Blunt, Matt Damon :{' '}
+                  <span className='text-movie-yellow'>Starts</span>
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+              </div>
             </div>
           </div>
         ))}
