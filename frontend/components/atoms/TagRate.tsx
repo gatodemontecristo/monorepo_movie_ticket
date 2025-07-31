@@ -6,7 +6,7 @@ export const TagRate = ({ rate }: TagRateProps) => {
   return (
     <div
       className='bg-movie-black text-movie-metal 
-              font-bold py-1 px-6 rounded-sm transition duration-300 transform mb-6
+              font-bold py-1 px-6 rounded-sm transition duration-300 transform 
                 border-movie-metal border-2 font-caros text-sm flex items-center justify-center'
     >
       <p>{rate}</p>
