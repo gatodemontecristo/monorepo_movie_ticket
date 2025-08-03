@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FaRegStar, FaRegStarHalfStroke, FaStar } from 'react-icons/fa6';
 import { FaRegCalendar } from 'react-icons/fa6';
 import { TbClockHour2 } from 'react-icons/tb';
+import { useGetMoviesHomepage } from '@/hooks/useMovies';
 
 type Slide = {
   id: number;
@@ -38,6 +39,8 @@ const slides: Slide[] = [
 ];
 
 export default function CarouselMain() {
+  const { data: movies, isLoading, error } = useGetMoviesHomepage();
+  console.log('Movies data:', movies);
   const [current, setCurrent] = useState(0);
 
   const goToNext = () => {
