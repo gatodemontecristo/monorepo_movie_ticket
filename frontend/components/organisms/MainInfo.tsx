@@ -1,27 +1,26 @@
-import { MovieProps } from '@/types/movie';
 import React, { createContext, useContext } from 'react';
 import { FaRegCalendar } from 'react-icons/fa6';
 import { TbClockHour2 } from 'react-icons/tb';
 import { TagRate } from '../atoms';
 import { MovieScore } from '../molecules';
+import { Movie } from '@/types/tmdb';
 
 interface MainContextValue {
-  movie: MovieProps;
+  movie: Movie;
 }
 
 interface MainInfoProps extends MainContextValue {
   children?: React.ReactNode;
-  title: string;
 }
 const MainContext = createContext<MainContextValue>({
-  movie: {} as MovieProps,
+  movie: {} as Movie,
 });
 
 const MainInfo = ({ children, movie }: MainInfoProps) => {
   return (
     <MainContext.Provider value={{ movie }}>
-      <div className='flex flex-col gap-4 w-1/3  justify-start text-left'>
-        <div>{children}</div>
+      <div className='flex flex-col gap-4 w-1/2  justify-start text-left'>
+        {children}
       </div>
     </MainContext.Provider>
   );
@@ -36,14 +35,14 @@ const MainOtherInfo = () => {
   const { movie } = useContext(MainContext);
   return (
     <div className='flex flex-row gap-4 text-sm'>
-      <p>{movie.genres.map(genre => genre.name).join(', ')}</p>
+      <p>{movie.genre_ids.map(genre => genre).join(', ')}</p>
       <div className='flex flex-row gap-1 items-center'>
         <FaRegCalendar className='text-movie-yellow' />
         <p>{new Date(movie.release_date).getFullYear()}</p>
       </div>
       <div className='flex flex-row gap-1 items-center'>
         <TbClockHour2 className='text-movie-yellow' />
-        <p>{movie.runtime}</p>
+        <p>{movie.original_language}</p>
       </div>
     </div>
   );
