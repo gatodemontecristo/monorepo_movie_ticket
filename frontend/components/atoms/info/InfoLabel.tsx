@@ -7,7 +7,7 @@ interface InfoLabelProps {
 
 export const InfoLabel = ({ text, subtext }: InfoLabelProps) => {
   return (
-    <p>
+    <p className='font-mont'>
       {text}
       {subtext && ': '}
       {subtext && <span className='text-movie-yellow'>{subtext}</span>}
