@@ -9,7 +9,6 @@ import {
   SearchFilters,
   Genre,
 } from '../types/tmdb';
-import { httpClient } from '@/lib/http-client';
 
 /**
  * Helper para construir URLs sin API key (se envía en header)
@@ -22,12 +21,7 @@ const buildTMDBUrl = (
     endpoint.replace(/^\/+/, ''),
     process.env.NEXT_PUBLIC_TMDB_BASE_URL,
   );
-  console.log('endpoint', endpoint);
-  console.log(
-    'NEXT_PUBLIC_TMDB_BASE_URL',
-    process.env.NEXT_PUBLIC_TMDB_BASE_URL,
-  );
-  console.log('Building API URL:', url.toString());
+
   // Add parameters (sin API key)
   if (params) {
     Object.entries(params).forEach(([key, value]) => {

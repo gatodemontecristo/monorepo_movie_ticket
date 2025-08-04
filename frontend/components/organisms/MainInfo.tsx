@@ -1,3 +1,4 @@
+'use client';
 import React, { createContext, useContext } from 'react';
 import { FaRegCalendar } from 'react-icons/fa6';
 import { TbClockHour2 } from 'react-icons/tb';
