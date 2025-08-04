@@ -1,7 +1,10 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { BiSolidGrid } from 'react-icons/bi';
-import { IoSearch, IoTicket } from 'react-icons/io5';
+import { IoSearch } from 'react-icons/io5';
+import { ButtonMenu, LogoWeb } from '../atoms';
+import { BUTTON_NAVIGATION, SITE_NAME } from '@/constants';
+import { nanoid } from 'nanoid';
 
 export const MenuBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,12 +50,7 @@ export const MenuBar = () => {
           : 'bg-gradient-to-b from-movie-black via-movie-black to-transparent py-7'
       }`}
     >
-      <div className='flex flex-col items-center gap-1'>
-        <IoTicket className='text-movie-duck text-2xl' />
-        <p className='text-movie-white text-sm font-normal font-mont'>
-          Cinemagic
-        </p>
-      </div>
+      <LogoWeb webname={SITE_NAME}></LogoWeb>
       <div className='flex flex-row items-center gap-10'>
         {/* Search Input Component */}
         <div className='relative flex items-center'>
@@ -87,12 +85,9 @@ export const MenuBar = () => {
             </button>
           </div>
         </div>
-        <button className='text-movie-white text-base font-medium font-caros hover:underline hover:underline-offset-2 hover:text-movie-yellow transition duration-300'>
-          MENU
-        </button>
-        <button className='text-movie-white text-base font-medium font-caros hover:underline hover:underline-offset-2 hover:text-movie-yellow transition duration-300'>
-          MOVIE
-        </button>
+        {BUTTON_NAVIGATION.map(button => (
+          <ButtonMenu text={button.name} key={nanoid()}></ButtonMenu>
+        ))}
         <button className='text-movie-white text-2xl font-medium font-caros hover:text-movie-yellow transition duration-300'>
           <BiSolidGrid />
         </button>
