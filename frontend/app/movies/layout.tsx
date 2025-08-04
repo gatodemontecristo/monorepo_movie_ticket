@@ -1,3 +1,4 @@
+import { MenuBar } from '@/components';
 import React from 'react';
 
 export default function MoviesLayout({
@@ -7,6 +8,7 @@ export default function MoviesLayout({
 }) {
   return (
     <main className='min-h-screen bg-gradient-to-br from-movie-sky/20 to-movie-duck/20'>
+      <MenuBar />
       {children}
       <div className='container mx-auto px-4 py-16'>
         <div className='text-center'>

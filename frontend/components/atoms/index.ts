@@ -1,4 +1,3 @@
-export * from './ButtonMovie';
-export * from './TagRate';
 export * from './StartScore';
-export * from './InfoLabel';
+export * from './button';
+export * from './info';

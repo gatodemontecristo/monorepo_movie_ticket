@@ -1,8 +1,8 @@
 import { Movie } from '@/types';
 import React from 'react';
-import MainInfo from '../organisms/MainInfo';
 import { ButtonMovie, InfoLabel } from '../atoms';
 import { SecondaryInfo } from '../organisms';
+import MainInfo from '../organisms/MainInfo';
 
 export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
   return (

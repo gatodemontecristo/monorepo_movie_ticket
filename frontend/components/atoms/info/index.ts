@@ -1,0 +1,3 @@
+export * from './InfoLabel';
+export * from './LogoWeb';
+export * from './TagRate';
