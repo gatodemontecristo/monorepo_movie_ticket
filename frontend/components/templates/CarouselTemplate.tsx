@@ -8,6 +8,7 @@ import { useGetMoviesHomepage } from '@/hooks';
 
 export const CarouselTemplate = () => {
   const { data } = useGetMoviesHomepage();
+
   const movies = data?.popular || [];
   const [current, setCurrent] = useState(0);
 
@@ -18,7 +19,7 @@ export const CarouselTemplate = () => {
   useEffect(() => {
     const interval = setInterval(goToNext, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [movies.length]);
 
   return (
     <div className='relative overflow-hidden h-screen w-screen'>

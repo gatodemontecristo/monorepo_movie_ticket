@@ -1,9 +1,10 @@
 'use client';
 import React, { createContext, useContext } from 'react';
 import { FaRegCalendar } from 'react-icons/fa6';
-import { TbClockHour2 } from 'react-icons/tb';
+import { IoLanguage } from 'react-icons/io5';
+
 import { TagRate } from '../atoms';
-import { MovieScore } from '../molecules';
+import { MovieGenres, MovieScore } from '../molecules';
 import { Movie } from '@/types/tmdb';
 
 interface MainContextValue {
@@ -35,14 +36,14 @@ const MainInfoHeader = () => {
 const MainOtherInfo = () => {
   const { movie } = useContext(MainContext);
   return (
-    <div className='flex flex-row gap-4 text-sm'>
-      <p>{movie.genre_ids.map(genre => genre).join(', ')}</p>
-      <div className='flex flex-row gap-1 items-center'>
+    <div className='flex flex-row gap-4 text-sm font-caros text-white'>
+      <MovieGenres movie={movie} />
+      <div className='flex flex-row gap-1 items-center uppercase'>
         <FaRegCalendar className='text-movie-yellow' />
         <p>{new Date(movie.release_date).getFullYear()}</p>
       </div>
-      <div className='flex flex-row gap-1 items-center'>
-        <TbClockHour2 className='text-movie-yellow' />
+      <div className='flex flex-row gap-1 items-center uppercase'>
+        <IoLanguage className='text-movie-yellow' />
         <p>{movie.original_language}</p>
       </div>
     </div>
