@@ -52,9 +52,10 @@ const MainOtherInfo = () => {
 
 const MainQualification = () => {
   const { movie } = useContext(MainContext);
+  const score = Number(movie.vote_average.toFixed(1));
   return (
     <div className='flex flex-row  gap-4  text-sm'>
-      <MovieScore score={movie.popularity}></MovieScore>
+      <MovieScore score={score}></MovieScore>
       <TagRate rating={movie.adult ? 'R' : 'PG-13'}></TagRate>
     </div>
   );

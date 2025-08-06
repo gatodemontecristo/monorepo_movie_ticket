@@ -8,6 +8,7 @@ import { useGetMoviesHomepage } from '@/hooks';
 
 export const CarouselTemplate = () => {
   const { data } = useGetMoviesHomepage();
+  console.log('data from useGetMoviesHomepage:', data);
 
   const movies = data?.popular || [];
   const [current, setCurrent] = useState(0);
