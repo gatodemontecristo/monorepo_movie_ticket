@@ -132,12 +132,14 @@ export const useDiscoverMovies = (filters: MovieFilters) => {
 
 /**
  * Hook para obtener géneros
+ * Los géneros se persisten automáticamente en localStorage por 24 horas
  */
 export const useMovieGenres = (language?: string) => {
   return useQuery({
     queryKey: queryKeys.genres.movies(),
     queryFn: () => MovieService.getGenres(language),
-    staleTime: 1000 * 60 * 60, // Los géneros casi nunca cambian, cache por 1 hora
+    staleTime: 1000 * 60 * 60 * 24, // Los géneros casi nunca cambian, cache por 24 horas
+    gcTime: 1000 * 60 * 60 * 24, // Mantener en memoria por 24 horas también
   });
 };
 

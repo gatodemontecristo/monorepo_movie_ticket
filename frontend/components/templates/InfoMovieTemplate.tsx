@@ -20,7 +20,10 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
 
       <SecondaryInfo className=' text-right text-sm' width='part'>
         <InfoLabel text={movie.original_title} subtext='Original title' />
-        <InfoLabel text={movie.popularity.toString()} subtext='Popularity' />
+        <InfoLabel
+          text={movie.popularity.toFixed(2).toString()}
+          subtext='Popularity'
+        />
         <InfoLabel text={movie.overview} />
       </SecondaryInfo>
     </div>
