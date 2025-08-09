@@ -7,7 +7,6 @@ import { useGetMoviesHomepage } from '@/hooks/useMovies';
 
 export const LandingTemplate = () => {
   const { data } = useGetMoviesHomepage();
-  console.log('LandingTemplate data:', data);
   return (
     <div className='flex flex-col gap-8'>
       <CarouselTemplate movies={data?.popular || []} />
