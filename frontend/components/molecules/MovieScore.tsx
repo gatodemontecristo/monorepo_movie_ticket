@@ -11,7 +11,7 @@ export const MovieScore = ({ score }: MovieScoreProps) => {
       {Array.from({ length: 5 }).map((_, i) => (
         <StartScore
           key={nanoid()}
-          type={score > i + 1 ? 'full' : score > i + 0.5 ? 'half' : 'empty'}
+          type={score >= i + 1 ? 'full' : score >= i + 0.5 ? 'half' : 'empty'}
         />
       ))}
     </div>

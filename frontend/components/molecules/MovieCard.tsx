@@ -17,7 +17,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         alt=''
       />
       <div className='flex flex-col ms-2 mt-2'>
-        <p className='text-movie-white font-caros text-2xl font-semibold'>
+        <p className='text-movie-white font-caros text-2xl font-semibold line-clamp-3 overflow-hidden text-ellipsis'>
           {movie.title}
         </p>
 

@@ -6,6 +6,7 @@ import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import { InfoMovieTemplate } from './InfoMovieTemplate';
 import { Movie } from '@/types';
 import { nanoid } from 'nanoid';
+import { CAROUSEL_INTERVAL } from '@/constants';
 
 interface CarouselTemplateProps {
   movies: Movie[];
@@ -18,7 +19,7 @@ export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
   };
 
   useEffect(() => {
-    const interval = setInterval(goToNext, 5000);
+    const interval = setInterval(goToNext, CAROUSEL_INTERVAL);
     return () => clearInterval(interval);
   }, [movies.length]);
 
