@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import { InfoMovieTemplate } from './InfoMovieTemplate';
-import { useGetMoviesHomepage } from '@/hooks';
+import { Movie } from '@/types';
+import { nanoid } from 'nanoid';
 
-export const CarouselTemplate = () => {
-  const { data } = useGetMoviesHomepage();
-  console.log('data from useGetMoviesHomepage:', data);
-
-  const movies = data?.popular || [];
+interface CarouselTemplateProps {
+  movies: Movie[];
+}
+export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
   const [current, setCurrent] = useState(0);
 
   const goToNext = () => {
@@ -30,7 +30,7 @@ export const CarouselTemplate = () => {
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {movies.map(movie => (
-          <div key={movie.id} className='w-full flex-shrink-0 h-full relative'>
+          <div key={nanoid()} className='w-full flex-shrink-0 h-full relative'>
             {/* Background image */}
             <Image
               src={
@@ -57,7 +57,7 @@ export const CarouselTemplate = () => {
       <div className='absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2'>
         {movies?.map((_, index) => (
           <button
-            key={index}
+            key={nanoid()}
             onClick={() => setCurrent(index)}
             className={`w-3 h-3 rounded-full ${
               current === index ? 'bg-white' : 'bg-gray-400'

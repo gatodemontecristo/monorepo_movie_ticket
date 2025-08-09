@@ -7,9 +7,10 @@ export default function MoviesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className='min-h-screen bg-gradient-to-br from-movie-sky/20 to-movie-duck/20'>
+    <main className='min-h-screen bg-movie-black'>
       <MenuBar />
       {children}
+
       <div className='container mx-auto px-4 py-16'>
         <div className='text-center'>
           <h1 className='text-5xl font-bold text-movie-black mb-6 font-caros'>
