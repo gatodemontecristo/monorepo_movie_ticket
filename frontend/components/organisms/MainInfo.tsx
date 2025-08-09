@@ -30,7 +30,11 @@ const MainInfo = ({ children, movie }: MainInfoProps) => {
 
 const MainInfoHeader = () => {
   const { movie } = useContext(MainContext);
-  return <h2 className='text-6xl  font-bold  font-mont'>{movie.title}</h2>;
+  return (
+    <h2 className='text-6xl  font-bold  font-mont line-clamp-3 overflow-hidden text-ellipsis'>
+      {movie.title}
+    </h2>
+  );
 };
 
 const MainOtherInfo = () => {
@@ -52,7 +56,7 @@ const MainOtherInfo = () => {
 
 const MainQualification = () => {
   const { movie } = useContext(MainContext);
-  const score = Number(movie.vote_average.toFixed(1));
+  const score = Number((Number(movie.vote_average.toFixed(0)) / 2).toFixed(1));
   return (
     <div className='flex flex-row  gap-4  text-sm'>
       <MovieScore score={score}></MovieScore>
