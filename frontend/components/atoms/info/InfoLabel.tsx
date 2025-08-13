@@ -9,7 +9,7 @@ interface InfoLabelProps {
 
 export const InfoLabel = ({ text, subtext, children }: InfoLabelProps) => {
   return (
-    <p
+    <div
       className={clsx(
         'font-mont',
         children && 'flex flex-row items-center justify-end gap-1',
@@ -19,6 +19,6 @@ export const InfoLabel = ({ text, subtext, children }: InfoLabelProps) => {
       {children}
       {subtext && ': '}
       {subtext && <span className='text-movie-yellow'>{subtext}</span>}
-    </p>
+    </div>
   );
 };
