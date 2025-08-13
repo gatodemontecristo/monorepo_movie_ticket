@@ -161,6 +161,15 @@ export const useInfinitePopularMovies = () => {
   });
 };
 
+export const useMovieCredits = (movieId: number) => {
+  return useQuery({
+    queryKey: ['movie', movieId, 'credits'],
+    queryFn: () => MovieService.getCredits(movieId),
+    enabled: !!movieId,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
 /**
  * Hook para obtener película con toda su información relacionada
  */
