@@ -2,12 +2,16 @@ import React from 'react';
 import clsx from 'clsx';
 
 interface InfoLabelProps {
-  text: string;
+  text?: string;
   subtext?: string;
   children?: React.ReactNode;
 }
 
-export const InfoLabel = ({ text, subtext, children }: InfoLabelProps) => {
+export const InfoLabel = ({
+  text = '-',
+  subtext,
+  children,
+}: InfoLabelProps) => {
   return (
     <div
       className={clsx(
