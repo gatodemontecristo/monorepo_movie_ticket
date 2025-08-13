@@ -8,6 +8,7 @@ import {
   MovieFilters,
   SearchFilters,
   Genre,
+  Credits,
 } from '../types/tmdb';
 
 /**
@@ -156,6 +157,11 @@ export class MovieService {
     }
     const url = buildTMDBUrl(TMDB_ENDPOINTS.MOVIE_GENRES, params);
     return tmdbHttpClient.get<{ genres: Genre[] }>(url);
+  }
+
+  static async getCredits(movieId: number): Promise<Credits> {
+    const url = buildTMDBUrl(TMDB_ENDPOINTS.MOVIE_CREDITS(movieId));
+    return tmdbHttpClient.get<Credits>(url);
   }
 }
 
