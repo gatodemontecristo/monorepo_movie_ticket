@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import { InfoMovieTemplate } from './InfoMovieTemplate';
 import { Movie } from '@/types';
 import { nanoid } from 'nanoid';
 import { CAROUSEL_INTERVAL } from '@/constants';
+import { BackgroundContent } from '../molecules';
 
 interface CarouselTemplateProps {
   movies: Movie[];
@@ -31,27 +30,13 @@ export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {movies.map(movie => (
-          <div key={nanoid()} className='w-full flex-shrink-0 h-full relative'>
-            {/* Background image */}
-            <Image
-              src={
-                buildImageUrl(
-                  movie.backdrop_path || '',
-                  IMAGE_SIZES.BACKDROP.LARGE,
-                ) as string
-              }
-              alt={movie.title}
-              fill
-              className='object-cover'
-              priority
-            />
-
-            {/* Overlay dark */}
-            <div className='absolute inset-0 bg-black/30' />
-
-            {/* Content */}
+          <BackgroundContent
+            key={nanoid()}
+            title={movie.title}
+            imgPath={movie.backdrop_path || ''}
+          >
             <InfoMovieTemplate movie={movie} />
-          </div>
+          </BackgroundContent>
         ))}
       </div>
 
