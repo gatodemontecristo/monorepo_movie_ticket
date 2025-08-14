@@ -3,9 +3,7 @@
 import React from 'react';
 import { useMovieCredits, useMovieDetails } from '@/hooks/useMovies';
 import { nanoid } from 'nanoid';
-import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
-import Image from 'next/image';
-import { CastCarousel } from '@/components';
+import { BackgroundContent, CastCarousel } from '@/components';
 import MoreSection from '@/components/organisms/MoreSection';
 
 interface Props {
@@ -50,32 +48,18 @@ export default function MovieMorePage({ params }: Props) {
   return (
     <>
       <div className='relative overflow-hidden h-screen w-screen'>
-        <div key={nanoid()} className='w-full flex-shrink-0 h-full relative'>
-          {/* Background image */}
-          <Image
-            src={
-              buildImageUrl(
-                movie?.backdrop_path || '',
-                IMAGE_SIZES.BACKDROP.LARGE,
-              ) as string
-            }
-            alt={movie?.title || 'Movie Image'}
-            fill
-            className='object-cover'
-            priority
-          />
-
-          {/* Overlay dark */}
-          <div className='absolute inset-0 bg-black/30' />
-
+        <BackgroundContent
+          key={nanoid()}
+          title={movie?.title || 'Movie Image'}
+          imgPath={movie.backdrop_path || ''}
+        >
           {movie && credits && (
             <MoreSection {...{ movie, credits }}>
               <MoreSection.MoreSectionMain />
-
               <MoreSection.MoreSectionDetail />
             </MoreSection>
           )}
-        </div>
+        </BackgroundContent>
       </div>
 
       {/* Cast Section */}
