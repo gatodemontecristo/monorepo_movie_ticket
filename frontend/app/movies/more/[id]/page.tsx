@@ -66,10 +66,7 @@ export default function MovieMorePage({ params }: Props) {
       {credits?.cast && credits.cast.length > 0 && (
         <div className='bg-movie-black py-16 px-8'>
           <div className='max-w-7xl mx-auto'>
-            <h2 className='text-4xl font-caros font-bold text-movie-white mb-8'>
-              Cast
-            </h2>
-            <CastCarousel cast={credits.cast.slice(0, 20)} />
+            <CastCarousel cast={credits.cast.slice(0, 20)} title='Cast' />
           </div>
         </div>
       )}
