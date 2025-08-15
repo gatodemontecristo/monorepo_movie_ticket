@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useMovieCredits, useMovieDetails } from '@/hooks/useMovies';
+import { useMovieMoreDetails } from '@/hooks/useMovies';
 import { nanoid } from 'nanoid';
 import { BackgroundContent, CastCarousel } from '@/components';
 import MoreSection from '@/components/organisms/MoreSection';
@@ -22,8 +22,9 @@ export default function MovieMorePage({ params }: Props) {
     resolveParams();
   }, [params]);
 
-  const { data: movie, isLoading, error } = useMovieDetails(movieId || 0);
-  const { data: credits } = useMovieCredits(movieId || 0);
+  const { movie, credits, isLoading, error } = useMovieMoreDetails(
+    movieId || 0,
+  );
 
   // Loading state
   if (isLoading || !movieId) {
