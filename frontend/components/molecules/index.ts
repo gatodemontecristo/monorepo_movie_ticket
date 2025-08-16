@@ -5,3 +5,4 @@ export * from './MovieCard';
 export * from './CastCarousel';
 export * from './BackgroundContent';
 export * from './CastCard';
+export * from './LinkCollection';

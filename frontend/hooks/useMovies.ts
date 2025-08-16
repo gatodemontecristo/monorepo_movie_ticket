@@ -191,3 +191,16 @@ export const useMovieWithDetails = (movieId: number) => {
     error: movieDetails.error || similarMovies.error || recommendations.error,
   };
 };
+
+export const useMovieMoreDetails = (movieId: number) => {
+  const movieCredits = useMovieCredits(movieId);
+  const movieDetails = useMovieDetails(movieId);
+
+  return {
+    movie: movieDetails.data,
+    credits: movieCredits.data,
+    isLoading: movieDetails.isLoading || movieCredits.isLoading,
+    isError: movieDetails.isError || movieCredits.isError,
+    error: movieDetails.error || movieCredits.error,
+  };
+};

@@ -21,7 +21,7 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
           <ButtonMovie type='outlined' text='Review' />
           <Link
             href={{
-              pathname: `more/${movie.id}`,
+              pathname: `movies/more/${movie.id}`,
               query: { from: `${pathname}` },
             }}
           >
