@@ -20,7 +20,7 @@ export const ButtonCircle = ({
     <button
       onClick={() => onClick()}
       className={clsx(
-        'p-2 rounded-full transition-all duration-300',
+        'p-2 rounded-full transition-all duration-300 cursor-pointer',
         className,
         {
           'bg-movie-black border-none text-movie-white hover:bg-movie-yellow hover:text-movie-black':

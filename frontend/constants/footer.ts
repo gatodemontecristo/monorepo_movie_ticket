@@ -10,7 +10,7 @@ export const UI_UX_INSPIRATION: GenericLink[] = [
     label: 'Figma',
   },
 ];
-interface LinkSection {
+export interface LinkSection {
   title: string;
   links: GenericLink[];
 }
