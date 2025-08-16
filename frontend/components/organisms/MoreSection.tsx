@@ -33,13 +33,13 @@ const MoreSectionMain = () => {
   const { movie } = useContext(MoreSectionContext);
   return (
     <SecondaryInfo className=' text-left text-sm' width='part'>
-      <h1 className='text-6xl font-caros font-bold mb-4 line-clamp-3 overflow-hidden text-ellipsis'>
+      <h1 className='text-5xl font-caros font-bold mb-4 line-clamp-3 overflow-hidden text-ellipsis'>
         {movie.title}
       </h1>
-      <p className='text-lg font-mont max-w-4xl mx-auto line-clamp-7 overflow-hidden text-ellipsis'>
+      <p className='text-lg font-mont max-w-4xl mx-auto line-clamp-6 overflow-hidden text-ellipsis'>
         {movie.overview}
       </p>
-      <ButtonMovie type='filled' text='Book Tickets' />
+      <ButtonMovie type='filled' text='Book Tickets' className='mt-3' />
     </SecondaryInfo>
   );
 };
