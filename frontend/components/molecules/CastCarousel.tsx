@@ -7,7 +7,6 @@ import { nanoid } from 'nanoid';
 import { ButtonCircle, ButtonMovie } from '../atoms';
 import { CastCard } from './CastCard';
 import { useCastScroll } from '@/hooks';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 interface CastCarouselProps {
   cast: Cast[];

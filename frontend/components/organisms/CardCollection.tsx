@@ -2,7 +2,7 @@
 
 import { Movie } from '@/types';
 import React from 'react';
-import { MovieCard } from '../molecules';
+import { CardCollectionSkeleton, MovieCard } from '../molecules';
 import { nanoid } from 'nanoid';
 import { useShowItems } from '@/hooks';
 import { ButtonLink } from '../atoms';
@@ -10,9 +10,14 @@ import { ButtonLink } from '../atoms';
 interface CardCollectionProps {
   movies: Movie[];
   title: string;
+  isLoading: boolean;
 }
 
-export const CardCollection = ({ movies, title }: CardCollectionProps) => {
+export const CardCollection = ({
+  movies,
+  title,
+  isLoading,
+}: CardCollectionProps) => {
   const { itemsToShow, hasMoreItems, handleToggleView } = useShowItems({
     items: movies,
   });
@@ -22,22 +27,26 @@ export const CardCollection = ({ movies, title }: CardCollectionProps) => {
       <p className='w-full text-4xl font-mont font-medium text-movie-white ms-4'>
         {title}
       </p>
-      <div className='flex flex-row flex-wrap '>
-        {itemsToShow.map(movie => (
-          <MovieCard key={nanoid()} movie={movie} />
-        ))}
-      </div>
-
-      {/* Botón See all / Show less */}
-      {hasMoreItems && (
-        <ButtonLink
-          onClick={handleToggleView}
-          text={
-            itemsToShow.length === movies.length
-              ? `Show Less`
-              : `See All (${movies.length - itemsToShow.length} more)`
-          }
-        />
+      {isLoading ? (
+        <CardCollectionSkeleton />
+      ) : (
+        <>
+          <div className='flex flex-row flex-wrap '>
+            {itemsToShow.map(movie => (
+              <MovieCard key={nanoid()} movie={movie} />
+            ))}
+          </div>
+          {hasMoreItems && (
+            <ButtonLink
+              onClick={handleToggleView}
+              text={
+                itemsToShow.length === movies.length
+                  ? `Show Less`
+                  : `See All (${movies.length - itemsToShow.length} more)`
+              }
+            />
+          )}
+        </>
       )}
     </div>
   );
