@@ -3,7 +3,12 @@
 import React from 'react';
 import { useMovieMoreDetails } from '@/hooks/useMovies';
 import { nanoid } from 'nanoid';
-import { BackgroundContent, CastCarousel } from '@/components';
+import {
+  BackgroundContent,
+  ButtonHome,
+  CastCarousel,
+  ScreenContent,
+} from '@/components';
 import MoreSection from '@/components/organisms/MoreSection';
 
 interface Props {
@@ -22,18 +27,9 @@ export default function MovieMorePage({ params }: Props) {
     resolveParams();
   }, [params]);
 
-  const { movie, credits, isLoading, error } = useMovieMoreDetails(
+  const { movie, credits, error, isLoading } = useMovieMoreDetails(
     movieId || 0,
   );
-
-  // Loading state
-  if (isLoading || !movieId) {
-    return (
-      <div className='flex items-center justify-center h-screen w-screen bg-movie-black'>
-        <div className='text-movie-white text-xl'>Loading movie details...</div>
-      </div>
-    );
-  }
 
   // Error state
   if (error || !movie) {
@@ -48,7 +44,7 @@ export default function MovieMorePage({ params }: Props) {
 
   return (
     <>
-      <div className='relative overflow-hidden h-screen w-screen'>
+      <ScreenContent isLoading={isLoading || !movieId}>
         <BackgroundContent
           key={nanoid()}
           title={movie?.title || 'Movie Image'}
@@ -61,9 +57,7 @@ export default function MovieMorePage({ params }: Props) {
             </MoreSection>
           )}
         </BackgroundContent>
-      </div>
-
-      {/* Cast Section */}
+      </ScreenContent>
       {credits?.cast && credits.cast.length > 0 && (
         <div className='bg-movie-black py-16 px-8'>
           <div className='max-w-7xl mx-auto'>
@@ -71,6 +65,7 @@ export default function MovieMorePage({ params }: Props) {
           </div>
         </div>
       )}
+      <ButtonHome></ButtonHome>
     </>
   );
 }

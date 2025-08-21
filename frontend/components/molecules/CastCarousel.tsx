@@ -4,10 +4,9 @@ import React from 'react';
 import { Cast } from '@/types/tmdb';
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 import { nanoid } from 'nanoid';
-import { ButtonCircle, ButtonMovie } from '../atoms';
+import { ButtonCircle } from '../atoms';
 import { CastCard } from './CastCard';
 import { useCastScroll } from '@/hooks';
-import { useRouter } from 'next/navigation';
 interface CastCarouselProps {
   cast: Cast[];
   title: string;
@@ -19,10 +18,6 @@ export const CastCarousel = ({ cast, title }: CastCarouselProps) => {
   if (!cast || cast.length === 0) {
     return null;
   }
-  const router = useRouter();
-  const handleBack = () => {
-    router.push('/movies');
-  };
 
   return (
     <div className='relative flex flex-col gap-6'>
@@ -46,14 +41,6 @@ export const CastCarousel = ({ cast, title }: CastCarouselProps) => {
             <CastCard actor={actor} key={nanoid()} />
           ))}
         </div>
-      </div>
-      <div className='flex flex-row items-center justify-center'>
-        <ButtonMovie
-          type='filled'
-          text='Return to home'
-          className='mt-3'
-          onClick={handleBack}
-        />
       </div>
     </div>
   );

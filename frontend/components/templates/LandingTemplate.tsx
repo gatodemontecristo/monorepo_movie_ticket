@@ -9,7 +9,7 @@ export const LandingTemplate = () => {
   const { data, isLoading } = useGetMoviesHomepage();
   return (
     <div className='flex flex-col gap-8'>
-      <CarouselTemplate movies={data?.popular || []} />
+      <CarouselTemplate movies={data?.popular || []} isLoading={isLoading} />
       <CardCollection
         title='Popular'
         movies={data?.popular || []}
