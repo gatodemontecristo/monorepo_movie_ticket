@@ -47,7 +47,7 @@ const FooterLine = () => {
 
 const FooterLinks = ({ collection }: { collection: LinkSection[] }) => {
   return (
-    <div className='flex flex-row items-start justify-between py-5 px-10 mt-5 mb-5'>
+    <footer className='flex flex-row items-start justify-between py-5 px-10 mt-5 mb-5'>
       {collection.map(section => (
         <LinkCollection
           key={nanoid()}
@@ -55,7 +55,7 @@ const FooterLinks = ({ collection }: { collection: LinkSection[] }) => {
           title={section.title}
         />
       ))}
-    </div>
+    </footer>
   );
 };
 
