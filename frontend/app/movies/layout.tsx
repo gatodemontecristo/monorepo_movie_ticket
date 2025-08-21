@@ -11,7 +11,7 @@ export default function MoviesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className='min-h-screen bg-movie-black'>
+    <footer className='min-h-screen bg-movie-black'>
       <MenuBar />
       {children}
       <FooterSection>
@@ -19,6 +19,6 @@ export default function MoviesLayout({
         <FooterSection.Line />
         <FooterSection.Links collection={COMPLETE_RESOURCES_SECTION} />
       </FooterSection>
-    </main>
+    </footer>
   );
 }

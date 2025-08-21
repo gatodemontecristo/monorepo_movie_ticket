@@ -5,12 +5,16 @@ import { InfoMovieTemplate } from './InfoMovieTemplate';
 import { Movie } from '@/types';
 import { nanoid } from 'nanoid';
 import { CAROUSEL_INTERVAL } from '@/constants';
-import { BackgroundContent } from '../molecules';
+import { BackgroundContent, ScreenContent } from '../molecules';
 
 interface CarouselTemplateProps {
   movies: Movie[];
+  isLoading: boolean;
 }
-export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
+export const CarouselTemplate = ({
+  movies,
+  isLoading,
+}: CarouselTemplateProps) => {
   const [current, setCurrent] = useState(0);
 
   const goToNext = () => {
@@ -23,8 +27,7 @@ export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
   }, [movies.length]);
 
   return (
-    <div className='relative overflow-hidden h-screen w-screen'>
-      {/* Carousel container */}
+    <ScreenContent isLoading={isLoading}>
       <div
         className='flex transition-transform duration-1000 ease-in-out h-full w-full'
         style={{ transform: `translateX(-${current * 100}%)` }}
@@ -39,7 +42,6 @@ export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
           </BackgroundContent>
         ))}
       </div>
-
       <div className='absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2'>
         {movies?.map((_, index) => (
           <button
@@ -51,6 +53,6 @@ export const CarouselTemplate = ({ movies }: CarouselTemplateProps) => {
           />
         ))}
       </div>
-    </div>
+    </ScreenContent>
   );
 };

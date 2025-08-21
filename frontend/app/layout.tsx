@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+import './loader.css';
 import { Inter } from 'next/font/google';
 import QueryProvider from '../providers/QueryProvider';
 

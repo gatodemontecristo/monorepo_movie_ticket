@@ -13,7 +13,7 @@ import { LinkCollection } from '../molecules';
 import { nanoid } from 'nanoid';
 
 const FooterSection = ({ children }: { children?: React.ReactNode }) => {
-  return <div className='bg-movie-yellow flex flex-col'>{children}</div>;
+  return <div className='bg-movie-yellow flex flex-col mt-10'>{children}</div>;
 };
 
 const FooterSocial = ({ label }: { label: string }) => {
