@@ -42,6 +42,7 @@ export const TMDB_ENDPOINTS = {
   MOVIE_SIMILAR: (id: number) => `/movie/${id}/similar`,
   MOVIE_RECOMMENDATIONS: (id: number) => `/movie/${id}/recommendations`,
   MOVIE_CHANGES: '/movie/changes',
+  MOVIE_REVIEWS: (id: number) => `/movie/${id}/reviews`,
 
   // Search
   SEARCH_MOVIES: '/search/movie',
@@ -98,7 +99,6 @@ export const buildApiUrl = (
   params?: Record<string, string | number | boolean | undefined>,
 ): string => {
   const url = new URL(endpoint, TMDB_CONFIG.BASE_URL);
-  console.log('Building API URL:', url.toString());
 
   // Always add API key
   url.searchParams.set('api_key', TMDB_CONFIG.API_KEY);

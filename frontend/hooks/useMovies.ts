@@ -108,6 +108,18 @@ export const useMovieRecommendations = (movieId: number, page: number = 1) => {
 };
 
 /**
+ * Hook para obtener reviews
+ */
+export const useMovieReviews = (movieId: number, page: number = 1) => {
+  return useQuery({
+    queryKey: queryKeys.movies.reviews(movieId, page),
+    queryFn: () => MovieService.getReviews(movieId, { page }),
+    enabled: !!movieId,
+    staleTime: 1000 * 60 * 10,
+  });
+};
+
+/**
  * Hook para buscar películas
  */
 export const useSearchMovies = (query: string, page: number = 1) => {
@@ -202,5 +214,17 @@ export const useMovieMoreDetails = (movieId: number) => {
     isLoading: movieDetails.isLoading || movieCredits.isLoading,
     isError: movieDetails.isError || movieCredits.isError,
     error: movieDetails.error || movieCredits.error,
+  };
+};
+export const useMovieReviewDetails = (movieId: number) => {
+  const movieReviews = useMovieReviews(movieId);
+  const movieDetails = useMovieDetails(movieId);
+
+  return {
+    movie: movieDetails.data,
+    reviews: movieReviews.data,
+    isLoading: movieDetails.isLoading || movieReviews.isLoading,
+    isError: movieDetails.isError || movieReviews.isError,
+    error: movieDetails.error || movieReviews.error,
   };
 };

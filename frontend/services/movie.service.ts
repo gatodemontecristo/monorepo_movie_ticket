@@ -9,6 +9,7 @@ import {
   SearchFilters,
   Genre,
   Credits,
+  Review,
 } from '../types/tmdb';
 
 /**
@@ -125,6 +126,17 @@ export class MovieService {
       filters,
     );
     return tmdbHttpClient.get<TMDBResponse<Movie>>(url);
+  }
+
+  /**
+   * Get movie reviews
+   */
+  static async getReviews(
+    movieId: number,
+    filters?: MovieFilters,
+  ): Promise<TMDBResponse<Review>> {
+    const url = buildTMDBUrl(TMDB_ENDPOINTS.MOVIE_REVIEWS(movieId), filters);
+    return tmdbHttpClient.get<TMDBResponse<Review>>(url);
   }
 
   /**

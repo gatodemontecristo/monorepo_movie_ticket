@@ -12,15 +12,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { id } = await params;
     const movieId = Number(id);
 
-    // Llamada directa al servicio desde el servidor
     const data = await MovieService.getDetails(movieId);
 
     return {
-      title: `Movie details for ${data?.title || 'Unknown Movie'}`,
-      description: `Movie detail section for ${data?.title || 'Unknown Movie'}. This section provides detailed information about the movie, including its plot, cast, and more.`,
+      title: `Movie reviews for ${data?.title || 'Unknown Movie'}`,
+      description: `Movie reviews section for ${data?.title || 'Unknown Movie'}. This section provides detailed information and reviews about the movie.`,
       openGraph: {
-        title: data?.title || 'Movie Details',
-        description: data?.overview || 'Movie details page',
+        title: data?.title || 'Movie Reviews',
+        description: data?.overview || 'Movie reviews page',
         images: data?.backdrop_path
           ? [
               {
@@ -35,13 +34,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   } catch {
     return {
-      title: 'Movie Details',
+      title: 'Movie Reviews',
       description:
-        'Unknown movie details. Please check the ID or try again later.',
+        'Unknown movie reviews. Please check the ID or try again later.',
     };
   }
 }
 
-export default function MoreLayout({ children }: Props) {
+export default function ReviewLayout({ children }: Props) {
   return <>{children}</>;
 }

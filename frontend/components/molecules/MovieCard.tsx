@@ -1,4 +1,5 @@
 import { Movie } from '@/types';
+import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa6';
 
@@ -8,14 +9,19 @@ interface MovieCardProps {
 export const MovieCard = ({ movie }: MovieCardProps) => {
   return (
     <div className='flex flex-col w-1/6 p-5 text-movie-white'>
-      <img
+      <Image
         src={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
             : 'https://via.placeholder.com/1280x720?text=No+Image+Available'
         }
         alt=''
+        width={500}
+        height={750}
+        className='w-full h-auto object-cover '
+        priority
       />
+
       <div className='flex flex-col ms-2 mt-2'>
         <p className='text-movie-white font-caros text-2xl font-semibold line-clamp-3 overflow-hidden text-ellipsis'>
           {movie.title}
