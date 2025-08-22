@@ -17,7 +17,7 @@ export default function NotFound() {
           className='object-cover'
           priority
         />
-        <div className='absolute  flex flex-col items-center justify-center h-screen w-screen z-20'>
+        <div className='absolute  flex flex-col items-center justify-center h-screen w-screen z-10'>
           <h1 className='text-8xl font-mont font-bold text-movie-duck mb-4'>
             404
           </h1>

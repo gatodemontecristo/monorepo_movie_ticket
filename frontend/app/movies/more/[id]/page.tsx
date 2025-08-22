@@ -10,6 +10,7 @@ import {
   ScreenContent,
 } from '@/components';
 import MoreSection from '@/components/organisms/MoreSection';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -32,14 +33,8 @@ export default function MovieMorePage({ params }: Props) {
   );
 
   // Error state
-  if (error || !movie) {
-    return (
-      <div className='flex items-center justify-center h-screen w-screen bg-movie-black'>
-        <div className='text-movie-white text-xl'>
-          Error loading movie details
-        </div>
-      </div>
-    );
+  if (error) {
+    notFound();
   }
 
   return (
@@ -48,7 +43,7 @@ export default function MovieMorePage({ params }: Props) {
         <BackgroundContent
           key={nanoid()}
           title={movie?.title || 'Movie Image'}
-          imgPath={movie.backdrop_path || ''}
+          imgPath={movie?.backdrop_path || ''}
         >
           {movie && credits && (
             <MoreSection {...{ movie, credits }}>
@@ -58,13 +53,15 @@ export default function MovieMorePage({ params }: Props) {
           )}
         </BackgroundContent>
       </ScreenContent>
-      {credits?.cast && credits.cast.length > 0 && (
-        <div className='bg-movie-black py-16 px-8'>
-          <div className='max-w-7xl mx-auto'>
-            <CastCarousel cast={credits.cast.slice(0, 20)} title='Cast' />
-          </div>
+      <div className='bg-movie-black py-16 px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <CastCarousel
+            cast={credits?.cast.slice(0, 20) || []}
+            isLoading={isLoading || !credits}
+            title='Cast'
+          />
         </div>
-      )}
+      </div>
       <ButtonHome></ButtonHome>
     </>
   );
