@@ -53,16 +53,16 @@ export default function MovieMorePage({ params }: Props) {
           )}
         </BackgroundContent>
       </ScreenContent>
-      <div className='bg-movie-black py-16 px-8'>
-        <div className='max-w-7xl mx-auto'>
+      <div className='bg-movie-black py-16 px-8 '>
+        <div className='max-w-7xl mx-auto mb-10'>
           <CastCarousel
             cast={credits?.cast.slice(0, 20) || []}
             isLoading={isLoading || !credits}
             title='Cast'
           />
         </div>
+        <ButtonHome></ButtonHome>
       </div>
-      <ButtonHome></ButtonHome>
     </>
   );
 }

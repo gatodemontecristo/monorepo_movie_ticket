@@ -6,3 +6,6 @@ export const LINKEDIN_URL =
 export const GITHUB_URL = 'https://github.com/gatodemontecristo';
 export const LEETCODE_URL = 'https://leetcode.com/u/gatodemontecristo/';
 export const LETTERBOXD_URL = 'https://letterboxd.com/CondeDeLosMango/';
+
+export const NOT_FOUND_POSTER = '/poster_not_found.avif';
+export const NOT_FOUND_USER = '/user.png';

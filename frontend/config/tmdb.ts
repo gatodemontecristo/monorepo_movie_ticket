@@ -3,6 +3,8 @@
  * Centralizes all API endpoints and configuration
  */
 
+import { NOT_FOUND_POSTER, NOT_FOUND_USER } from '@/constants';
+
 // Environment variables validation
 const requiredEnvVars = {
   API_KEY: process.env.NEXT_PUBLIC_TMDB_API_KEY,
@@ -42,6 +44,7 @@ export const TMDB_ENDPOINTS = {
   MOVIE_SIMILAR: (id: number) => `/movie/${id}/similar`,
   MOVIE_RECOMMENDATIONS: (id: number) => `/movie/${id}/recommendations`,
   MOVIE_CHANGES: '/movie/changes',
+  MOVIE_REVIEWS: (id: number) => `/movie/${id}/reviews`,
 
   // Search
   SEARCH_MOVIES: '/search/movie',
@@ -83,10 +86,18 @@ export const IMAGE_SIZES = {
  * Helper function to build complete image URLs
  */
 export const buildImageUrl = (
-  path: string | null,
+  path?: string | null,
   size: string = IMAGE_SIZES.POSTER.MEDIUM,
-): string | null => {
-  if (!path) return null;
+): string => {
+  if (!path) return NOT_FOUND_POSTER;
+  return `${TMDB_CONFIG.IMAGE_BASE_URL}/${size}${path}`;
+};
+
+export const buildImageUser = (
+  path?: string | null,
+  size: string = IMAGE_SIZES.PROFILE.MEDIUM,
+): string => {
+  if (!path) return NOT_FOUND_USER;
   return `${TMDB_CONFIG.IMAGE_BASE_URL}/${size}${path}`;
 };
 
@@ -98,7 +109,6 @@ export const buildApiUrl = (
   params?: Record<string, string | number | boolean | undefined>,
 ): string => {
   const url = new URL(endpoint, TMDB_CONFIG.BASE_URL);
-  console.log('Building API URL:', url.toString());
 
   // Always add API key
   url.searchParams.set('api_key', TMDB_CONFIG.API_KEY);

@@ -6,6 +6,7 @@ import { IoLanguage } from 'react-icons/io5';
 import { TagRate } from '../atoms';
 import { MovieGenres, MovieScore } from '../molecules';
 import { Movie } from '@/types/tmdb';
+import { formatScore } from '@/utils';
 
 interface MainContextValue {
   movie: Movie;
@@ -21,7 +22,7 @@ const MainContext = createContext<MainContextValue>({
 const MainInfo = ({ children, movie }: MainInfoProps) => {
   return (
     <MainContext.Provider value={{ movie }}>
-      <div className='flex flex-col gap-4 w-1/2  justify-start text-left'>
+      <div className='flex flex-col gap-4 w-1/2  justify-start text-left mb-6'>
         {children}
       </div>
     </MainContext.Provider>
@@ -56,10 +57,9 @@ const MainOtherInfo = () => {
 
 const MainQualification = () => {
   const { movie } = useContext(MainContext);
-  const score = Number((Number(movie.vote_average.toFixed(0)) / 2).toFixed(1));
   return (
     <div className='flex flex-row  gap-4  text-sm'>
-      <MovieScore score={score}></MovieScore>
+      <MovieScore score={formatScore(movie.vote_average)}></MovieScore>
       <TagRate rating={movie.adult ? 'R' : 'PG-13'}></TagRate>
     </div>
   );

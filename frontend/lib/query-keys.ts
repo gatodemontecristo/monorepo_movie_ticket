@@ -38,6 +38,8 @@ export const queryKeys = {
       [...queryKeys.movies.detail(id), 'similar', { page }] as const,
     recommendations: (id: number, page: number = 1) =>
       [...queryKeys.movies.detail(id), 'recommendations', { page }] as const,
+    reviews: (id: number, page: number = 1) =>
+      [...queryKeys.movies.detail(id), 'reviews', { page }] as const,
 
     // Homepage composite
     homepage: () => [...queryKeys.movies.lists(), 'homepage'] as const,
