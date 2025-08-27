@@ -3,6 +3,8 @@
  * Centralizes all API endpoints and configuration
  */
 
+import { NOT_FOUND_POSTER } from '@/constants';
+
 // Environment variables validation
 const requiredEnvVars = {
   API_KEY: process.env.NEXT_PUBLIC_TMDB_API_KEY,
@@ -84,10 +86,10 @@ export const IMAGE_SIZES = {
  * Helper function to build complete image URLs
  */
 export const buildImageUrl = (
-  path: string | null,
+  path?: string | null,
   size: string = IMAGE_SIZES.POSTER.MEDIUM,
-): string | null => {
-  if (!path) return null;
+): string => {
+  if (!path) return NOT_FOUND_POSTER;
   return `${TMDB_CONFIG.IMAGE_BASE_URL}/${size}${path}`;
 };
 

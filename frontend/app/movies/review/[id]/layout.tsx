@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { MovieService } from '@/services/movie.service';
+import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -23,7 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: data?.backdrop_path
           ? [
               {
-                url: `https://image.tmdb.org/t/p/w1280${data.backdrop_path}`,
+                url: buildImageUrl(
+                  data.backdrop_path,
+                  IMAGE_SIZES.POSTER.MEDIUM,
+                ) as string,
                 width: 1280,
                 height: 720,
                 alt: data.title,

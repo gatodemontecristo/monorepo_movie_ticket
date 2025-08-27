@@ -16,7 +16,7 @@ export const ButtonMovie = ({
   return (
     <button
       className={clsx(
-        ' font-bold py-2 px-8 rounded-sm cursor-pointer transition duration-300 transform mb-6 border-2 font-caros w-fit',
+        ' font-bold py-2 px-8 rounded-sm cursor-pointer transition duration-300 transform  border-2 font-caros w-fit',
         className,
         {
           'bg-movie-duck hover:bg-movie-black hover:text-movie-duck text-movie-black border-movie-duck':

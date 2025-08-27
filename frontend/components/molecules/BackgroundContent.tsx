@@ -16,7 +16,7 @@ export const BackgroundContent = ({
     <div className='w-full flex-shrink-0 h-full relative'>
       {/* Background image */}
       <Image
-        src={buildImageUrl(imgPath || '', IMAGE_SIZES.BACKDROP.LARGE) as string}
+        src={buildImageUrl(imgPath, IMAGE_SIZES.BACKDROP.LARGE) as string}
         alt={title}
         fill
         className='object-cover'
