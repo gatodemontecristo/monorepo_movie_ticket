@@ -1,19 +1,19 @@
 'use client';
 import {
   ButtonMovie,
-  LinkTab,
   MovieGenres,
   MovieScore,
+  ReviewUser,
   TagRate,
 } from '@/components';
-import { buildImageUrl, buildImageUser, IMAGE_SIZES } from '@/config/tmdb';
-import { FaCalendar, FaRegCalendar } from 'react-icons/fa6';
+import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
+import { FaRegCalendar } from 'react-icons/fa6';
 import { useMovieReviewDetails } from '@/hooks';
 import Image from 'next/image';
 import React from 'react';
 import { formatScore } from '@/utils';
 import { IoLanguage } from 'react-icons/io5';
-import { FaEdit } from 'react-icons/fa';
+import { nanoid } from 'nanoid';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -99,59 +99,7 @@ export default function MovieMorePage({ params }: Props) {
           </p>
           <div className='flex flex-col gap-6'>
             {reviews?.results?.map(review => (
-              <div key={review.id} className=' bg-movie-grey px-10 py-8'>
-                <div className='flex flex-row justify-between items-center mb-4'>
-                  <div className='flex flex-row gap-4 items-center align-middle'>
-                    <Image
-                      src={buildImageUser(review.author_details.avatar_path)}
-                      alt='Profile Picture'
-                      width={200}
-                      height={200}
-                      className='w-18 h-18 object-cover rounded-full'
-                      priority
-                    />
-
-                    <div className='flex flex-col gap-1'>
-                      <p className='font-caros font-bold  text-movie-duck'>
-                        {review.author}
-                      </p>
-                      <p className='font-mont text-sm font-bold  italic text-movie-white'>
-                        {review.author_details.username}
-                      </p>
-                    </div>
-                  </div>
-                  <MovieScore
-                    score={formatScore(review.author_details.rating)}
-                  ></MovieScore>
-                </div>
-                <div
-                  className='font-mont font-normal text-sm line-clamp-7 overflow-hidden text-ellipsis'
-                  dangerouslySetInnerHTML={{ __html: review.content }}
-                />
-                <div className='flex flex-row justify-between items-center py-2 px-4'>
-                  <div className='flex flex-row gap-4'>
-                    <div className='flex flex-row justify-center gap-1 text-xs text-movie-white'>
-                      <FaCalendar />
-                      <p className='font-mont  font-normal italic'>
-                        Created at{' '}
-                        {new Date(review.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className='flex flex-row justify-center gap-1 text-xs text-movie-white'>
-                      <FaEdit />
-                      <p className='font-mont  font-normal italic'>
-                        Edited at{' '}
-                        {new Date(review.updated_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  <LinkTab
-                    href={`${review.url}`}
-                    label='Read more'
-                    className='text-white text-sm'
-                  ></LinkTab>
-                </div>
-              </div>
+              <ReviewUser key={nanoid()} review={review} />
             ))}
           </div>
         </div>
