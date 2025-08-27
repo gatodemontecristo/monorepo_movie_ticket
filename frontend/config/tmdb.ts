@@ -3,7 +3,7 @@
  * Centralizes all API endpoints and configuration
  */
 
-import { NOT_FOUND_POSTER } from '@/constants';
+import { NOT_FOUND_POSTER, NOT_FOUND_USER } from '@/constants';
 
 // Environment variables validation
 const requiredEnvVars = {
@@ -90,6 +90,14 @@ export const buildImageUrl = (
   size: string = IMAGE_SIZES.POSTER.MEDIUM,
 ): string => {
   if (!path) return NOT_FOUND_POSTER;
+  return `${TMDB_CONFIG.IMAGE_BASE_URL}/${size}${path}`;
+};
+
+export const buildImageUser = (
+  path?: string | null,
+  size: string = IMAGE_SIZES.PROFILE.MEDIUM,
+): string => {
+  if (!path) return NOT_FOUND_USER;
   return `${TMDB_CONFIG.IMAGE_BASE_URL}/${size}${path}`;
 };
 
