@@ -1,6 +1,7 @@
 'use client';
 import {
   ButtonMovie,
+  InfoBox,
   MovieGenres,
   MovieScore,
   ReviewUser,
@@ -37,6 +38,29 @@ export default function MovieMorePage({ params }: Props) {
     return <div>Loading...</div>;
   }
 
+  const reviewFeature = [
+    {
+      color: 'bg-green-500',
+      number: movie.popularity,
+      text: 'Popularity',
+    },
+    {
+      color: 'bg-amber-500',
+      number: movie.vote_count,
+      text: 'Vote Count',
+    },
+    {
+      color: 'bg-blue-500',
+      number: movie.vote_average,
+      text: 'Vote Average',
+    },
+    {
+      color: 'bg-red-500',
+      number: movie.budget,
+      text: 'Budget',
+    },
+  ];
+
   return (
     <div className='flex flex-row pt-[100px] text-movie-white'>
       <div className=' flex flex-col w-1/3 gap-4 items-center'>
@@ -63,7 +87,7 @@ export default function MovieMorePage({ params }: Props) {
             className='w-full'
             text='Return to home'
           />
-          <div className='flex flex-row gap-4 text-sm font-caros text-white'>
+          <div className='flex flex-row gap-4 text-sm font-caros text-white '>
             <MovieGenres movie={movie} />
             <div className='flex flex-row gap-1 items-center uppercase'>
               <FaRegCalendar className='text-movie-yellow' />
@@ -78,12 +102,14 @@ export default function MovieMorePage({ params }: Props) {
             <MovieScore score={formatScore(movie.vote_average)}></MovieScore>
             <TagRate rating={movie.adult ? 'R' : 'PG-13'}></TagRate>
           </div>
-          <div className='w-full bg-green-500  flex justify-center text-center items-center flex-col px-10 py-10'>
-            <p className='text-movie-white font-caros text-2xl'>7</p>
-            <p className='text-movie-white font-caros text-xl'>
-              Films Critics Award
-            </p>
-          </div>
+          {reviewFeature.map(feature => (
+            <InfoBox
+              key={nanoid()}
+              number={feature.number}
+              text={feature.text}
+              color={feature.color}
+            />
+          ))}
         </div>
       </div>
       <div className='flex flex-col w-2/3 mt-10 p-6 gap-6'>

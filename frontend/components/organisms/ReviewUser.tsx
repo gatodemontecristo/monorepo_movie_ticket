@@ -110,7 +110,7 @@ const ReviewFooter = () => {
       </div>
       <LinkTab
         href={`${review.url}`}
-        label='Read more'
+        label='Read more >>'
         className='text-white text-sm'
       ></LinkTab>
     </div>
