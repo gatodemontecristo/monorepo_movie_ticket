@@ -2,12 +2,12 @@ import React from 'react';
 
 export interface InfoBoxProps {
   color?: string;
-  number: number;
+  number?: number;
   text: string;
 }
 
 export const InfoBox = ({
-  number,
+  number = 0,
   text,
   color = 'bg-green-500',
 }: InfoBoxProps) => {

@@ -1,3 +1,5 @@
+'use client';
+
 import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import { MovieDetails } from '@/types';
 import Image from 'next/image';
