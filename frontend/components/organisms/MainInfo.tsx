@@ -3,7 +3,7 @@ import React, { createContext, useContext } from 'react';
 import { FaRegCalendar } from 'react-icons/fa6';
 import { IoLanguage } from 'react-icons/io5';
 
-import { TagRate } from '../atoms';
+import { IconText, TagRate } from '../atoms';
 import { MovieGenres, MovieScore } from '../molecules';
 import { Movie } from '@/types/tmdb';
 import { formatScore } from '@/utils';
@@ -43,14 +43,12 @@ const MainOtherInfo = () => {
   return (
     <div className='flex flex-row gap-4 text-sm font-caros text-white'>
       <MovieGenres movie={movie} />
-      <div className='flex flex-row gap-1 items-center uppercase'>
+      <IconText text={String(new Date(movie.release_date).getFullYear())}>
         <FaRegCalendar className='text-movie-yellow' />
-        <p>{new Date(movie.release_date).getFullYear()}</p>
-      </div>
-      <div className='flex flex-row gap-1 items-center uppercase'>
+      </IconText>
+      <IconText text={movie.original_language}>
         <IoLanguage className='text-movie-yellow' />
-        <p>{movie.original_language}</p>
-      </div>
+      </IconText>
     </div>
   );
 };
