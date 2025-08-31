@@ -3,25 +3,28 @@ import { Movie } from '@/types/tmdb';
 
 import { useMovieGenres } from '@/hooks';
 import { getGenresStringByIds } from '@/utils';
+import { MovieDetails } from '../../types/tmdb';
 
 interface MovieGenresProps {
-  movie: Movie;
+  movie: Movie | MovieDetails;
 }
 export const MovieGenres = ({ movie }: MovieGenresProps) => {
   const { data, isLoading } = useMovieGenres();
 
   if (isLoading) {
-    return <span>Cargando géneros...</span>;
+    return <span>Loading genres...</span>;
   }
   const genresString = getGenresStringByIds(
-    movie.genre_ids || [],
+    (movie as Movie).genre_ids ||
+      (movie as MovieDetails).genres.map(genre => genre.id) ||
+      [],
     ', ',
     data?.genres || [],
   );
 
   return (
     <div className='flex flex-col gap-2'>
-      <div className='text-sm '>{genresString || 'Sin géneros'}</div>
+      <div className='text-sm '>{genresString || 'Without genres'}</div>
     </div>
   );
 };

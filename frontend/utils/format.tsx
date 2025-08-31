@@ -2,7 +2,7 @@ import { InfoBoxProps } from '@/components';
 import { MovieDetails } from '@/types';
 
 export const formatScore = (score: number = 0): number => {
-  return Number((Number(score.toFixed(0)) / 2).toFixed(1));
+  return Number((Number((score || 0).toFixed(0)) / 2).toFixed(1));
 };
 export const reviewFeature = (movie: MovieDetails): InfoBoxProps[] => [
   {

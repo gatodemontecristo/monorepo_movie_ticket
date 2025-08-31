@@ -1,7 +1,6 @@
 'use client';
 import {
   ButtonMovie,
-  GeneralLoader,
   ReviewUser,
   ScreenContent,
   TitleInfo,
