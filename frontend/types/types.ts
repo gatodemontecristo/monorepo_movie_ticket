@@ -7,6 +7,7 @@ export interface GenericLink {
 export interface MovieTheather {
   row: string;
   lines: LineTheather[];
+  other_lines: LineTheather[];
 }
 
 export interface LineTheather {
