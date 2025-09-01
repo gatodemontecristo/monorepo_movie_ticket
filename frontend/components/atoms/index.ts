@@ -4,3 +4,4 @@ export * from './info';
 export * from './input';
 export * from './text';
 export * from './skeleton';
+export * from './item';

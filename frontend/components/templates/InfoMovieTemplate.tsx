@@ -17,7 +17,14 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
         <MainInfo.OtherInfo />
         <MainInfo.Qualification />
         <MainInfo.Buttons>
-          <ButtonMovie type='filled' text='Book Tickets' />
+          <Link
+            href={{
+              pathname: `movies/ticket/${movie.id}`,
+              query: { from: `${pathname}` },
+            }}
+          >
+            <ButtonMovie type='filled' text='Book Tickets' />
+          </Link>
           <Link
             href={{
               pathname: `movies/review/${movie.id}`,
