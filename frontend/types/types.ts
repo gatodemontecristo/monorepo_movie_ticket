@@ -14,3 +14,8 @@ export interface LineTheather {
   number: number;
   state: 'available' | 'selected' | 'unavailable';
 }
+
+export interface SeatPosition {
+  row: string;
+  line: number;
+}
