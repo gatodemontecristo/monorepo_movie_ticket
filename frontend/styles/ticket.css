@@ -1,7 +1,37 @@
-#aux-container {
-  width: 100px;
-  height: 100px;
-  background: #f00;
+.aux-container {
+  -webkit-mask-image:
+    radial-gradient(
+      circle 10px at bottom right,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    ),
+    radial-gradient(
+      circle 10px at bottom left,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    );
+  mask-image:
+    radial-gradient(
+      circle 10px at bottom right,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    ),
+    radial-gradient(
+      circle 10px at bottom left,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in; /* Safari */
+  mask-composite: intersect; /* Otros navegadores */
+}
+
+.aux-container-2 {
   -webkit-mask-image:
     radial-gradient(
       circle 10px at top right,

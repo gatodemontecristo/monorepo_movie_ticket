@@ -2,6 +2,7 @@
 
 import {
   BackgroundContent,
+  ButtonPay,
   MovieTheater,
   SadLine,
   ScreenContent,
@@ -168,8 +169,48 @@ export default function MovieTicketPage({ params }: Props) {
             </div>
           </div>
           <div className='flex flex-col w-1/4 relative'>
-            <div id='aux-container' className='flex flex-col p-5'>
-              <p>HOLA MUNDO</p>
+            <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 w-[90%] items-center rounded-lg gap-2'>
+              <p className='font-mont text-movie-white text-xl uppercase font-bold'>
+                Tickets
+              </p>
+              <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-bold'>
+                <p>PVR</p>
+                <p>Mumbai</p>
+              </div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
+                <div className='flex flex-col'>
+                  <p>Friday</p>
+                  <p className='text-xs italic'>09:00 AM</p>
+                </div>
+                <p>21 July, 2023</p>
+              </div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
+                <p>Row</p>
+                <p>Seat</p>
+                <p>Price</p>
+              </div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
+                <p>G</p>
+                <p>5</p>
+                <p>180</p>
+              </div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
+                <p>G</p>
+                <p>5</p>
+                <p>180</p>
+              </div>
+              <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
+              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
+                <p>Total</p>
+                <p>360</p>
+              </div>
+            </div>
+            <div
+              className='aux-container-2 bg-movie-grey flex flex-col  w-[90%] items-center
+             rounded-lg'
+            >
+              <ButtonPay className='w-full' text='Go to pay' />
             </div>
           </div>
         </div>
