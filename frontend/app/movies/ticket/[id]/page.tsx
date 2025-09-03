@@ -6,6 +6,7 @@ import {
   MovieTheater,
   SadLine,
   ScreenContent,
+  Seat,
   SelectCountry,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
@@ -108,50 +109,52 @@ export default function MovieTicketPage({ params }: Props) {
           classDiv='absolute'
         ></BackgroundContent>
         <div className='relative text-movie-white pt-[100px] w-full flex items-center flex-row z-10'>
-          <div className='flex flex-col gap-2 w-1/4 items-start justify-center'>
-            <SelectCountry value={country} onChange={setCountry} />
-            <div className='flex gap-2'>
-              {days.map((day, idx) => (
-                <div
-                  key={idx}
-                  className={`px-2 py-2 rounded-lg bg-movie-black text-center font-mont text-sm ${
-                    day.highlight
-                      ? 'border-2 border-movie-yellow font-bold'
-                      : ''
-                  }`}
-                >
-                  {day.label}
+          <div className='flex flex-col gap-2 w-1/4 items-end'>
+            <div className='flex flex-col gap-2 items-start justify-center w-[90%]'>
+              <SelectCountry value={country} onChange={setCountry} />
+              <div className='flex gap-2'>
+                {days.map((day, idx) => (
+                  <div
+                    key={idx}
+                    className={`px-2 py-2 rounded-lg bg-movie-black text-center font-mont text-sm ${
+                      day.highlight
+                        ? 'border-2 border-movie-yellow font-bold'
+                        : ''
+                    }`}
+                  >
+                    {day.label}
+                  </div>
+                ))}
+              </div>
+              <p className='font-caros text-movie-white text-lg'>Time</p>
+              <div className='flex flex-row gap-2 flex-wrap'>
+                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                  <p>16:00 pm</p>
                 </div>
-              ))}
-            </div>
-            <p className='font-caros text-movie-white text-lg'>Time</p>
-            <div className='flex flex-row gap-2 flex-wrap'>
-              <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                <p>16:00 pm</p>
-              </div>
-              <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                <p>18:00 pm</p>
-              </div>
-              <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                <p>20:30 pm</p>
-              </div>
-              <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                <p>21:30 pm</p>
-              </div>
-              <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                <p>22:45 pm</p>
-              </div>
-            </div>
-            {movie && (
-              <ReviewPanel movie={movie}>
-                <ReviewPanel.Title size='text-xl' />
-                <div className='w-[80%]'>
-                  <ReviewPanel.Poster />
+                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                  <p>18:00 pm</p>
                 </div>
-                <ReviewPanel.Other />
-                <ReviewPanel.Extra />
-              </ReviewPanel>
-            )}
+                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                  <p>20:30 pm</p>
+                </div>
+                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                  <p>21:30 pm</p>
+                </div>
+                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                  <p>22:45 pm</p>
+                </div>
+              </div>
+              {movie && (
+                <ReviewPanel movie={movie}>
+                  <ReviewPanel.Title size='text-xl' />
+                  <div className='w-[80%]'>
+                    <ReviewPanel.Poster />
+                  </div>
+                  <ReviewPanel.Other />
+                  <ReviewPanel.Extra />
+                </ReviewPanel>
+              )}
+            </div>
           </div>
           <div className='flex flex-col gap-4 w-2/4'>
             <SadLine className='my-0' />
@@ -166,6 +169,22 @@ export default function MovieTicketPage({ params }: Props) {
                   <MovieTheater.MovieSection lines={theater.other_lines} />
                 </MovieTheater>
               ))}
+            </div>
+            <div className='flex flex-row justify-center w-full items-center gap-5 mt-5'>
+              <div className='flex flex-row items-center gap-2'>
+                <Seat size='large' state='available' disable />
+                <p className='text-movie-white font-mont text-sm'>Available</p>
+              </div>
+              <div className='flex flex-row items-center gap-2'>
+                <Seat size='large' state='selected' disable />
+                <p className='text-movie-white font-mont text-sm'>Selected</p>
+              </div>
+              <div className='flex flex-row items-center gap-2'>
+                <Seat size='large' state='unavailable' />
+                <p className='text-movie-white font-mont text-sm'>
+                  Unavailable
+                </p>
+              </div>
             </div>
           </div>
           <div className='flex flex-col w-1/4 relative'>
