@@ -19,7 +19,6 @@ interface Props {
 export default function MovieMorePage({ params }: Props) {
   const [movieId, setMovieId] = React.useState<number | null>(null);
 
-  // Resolver los params de forma asíncrona
   React.useEffect(() => {
     const resolveParams = async () => {
       const { id } = await params;
@@ -32,7 +31,6 @@ export default function MovieMorePage({ params }: Props) {
     movieId || 0,
   );
 
-  // Error state
   if (error) {
     notFound();
   }
