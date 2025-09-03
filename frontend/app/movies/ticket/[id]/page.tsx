@@ -2,6 +2,7 @@
 
 import {
   BackgroundContent,
+  ButtonHome,
   ButtonPay,
   MovieTheater,
   SadLine,
@@ -105,7 +106,7 @@ export default function MovieTicketPage({ params }: Props) {
           key={nanoid()}
           title={movie?.title || 'Movie Image'}
           imgPath={movie?.backdrop_path || ''}
-          className='bg-black/70'
+          className='bg-black/70 '
           classDiv='absolute'
         ></BackgroundContent>
         <div className='relative text-movie-white pt-[100px] w-full flex items-center flex-row z-10'>
@@ -128,19 +129,19 @@ export default function MovieTicketPage({ params }: Props) {
               </div>
               <p className='font-caros text-movie-white text-lg'>Time</p>
               <div className='flex flex-row gap-2 flex-wrap'>
-                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
                   <p>16:00 pm</p>
                 </div>
-                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
                   <p>18:00 pm</p>
                 </div>
-                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
                   <p>20:30 pm</p>
                 </div>
-                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
                   <p>21:30 pm</p>
                 </div>
-                <div className='font-mont text-sm text-movie-white px-4 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
+                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
                   <p>22:45 pm</p>
                 </div>
               </div>
@@ -232,6 +233,9 @@ export default function MovieTicketPage({ params }: Props) {
               <ButtonPay className='w-full' text='Go to pay' />
             </div>
           </div>
+        </div>
+        <div className='flex flex-row w-full items-center justify-center my-5'>
+          <ButtonHome type='filled' />
         </div>
       </ScreenContent>
     </>
