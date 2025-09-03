@@ -50,7 +50,6 @@ const MovieTheaterSide = ({
             size='large'
             state={line.state}
             onClick={() => {
-              console.log('LLEGO2');
               dispatch({
                 type: 'select',
                 payload: { row: theather.row, line: line.number },

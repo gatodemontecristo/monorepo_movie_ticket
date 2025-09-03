@@ -1,6 +1,8 @@
 import React from 'react';
 import '../styles/globals.css';
 import '../styles/loader.css';
+import '../styles/ticket.css';
+// import '../styles/ticket2.css';
 import { Inter } from 'next/font/google';
 import QueryProvider from '../providers/QueryProvider';
 

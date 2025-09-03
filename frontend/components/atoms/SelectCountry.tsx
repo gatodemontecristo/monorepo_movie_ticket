@@ -8,15 +8,15 @@ const countryList = countries
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
-export default function SelectCountry({
+export const SelectCountry = ({
   value = 'US',
   onChange,
 }: {
   value?: string;
-  onChange?: (code: string) => void;
-}) {
+  onChange?: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   return (
-    <div className='relative w-full max-w-xs'>
+    <div className='relative w-[150px] max-w-xs'>
       <select
         value={value}
         onChange={e => onChange?.(e.target.value)}
@@ -51,4 +51,4 @@ export default function SelectCountry({
       </div>
     </div>
   );
-}
+};

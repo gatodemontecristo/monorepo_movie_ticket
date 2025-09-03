@@ -3,17 +3,18 @@ import { MdEventSeat } from 'react-icons/md';
 interface SeatProps {
   size: 'small' | 'medium' | 'large';
   state: 'available' | 'selected' | 'unavailable';
+  disable?: boolean;
   onClick?: () => void;
 }
-export const Seat = ({ size, state, onClick }: SeatProps) => {
+export const Seat = ({ size, state, onClick, disable = false }: SeatProps) => {
   const sizeClasses = {
     small: 'w-4 h-4',
     medium: 'w-5 h-5',
     large: 'w-6 h-6',
   };
   const stateClasses = {
-    available: 'text-movie-skin hover:text-movie-white cursor-pointer',
-    selected: 'text-movie-yellow hover:text-movie-duck cursor-pointer',
+    available: `text-movie-skin ${disable ? 'cursor-not-allowed' : 'hover:text-movie-white cursor-pointer'}`,
+    selected: `text-movie-yellow ${disable ? 'cursor-not-allowed' : 'hover:text-movie-duck cursor-pointer'}`,
     unavailable: 'text-movie-gray cursor-not-allowed',
   };
   return (
