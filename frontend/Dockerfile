@@ -4,14 +4,13 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copiar lockfile global y ambos package.json
-COPY package.json yarn.lock ./
-COPY frontend/package.json frontend/
+COPY yarn.lock frontend/package.json ./
 
 # Instalar dependencias (respeta el yarn.lock global)
 RUN yarn install --frozen-lockfile
 
 # Copiar el código del frontend
-COPY frontend ./frontend
+#COPY frontend ./frontend
 
 # Cambiamos al directorio frontend
 WORKDIR /app/frontend

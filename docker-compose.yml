@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
     ports:
-      - "3006:3000" # localhost:3006 -> contenedor:3000
+      - "3000:3000" # localhost:3006 -> contenedor:3000
     env_file:
       - ./frontend/.env
     depends_on:
