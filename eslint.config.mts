@@ -30,15 +30,23 @@ export default [
     },
     rules: {
       ...pluginReact.configs.recommended.rules,
-      // Custom rules
-      'no-unused-vars': 'warn',
+      // Reglas globales
       'no-console': 'warn',
+      'no-unused-vars': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
     },
     settings: {
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    // 👇 Bloque solo para backend
+    files: ['backend/**/*.{js,jsx,ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
     },
   },
   {
