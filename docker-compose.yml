@@ -35,7 +35,7 @@ services:
     ports:
       - "3000:3000" # localhost:3006 -> contenedor:3000
     env_file:
-      - ./frontend/.env
+      - ./.env
     depends_on:
       - postgres
 
