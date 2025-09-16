@@ -1,0 +1,21 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    volumes:
+      - ./frontend:/app          # monta el código local
+      - /app/node_modules        # evita mezclar node_modules
+    command: yarn dev -p 3000
+    ports:
+      - "3000:3000"
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    volumes:
+      - ./backend:/app           # monta tu código local
+      - /app/node_modules        # evita mezclar node_modules
+    command: yarn dev
+    ports:
+      - "4000:4000"

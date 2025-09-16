@@ -1,0 +1,23 @@
+FROM node:20-bullseye
+
+WORKDIR /app
+
+# Copiamos package.json y yarn.lock
+COPY backend/package.json yarn.lock ./
+
+# Instalamos dependencias
+RUN yarn install --frozen-lockfile
+
+# COPY backend/prisma ./prisma
+# En desarrollo NO copiamos el código, lo montamos como volumen
+# COPY backend/. .
+
+# Prisma Client (lo necesitarás aunque montemos el código)
+# RUN npx prisma generate
+
+# EXPOSE 4000
+
+# Comando para dev (se sobreescribe en docker-compose.override.yml si quieres)
+# CMD ["yarn", "dev"]
+# CMD ["yarn", "workspace", "backend", "dev"]
+

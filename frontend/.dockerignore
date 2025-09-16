@@ -1,0 +1,11 @@
+node_modules
+.next
+.env
+*.log
+dist
+coverage
+.vscode
+.git
+.gitignore
+Dockerfile
+**/*.tsbuildinfo
