@@ -5,8 +5,3 @@ WORKDIR /app
 COPY yarn.lock frontend/package.json ./
 RUN yarn install --frozen-lockfile
 
-#COPY frontend/. .
-
-#EXPOSE 3000
-
-#CMD ["yarn", "dev", "-p", "3000"]

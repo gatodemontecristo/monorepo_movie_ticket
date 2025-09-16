@@ -18,7 +18,7 @@ export class UpdateUsuario {
       throw new Error('Usuario not found');
     }
 
-    const updateData: any = {};
+    const updateData: { email?: string; passwordHash?: string } = {};
     if (data.email) updateData.email = data.email;
     if (data.password) {
       updateData.passwordHash = await this.hashService.hash(data.password);
