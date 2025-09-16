@@ -9,7 +9,7 @@ services:
       - /app/node_modules        # evita mezclar node_modules
     command: yarn dev
     ports:
-      - "4000:4000"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
   frontend:
     build:
       context: .
@@ -17,6 +17,6 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: yarn dev -p 3000
+    command: yarn dev -p ${FRONTEND_PORT}
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
