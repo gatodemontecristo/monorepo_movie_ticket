@@ -147,7 +147,7 @@ export default function MovieTicketPage({ params }: Props) {
               </div>
               {movie && (
                 <ReviewPanel movie={movie}>
-                  <ReviewPanel.Title size='text-xl' />
+                  <ReviewPanel.Title size='text-xl' className='text-red-500' />
                   <div className='w-[80%]'>
                     <ReviewPanel.Poster />
                   </div>

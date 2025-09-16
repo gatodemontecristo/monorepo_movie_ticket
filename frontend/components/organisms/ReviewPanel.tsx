@@ -33,11 +33,17 @@ const ReviewPanel = ({ children, movie }: ReviewPanelProps) => {
   );
 };
 
-const ReviewTitle = ({ size = 'text-3xl' }: { size?: string }) => {
+const ReviewTitle = ({
+  size = 'text-3xl',
+  className,
+}: {
+  size?: string;
+  className?: string;
+}) => {
   const { movie } = useContext(ReviewContext);
   return (
     <p
-      className={`w-full ${size} font-mont font-medium text-movie-white text-center line-clamp-3 overflow-hidden text-ellipsis`}
+      className={`w-full ${size} font-mont font-medium text-movie-white text-center line-clamp-3 overflow-hidden text-ellipsis ${className}`}
     >
       {movie.title}
     </p>
