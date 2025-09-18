@@ -1,7 +1,9 @@
+import { CreateUserDto } from './dtos';
+import { UserEntity } from './entities/user.entity';
 import { Usuario } from './usuario';
 
 export interface UsuarioRepository {
-  create(email: string, passwordHash: string): Promise<Usuario>;
+  create(createUserDto: CreateUserDto): Promise<UserEntity>;
   findByEmail(email: string): Promise<Usuario | null>;
   findById(id: string): Promise<Usuario | null>;
   list(): Promise<Usuario[]>;

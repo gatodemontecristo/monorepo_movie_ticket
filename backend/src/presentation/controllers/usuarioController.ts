@@ -21,9 +21,8 @@ export class UsuarioController {
       const useCase = new CreateUsuario(usuarioRepo, hashService);
       const user = await useCase.execute(email, password);
       res.status(201).json(user);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      res.status(400).json({ error: err.message });
+    } catch (error) {
+      res.status(400).json({ error });
     }
   }
 
@@ -33,9 +32,8 @@ export class UsuarioController {
       const useCase = new LoginUsuario(usuarioRepo, hashService, tokenService);
       const result = await useCase.execute(email, password);
       res.json(result);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      res.status(400).json({ error: err.message });
+    } catch (error) {
+      res.status(400).json({ error });
     }
   }
   static async list(req: Request, res: Response) {
@@ -43,8 +41,8 @@ export class UsuarioController {
       const useCase = new ListUsuarios(usuarioRepo);
       const users = await useCase.execute();
       res.json(users);
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
+    } catch (error) {
+      res.status(500).json({ error });
     }
   }
 
@@ -54,8 +52,8 @@ export class UsuarioController {
       const useCase = new GetUsuarioById(usuarioRepo);
       const user = await useCase.execute(id);
       res.json(user);
-    } catch (err: any) {
-      res.status(404).json({ error: err.message });
+    } catch (error) {
+      res.status(404).json({ error });
     }
   }
 
@@ -66,8 +64,8 @@ export class UsuarioController {
       const useCase = new UpdateUsuario(usuarioRepo, hashService);
       const updatedUser = await useCase.execute(id, { email, password });
       res.json(updatedUser);
-    } catch (err: any) {
-      res.status(400).json({ error: err.message });
+    } catch (error) {
+      res.status(400).json({ error });
     }
   }
 
@@ -77,8 +75,8 @@ export class UsuarioController {
       const useCase = new DeleteUsuario(usuarioRepo);
       const result = await useCase.execute(id);
       res.json(result);
-    } catch (err: any) {
-      res.status(404).json({ error: err.message });
+    } catch (error) {
+      res.status(404).json({ error });
     }
   }
 }

@@ -12,6 +12,6 @@ export class CreateUsuario {
     if (existing) throw new Error('Email already in use');
 
     const passwordHash = await this.hashService.hash(password);
-    return this.usuarioRepo.create(email, passwordHash);
+    return this.usuarioRepo.create({ email, password: passwordHash });
   }
 }
