@@ -1,12 +1,16 @@
-import { prisma } from './prismaClient';
-import { Usuario } from '../domain/usuario';
-import { CreateUserDto, UpdateUserDto } from '../domain/dtos';
-import { UserEntity, UsuarioRepository } from '../domain';
+import {
+  CreateUserDto,
+  UpdateUserDto,
+  UserDataSource,
+  UserEntity,
+  Usuario,
+} from '../../domain';
+import { prisma } from '../prismaClient';
 
-export class PrismaUsuarioRepository implements UsuarioRepository {
+export class UserDataSourceImpl implements UserDataSource {
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { email, password } = createUserDto;
-    const user = await prisma.usuario.create({
+    const user = await prisma.user.create({
       data: {
         email,
         passwordHash: password,
@@ -16,31 +20,31 @@ export class PrismaUsuarioRepository implements UsuarioRepository {
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
-    const usuario = await prisma.usuario.findUnique({ where: { email } });
+    const usuario = await prisma.user.findUnique({ where: { email } });
     if (!usuario) throw `Usuario with email ${email} not found`;
     return UserEntity.fromObject(usuario);
   }
 
   async findById(id: string): Promise<UserEntity> {
-    const usuario = await prisma.usuario.findUnique({ where: { id } });
+    const usuario = await prisma.user.findUnique({ where: { id } });
     if (!usuario) throw `Usuario with id ${id} not found`;
     return UserEntity.fromObject(usuario);
   }
 
   async list(): Promise<Usuario[]> {
-    return prisma.usuario.findMany();
+    return prisma.user.findMany();
   }
 
   async update(updateUserDto: UpdateUserDto): Promise<UserEntity> {
     await this.findById(updateUserDto.id);
-    const usuario = await prisma.usuario.update({
+    const usuario = await prisma.user.update({
       where: { id: updateUserDto.id },
-      data: updateUserDto,
+      data: updateUserDto!.values,
     });
     return UserEntity.fromObject(usuario);
   }
 
   async delete(id: string): Promise<void> {
-    await prisma.usuario.delete({ where: { id } });
+    await prisma.user.delete({ where: { id } });
   }
 }

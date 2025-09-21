@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { TokenService } from '../../infrastructure/tokenService';
+import { TokenService } from '../../../infrastructure/tokenService';
 
 const tokenService = new TokenService();
 

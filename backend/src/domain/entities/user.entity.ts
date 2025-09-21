@@ -1,3 +1,5 @@
+import { UserProps } from '../../types/types';
+
 export class UserEntity {
   constructor(
     public id: string,
@@ -7,13 +9,7 @@ export class UserEntity {
     public updatedAt?: Date | null,
   ) {}
 
-  public static fromObject(object: {
-    id: string;
-    email: string;
-    passwordHash: string;
-    createdAt?: Date | string | null;
-    updatedAt?: Date | string | null;
-  }): UserEntity {
+  public static fromObject(object: UserProps): UserEntity {
     const { id, email, passwordHash, createdAt, updatedAt } = object;
     if (!id) throw 'Id is required';
     if (!email) throw 'Email is required';

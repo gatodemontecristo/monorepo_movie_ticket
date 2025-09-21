@@ -1,5 +1,5 @@
-import { UsuarioRepository } from '../../domain/usuarioRepository';
-import { HashService } from '../../infrastructure/hashService';
+import { UsuarioRepository } from '../../repository/usuarioRepository';
+import { HashService } from '../../../infrastructure/hashService';
 
 interface UpdateUsuarioDTO {
   email?: string;
@@ -24,6 +24,10 @@ export class UpdateUsuario {
       updateData.passwordHash = await this.hashService.hash(data.password);
     }
 
-    return this.usuarioRepo.update(id, updateData);
+    return this.usuarioRepo.update({
+      id,
+      data: { ...updateData },
+      values: {},
+    });
   }
 }

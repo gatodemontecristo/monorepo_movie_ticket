@@ -1,5 +1,5 @@
-import { UsuarioRepository } from '../../domain/usuarioRepository';
-import { HashService } from '../../infrastructure/hashService';
+import { UsuarioRepository } from '../../repository/usuarioRepository';
+import { HashService } from '../../../infrastructure/hashService';
 
 export class CreateUsuario {
   constructor(

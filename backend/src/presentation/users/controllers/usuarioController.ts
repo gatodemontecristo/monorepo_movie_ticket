@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { PrismaUsuarioRepository } from '../../infrastructure/prismaUsuarioRepository';
-import { HashService } from '../../infrastructure/hashService';
-import { TokenService } from '../../infrastructure/tokenService';
-import { CreateUsuario } from '../../application/use-cases/createUsuario';
-import { LoginUsuario } from '../../application/use-cases/loginUsuario';
-import { GetUsuarioById } from '../../application/use-cases/getUsuarioById';
-import { ListUsuarios } from '../../application/use-cases/listUsuarios';
+import { PrismaUsuarioRepository } from '../../../infrastructure/prismaUsuarioRepository';
+import { HashService } from '../../../infrastructure/hashService';
+import { TokenService } from '../../../infrastructure/tokenService';
+import { CreateUsuario } from '../../../domain/use-cases/user/createUsuario';
+import { LoginUsuario } from '../../../domain/use-cases/user/loginUsuario';
+import { GetUsuarioById } from '../../../domain/use-cases/user/getUsuarioById';
+import { ListUsuarios } from '../../../domain/use-cases/user/listUsuarios';
 
-import { UpdateUsuario } from '../../application/use-cases/updateUsuario';
-import { DeleteUsuario } from '../../application/use-cases/deleteUsuario';
+import { UpdateUsuario } from '../../../domain/use-cases/user/updateUsuario';
+import { DeleteUsuario } from '../../../domain/use-cases/user/deleteUsuario';
 
 const usuarioRepo = new PrismaUsuarioRepository();
 const hashService = new HashService();

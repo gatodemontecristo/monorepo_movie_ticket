@@ -1,6 +1,6 @@
-import { UsuarioRepository } from '../../domain/usuarioRepository';
-import { HashService } from '../../infrastructure/hashService';
-import { TokenService } from '../../infrastructure/tokenService';
+import { UsuarioRepository } from '../../repository/usuarioRepository';
+import { HashService } from '../../../infrastructure/hashService';
+import { TokenService } from '../../../infrastructure/tokenService';
 
 export class LoginUsuario {
   constructor(
