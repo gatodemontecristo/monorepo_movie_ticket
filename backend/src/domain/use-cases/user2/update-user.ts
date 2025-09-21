@@ -15,15 +15,19 @@ export class UpdateUser implements UpdateUserUseCase {
     const user = await this.repository.findById(dto.id);
     if (!user) throw new Error('User not found');
 
-    const updatedUser = { ...user, ...dto.data };
-    if (dto?.data?.passwordHash) {
-      updatedUser.passwordHash = await fnHash(dto.data.passwordHash);
+    const updateData: { email?: string; passwordHash?: string } = {};
+    if (dto?.email) {
+      updateData.email = dto.email;
+    }
+    if (dto?.password) {
+      updateData.passwordHash = await fnHash(dto.password);
     }
 
     return this.repository.update({
       id: dto.id,
-      data: { ...(updatedUser as UserProps) },
-      values: dto.values,
+      // email: updateData.email,
+      // password: updateData.passwordHash,
+      values: updateData,
     });
   }
 }

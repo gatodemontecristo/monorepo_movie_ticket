@@ -37,6 +37,8 @@ export class UserDataSourceImpl implements UserDataSource {
 
   async update(updateUserDto: UpdateUserDto): Promise<UserEntity> {
     await this.findById(updateUserDto.id);
+    console.log('ID', updateUserDto.id);
+    console.log('DTOP', updateUserDto);
     const usuario = await prisma.user.update({
       where: { id: updateUserDto.id },
       data: updateUserDto!.values,

@@ -20,10 +20,10 @@ export class LoginUser implements LoginUserUseCase {
 
   async execute(email: string, password: string) {
     const user = await this.userRepo.findByEmail(email);
-    if (!user) throw new Error('Invalid credentials');
+    if (!user) throw new Error('Invalid email user 💁');
 
     const isValid = await fnCompare(password, user.passwordHash);
-    if (!isValid) throw new Error('Invalid credentials');
+    if (!isValid) throw new Error('Invalid password user for that email');
 
     const token = this.tokenService.generate({
       id: user.id,
