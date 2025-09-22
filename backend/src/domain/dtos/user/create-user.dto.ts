@@ -11,6 +11,8 @@ export class CreateUserDto {
     const { email, password } = props;
     if (!email) return ['Email property is required', undefined];
     if (!password) return ['Password property is required', undefined];
+    console.log('LLEGO 2');
+    console.log(email, password);
     return [undefined, new CreateUserDto(email, password)];
   }
 }

@@ -119,3 +119,5 @@
 
 Commands -> 
 yarn workspace frontend add world-countries
+
+yarn workspace backend prisma generate

@@ -1,82 +1,77 @@
 import { Request, Response } from 'express';
-import { PrismaUsuarioRepository } from '../../../infrastructure/prismaUsuarioRepository';
-import { HashService } from '../../../infrastructure/hashService';
+
+import {
+  CreateUser,
+  CreateUserDto,
+  DeleteUser,
+  GetUserById,
+  ListUsers,
+  LoginUser,
+  UpdateUser,
+  UpdateUserDto,
+  UserRepository,
+} from '../../../domain';
 import { TokenService } from '../../../infrastructure/tokenService';
-import { CreateUsuario } from '../../../domain/use-cases/user/createUsuario';
-import { LoginUsuario } from '../../../domain/use-cases/user/loginUsuario';
-import { GetUsuarioById } from '../../../domain/use-cases/user/getUsuarioById';
-import { ListUsuarios } from '../../../domain/use-cases/user/listUsuarios';
 
-import { UpdateUsuario } from '../../../domain/use-cases/user/updateUsuario';
-import { DeleteUsuario } from '../../../domain/use-cases/user/deleteUsuario';
-
-const usuarioRepo = new PrismaUsuarioRepository();
-const hashService = new HashService();
 const tokenService = new TokenService();
 
-export class UsuarioController {
-  static async register(req: Request, res: Response) {
-    try {
-      const { email, password } = req.body;
-      const useCase = new CreateUsuario(usuarioRepo, hashService);
-      const user = await useCase.execute(email, password);
-      res.status(201).json(user);
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  }
+export class UserController {
+  constructor(private readonly userRepository: UserRepository) {}
+  public getListUser = (req: Request, res: Response) => {
+    new ListUsers(this.userRepository)
+      .execute()
+      .then(users => res.json(users))
+      .catch(error => res.status(400).json({ error }));
+  };
+  public getUserById = (req: Request, res: Response) => {
+    const id = req.params.id;
 
-  static async login(req: Request, res: Response) {
-    try {
-      const { email, password } = req.body;
-      const useCase = new LoginUsuario(usuarioRepo, hashService, tokenService);
-      const result = await useCase.execute(email, password);
-      res.json(result);
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  }
-  static async list(req: Request, res: Response) {
-    try {
-      const useCase = new ListUsuarios(usuarioRepo);
-      const users = await useCase.execute();
-      res.json(users);
-    } catch (error) {
-      res.status(500).json({ error });
-    }
-  }
+    new GetUserById(this.userRepository)
+      .execute(id)
+      .then(user => res.json(user))
+      .catch(error => res.status(400).json({ error }));
+  };
+  public createUser = (req: Request, res: Response) => {
+    const [error, createUserDto] = CreateUserDto.create(req.body);
+    console.log('error', error);
 
-  static async getById(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const useCase = new GetUsuarioById(usuarioRepo);
-      const user = await useCase.execute(id);
-      res.json(user);
-    } catch (error) {
-      res.status(404).json({ error });
-    }
-  }
+    console.log('createUserDto', createUserDto);
 
-  static async update(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const { email, password } = req.body;
-      const useCase = new UpdateUsuario(usuarioRepo, hashService);
-      const updatedUser = await useCase.execute(id, { email, password });
-      res.json(updatedUser);
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  }
+    if (error) return res.status(400).json({ error });
+    console.log('LLEGO');
 
-  static async delete(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const useCase = new DeleteUsuario(usuarioRepo);
-      const result = await useCase.execute(id);
-      res.json(result);
-    } catch (error) {
-      res.status(404).json({ error });
-    }
-  }
+    new CreateUser(this.userRepository)
+      .execute(createUserDto!)
+      .then(user => res.json(user))
+      .catch(error => res.status(400).json({ error }));
+  };
+
+  public loginUser = (req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    new LoginUser(this.userRepository, tokenService)
+      .execute(email, password)
+      .then(({ user, token }) => res.json({ user, token }))
+      .catch(error => res.status(400).json({ error }));
+  };
+
+  public updateUser = (req: Request, res: Response) => {
+    const id = req.params.id;
+    const [error, updateUserDto] = UpdateUserDto.create({ ...req.body, id });
+    if (error) return res.status(400).json({ error });
+
+    new UpdateUser(this.userRepository)
+      .execute(updateUserDto!)
+      .then(user => res.json(user))
+      .catch(error => res.status(400).json({ error }));
+  };
+
+  public deleteUser = (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    new DeleteUser(this.userRepository)
+      .execute(id)
+      .then(user => res.json(user))
+      .catch(error => res.status(400).json({ error }));
+  };
 }

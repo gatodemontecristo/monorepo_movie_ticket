@@ -2,20 +2,20 @@ import { Router } from 'express';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { UserDataSourceImpl } from '../../infrastructure/datasource/user.datasource.impl';
 import { UserRepositoryImpl } from '../../infrastructure/repositories/user.repository.impl';
-import { UsuarioController2 } from './controllers/usuarioController2';
+import { UserController } from './controllers/usuarioController';
 
 const router = Router();
 const datasource = new UserDataSourceImpl();
 const userRepository = new UserRepositoryImpl(datasource);
-const usuarioController = new UsuarioController2(userRepository);
+const userController = new UserController(userRepository);
 
-router.post('/register', usuarioController.createUser);
-router.post('/login', usuarioController.loginUser);
+router.post('/register', userController.createUser);
+router.post('/login', userController.loginUser);
 
 // CRUD Usuarios
-router.get('/', authMiddleware, usuarioController.getListUser);
-router.get('/:id', authMiddleware, usuarioController.getUserById);
-router.put('/:id', authMiddleware, usuarioController.updateUser);
-router.delete('/:id', authMiddleware, usuarioController.deleteUser);
+router.get('/', authMiddleware, userController.getListUser);
+router.get('/:id', authMiddleware, userController.getUserById);
+router.put('/:id', authMiddleware, userController.updateUser);
+router.delete('/:id', authMiddleware, userController.deleteUser);
 
 export default router;
