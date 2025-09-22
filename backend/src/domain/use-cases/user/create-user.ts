@@ -12,7 +12,7 @@ export class CreateUser implements CreateUserUseCase {
 
   async execute(dto: CreateUserDto): Promise<UserEntity> {
     const existing = await this.repository.findByEmail(dto.email);
-    if (existing) throw new Error('Email already in use');
+    if (existing) throw new Error('Email already in use 🌝');
     if (dto.password) {
       dto = { ...dto, password: await fnHash(dto.password) };
     }

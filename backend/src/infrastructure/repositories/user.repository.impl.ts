@@ -7,24 +7,24 @@ import {
 } from '../../domain';
 
 export class UserRepositoryImpl implements UserRepository {
-  constructor(private readonly userDataSource: UserDataSource) {}
+  constructor(private readonly datasource: UserDataSource) {}
 
   create(createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.userDataSource.create(createUserDto);
+    return this.datasource.create(createUserDto);
   }
-  findByEmail(email: string): Promise<UserEntity> {
-    return this.userDataSource.findByEmail(email);
+  findByEmail(email: string): Promise<UserEntity | null> {
+    return this.datasource.findByEmail(email);
   }
-  findById(id: string): Promise<UserEntity> {
-    return this.userDataSource.findById(id);
+  findById(id: string): Promise<UserEntity | null> {
+    return this.datasource.findById(id);
   }
   list(): Promise<UserEntity[]> {
-    return this.userDataSource.list();
+    return this.datasource.list();
   }
   update(updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    return this.userDataSource.update(updateUserDto);
+    return this.datasource.update(updateUserDto);
   }
   delete(id: string): Promise<void> {
-    return this.userDataSource.delete(id);
+    return this.datasource.delete(id);
   }
 }

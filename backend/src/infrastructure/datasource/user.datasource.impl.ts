@@ -22,15 +22,15 @@ export class UserDataSourceImpl implements UserDataSource {
     return UserEntity.fromObject(user);
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     const usuario = await prisma.user.findUnique({ where: { email } });
-    if (!usuario) throw `Usuario with email ${email} not found`;
+    if (!usuario) return null;
     return UserEntity.fromObject(usuario);
   }
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | null> {
     const usuario = await prisma.user.findUnique({ where: { id } });
-    if (!usuario) throw `Usuario with id ${id} not found`;
+    if (!usuario) return null;
     return UserEntity.fromObject(usuario);
   }
 

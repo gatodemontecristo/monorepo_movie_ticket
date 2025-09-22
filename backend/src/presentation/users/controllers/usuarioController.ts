@@ -33,17 +33,15 @@ export class UserController {
   };
   public createUser = (req: Request, res: Response) => {
     const [error, createUserDto] = CreateUserDto.create(req.body);
-    console.log('error', error);
-
-    console.log('createUserDto', createUserDto);
 
     if (error) return res.status(400).json({ error });
-    console.log('LLEGO');
 
     new CreateUser(this.userRepository)
       .execute(createUserDto!)
       .then(user => res.json(user))
-      .catch(error => res.status(400).json({ error }));
+      .catch(error =>
+        res.status(400).json({ error: (error as Error).message }),
+      );
   };
 
   public loginUser = (req: Request, res: Response) => {
@@ -52,7 +50,9 @@ export class UserController {
     new LoginUser(this.userRepository, tokenService)
       .execute(email, password)
       .then(({ user, token }) => res.json({ user, token }))
-      .catch(error => res.status(400).json({ error }));
+      .catch(error =>
+        res.status(400).json({ error: (error as Error).message }),
+      );
   };
 
   public updateUser = (req: Request, res: Response) => {
