@@ -31,7 +31,7 @@ export default [
     rules: {
       ...pluginReact.configs.recommended.rules,
       // Reglas globales
-      'no-console': 'warn',
+      'no-console': 'error',
       'no-unused-vars': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
     },

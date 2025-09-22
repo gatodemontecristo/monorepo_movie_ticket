@@ -121,3 +121,6 @@ Commands ->
 yarn workspace frontend add world-countries
 
 yarn workspace backend prisma generate
+
+//To check the warms and errors in your project base in your eslint.config.mts file
+yarn eslint .
