@@ -13,6 +13,7 @@ import type {
   UpdateUserDto,
   LoginResponse,
 } from '../types/user';
+import { STALE_TIME_TANSTACK } from '@/constants';
 
 // Query Keys para cache management
 export const userQueryKeys = {
@@ -28,7 +29,7 @@ export function useUsers(): UseQueryResult<User[], Error> {
   return useQuery({
     queryKey: userQueryKeys.lists(),
     queryFn: UserService.getUsers,
-    staleTime: 5 * 60 * 1000, // 5 minutos
+    staleTime: STALE_TIME_TANSTACK,
   });
 }
 

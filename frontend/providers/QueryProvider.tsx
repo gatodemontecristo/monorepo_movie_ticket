@@ -3,10 +3,12 @@
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-// Funciones para manejar localStorage de géneros
-const GENRES_STORAGE_KEY = 'tmdb-genres';
-const GENRES_EXPIRY_TIME = 24 * 60 * 60 * 1000; // 24 horas
+import {
+  GENRES_EXPIRY_TIME,
+  GENRES_STORAGE_KEY,
+  REFETCH_INTERVAL_TANSTACK,
+  STALE_TIME_TANSTACK,
+} from '@/constants';
 
 const saveGenresToStorage = (data: unknown) => {
   try {
@@ -45,8 +47,8 @@ const loadGenresFromStorage = () => {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // Los datos son "fresh" por 5 minutos
-      gcTime: 10 * 60 * 1000, // Los datos se mantienen en cache por 10 minutos
+      staleTime: STALE_TIME_TANSTACK, // Los datos son "fresh" por 30 minutos
+      gcTime: REFETCH_INTERVAL_TANSTACK, // Los datos se mantienen en cache por 45 minutos
       refetchOnWindowFocus: false,
       retry: (failureCount, error) => {
         // No reintentar en errores 4xx (client errors)

@@ -14,3 +14,9 @@ export const NOT_FOUND_USER = '/user.png';
 export const LINES_THEATHER_A = [1, 2, 3, 4, 5, 6, 7];
 export const LINES_THEATHER_B = [8, 9, 10, 11, 12, 13, 14];
 export const ROWS_THEATHER = ['A', 'B', 'C', 'D', 'F', 'G', 'H', 'I', 'J', 'K'];
+
+export const GENRES_STORAGE_KEY = 'tmdb-genres';
+export const GENRES_EXPIRY_TIME = 24 * 60 * 60 * 1000; // 24 hours
+
+export const STALE_TIME_TANSTACK = 1000 * 60 * 30; // 30 MINUTES
+export const REFETCH_INTERVAL_TANSTACK = 1000 * 60 * 45; // 45 MINUTES
