@@ -124,3 +124,11 @@ yarn workspace backend prisma generate
 
 //To check the warms and errors in your project base in your eslint.config.mts file
 yarn eslint .
+
+Docker Basic Commands:
+
+1. Start all services (recommended for development):
+docker-compose up
+
+2. Start and rebuild images (when there are changes in Dockerfile or dependencies):
+docker-compose up --build
