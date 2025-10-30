@@ -1,3 +1,4 @@
+import { NOT_FOUND_BACKGROUND } from '@/constants';
 import { Movie } from '@/types';
 import Image from 'next/image';
 import React from 'react';
@@ -13,7 +14,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         src={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
-            : 'https://via.placeholder.com/1280x720?text=No+Image+Available'
+            : NOT_FOUND_BACKGROUND
         }
         alt=''
         width={500}

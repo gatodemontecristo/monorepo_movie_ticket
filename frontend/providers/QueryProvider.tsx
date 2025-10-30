@@ -45,26 +45,26 @@ const loadGenresFromStorage = () => {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Stale time: datos se consideran frescos por 5 minutos
-      staleTime: 1000 * 60 * 5,
-      // Cache time: datos se mantienen en cache por 10 minutos
-      gcTime: 1000 * 60 * 10,
-      // Retry automático en caso de error
-      retry: 3,
-      // Refetch cuando la ventana se enfoca
+      staleTime: 5 * 60 * 1000, // Los datos son "fresh" por 5 minutos
+      gcTime: 10 * 60 * 1000, // Los datos se mantienen en cache por 10 minutos
       refetchOnWindowFocus: false,
-      // Refetch cuando se reconecta a internet
-      refetchOnReconnect: true,
+      retry: (failureCount, error) => {
+        // No reintentar en errores 4xx (client errors)
+        if (error instanceof Error && error.message.includes('4')) {
+          return false;
+        }
+        return failureCount < 3;
+      },
     },
     mutations: {
-      // Retry para mutations (POST, PUT, DELETE)
-      retry: 1,
+      retry: false, // No reintentar mutaciones por defecto
     },
   },
 });
 
 // Configurar listener para persistir géneros automáticamente
-queryClient.getQueryCache().subscribe(event => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+queryClient.getQueryCache().subscribe((event: any) => {
   if (event.type === 'updated') {
     const { queryKey, state } = event.query;
 
