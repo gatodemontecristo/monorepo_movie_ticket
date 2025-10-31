@@ -22,10 +22,10 @@ export default function NotFound() {
             404
           </h1>
           <p className='text-2xl font-caros text-movie-white mb-2'>
-            Página de película no encontrada
+            Movie page not found
           </p>
           <p className='text-movie-white opacity-70 font-caros'>
-            No pudimos encontrar el contenido que buscas en TMDB.
+            We couldn&apos;t find the content you&apos;re looking for on TMDB.
           </p>
           <ButtonHome></ButtonHome>
         </div>

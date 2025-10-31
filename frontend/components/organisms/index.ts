@@ -6,3 +6,4 @@ export * from './FooterSection';
 export * from './ReviewUser';
 export * from './ReviewPanel';
 export * from './MovieTheather';
+export * from './login';
