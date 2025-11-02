@@ -1,4 +1,3 @@
-import { Movie } from './tmdb';
 export interface GenericLink {
   href: string;
   label: string;
