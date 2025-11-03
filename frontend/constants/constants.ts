@@ -10,6 +10,7 @@ export const LETTERBOXD_URL = 'https://letterboxd.com/CondeDeLosMango/';
 export const NOT_FOUND_POSTER = '/poster_not_found.avif';
 export const NOT_FOUND_BACKGROUND = '/not_found.jpeg';
 export const NOT_FOUND_USER = '/user.png';
+export const IMAGE_FOUND_USER = '/user_found.webp';
 
 export const LINES_THEATHER_A = [1, 2, 3, 4, 5, 6, 7];
 export const LINES_THEATHER_B = [8, 9, 10, 11, 12, 13, 14];

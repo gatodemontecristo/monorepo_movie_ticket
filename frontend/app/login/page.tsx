@@ -1,5 +1,5 @@
 'use client';
-import { SignInForm, SignUpForm } from '@/components';
+import { FormLogin, SignFormMain, SignUpForm } from '@/components';
 import React, { useState } from 'react';
 
 export default function LoginPage() {
@@ -12,7 +12,13 @@ export default function LoginPage() {
       <div className='absolute inset-0 bg-black/30' />
       <div className='relative flex flex-col items-center w-1/3 z-10 bg-movie-black/90 backdrop-blur-sm  rounded-xl'>
         {signIn ? (
-          <SignInForm onSignIn={toggleForm} />
+          <SignFormMain onSignForm={toggleForm} type='sign-in'>
+            <SignFormMain.Title />
+            <FormLogin />
+            <SignFormMain.Extra />
+            <SignFormMain.Link />
+            <SignFormMain.Captcha />
+          </SignFormMain>
         ) : (
           <SignUpForm onSignUp={toggleForm} />
         )}

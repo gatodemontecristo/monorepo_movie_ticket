@@ -66,10 +66,11 @@ export function useLogin(): UseMutationResult<
   return useMutation({
     mutationFn: UserService.login,
     onSuccess: data => {
-      // Almacenar datos del usuario en cache
-      queryClient.setQueryData(['currentUser'], data.user);
-      // Invalidar todas las queries para refrescar con el nuevo token
-      queryClient.invalidateQueries();
+      // Guardar usuario en localStorage para persistencia
+      //localStorage.setItem('currentUser', JSON.stringify(data.user));
+
+      // Almacenar datos del usuario en cache de TanStack Query
+      queryClient.setQueryData<User>(['currentUser'], data.user);
     },
   });
 }
@@ -83,6 +84,9 @@ export function useLogout() {
       UserService.logout();
     },
     onSuccess: () => {
+      // Limpiar usuario de localStorage
+      localStorage.removeItem('currentUser');
+
       // Limpiar todo el cache al hacer logout
       queryClient.clear();
     },
@@ -126,6 +130,25 @@ export function useDeleteUser(): UseMutationResult<void, Error, string> {
       queryClient.invalidateQueries({ queryKey: userQueryKeys.lists() });
     },
   });
+}
+
+// Hook para obtener el usuario actual (desde cache)
+// export function useCurrentUser(): UseQueryResult<User | null, Error> {
+//   return useQuery({
+//     queryKey: ['currentUser'],
+//     queryFn: () => {
+//       // Intentar obtener desde cache primero
+//       const cached = JSON.parse(localStorage.getItem('currentUser') || 'null');
+//       return cached;
+//     },
+//     staleTime: Infinity, // No refrescar automáticamente
+//     gcTime: 1000 * 60 * 60 * 24, // Mantener en cache por 24 horas
+//   });
+// }
+
+export function useCurrentUser() {
+  const queryClient = useQueryClient();
+  return queryClient.getQueryData<User>(['currentUser']);
 }
 
 // Hook para verificar si el usuario está autenticado
