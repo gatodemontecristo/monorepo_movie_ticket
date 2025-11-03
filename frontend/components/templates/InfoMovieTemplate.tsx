@@ -20,7 +20,6 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
           <Link
             href={{
               pathname: `movies/ticket/${movie.id}`,
-              query: { from: `${pathname}` },
             }}
           >
             <ButtonMovie type='filled' text='Book Tickets' />
@@ -28,7 +27,6 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
           <Link
             href={{
               pathname: `movies/review/${movie.id}`,
-              query: { from: `${pathname}` },
             }}
           >
             <ButtonMovie type='outlined' text='Review' />
@@ -36,7 +34,6 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
           <Link
             href={{
               pathname: `movies/more/${movie.id}`,
-              query: { from: `${pathname}` },
             }}
           >
             <ButtonMovie type='outlined' text='More' />

@@ -17,19 +17,27 @@ export const FormLogin = () => {
   } = useForm<LoginUserDto>();
   const { mutateAsync: login, isError, isPending, error } = useLogin();
   const [errorLogin, setErrorLogin] = useState<string | null>(null);
-  const onSubmit = async (data: LoginUserDto) => {
+  const onSubmit = async (
+    data: LoginUserDto,
+    event?: React.BaseSyntheticEvent,
+  ) => {
+    event?.preventDefault(); // Prevenir el comportamiento nativo del formulario
     try {
       setErrorLogin(null);
       await login(data);
-      router.push('/');
+      router.push('/movies');
     } catch (error) {
       setErrorLogin('Login failed: ' + error);
-      console.error('Login failed:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex flex-col gap-2'
+      method='POST'
+      action=''
+    >
       <InputEmail
         errorMsg={errors.email?.message}
         placeholder='Email address'
@@ -57,6 +65,7 @@ export const FormLogin = () => {
       ) : (
         <button
           type='submit'
+          disabled={isPending}
           className='w-full bg-movie-duck hover:bg-movie-duck/90 disabled:bg-movie-duck/50 disabled:cursor-not-allowed text-movie-black font-mont font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:hover:scale-100 mt-4 flex items-center justify-center'
         >
           {'Sign In'}
