@@ -1,5 +1,5 @@
 'use client';
-import { FormLogin, SignFormMain, SignUpForm } from '@/components';
+import { FormLogin, FormSignUp, SignFormMain } from '@/components';
 import React, { useState } from 'react';
 
 export default function LoginPage() {
@@ -20,7 +20,14 @@ export default function LoginPage() {
             <SignFormMain.Captcha />
           </SignFormMain>
         ) : (
-          <SignUpForm onSignUp={toggleForm} />
+          <SignFormMain onSignForm={toggleForm} type='sign-up'>
+            <SignFormMain.Title />
+            <FormSignUp fnExtra={toggleForm} />
+            <SignFormMain.Extra />
+            <SignFormMain.Link />
+            <SignFormMain.Captcha />
+          </SignFormMain>
+          // <SignUpForm onSignUp={toggleForm} />
         )}
       </div>
     </div>

@@ -21,7 +21,7 @@ export const FormLogin = () => {
     data: LoginUserDto,
     event?: React.BaseSyntheticEvent,
   ) => {
-    event?.preventDefault(); // Prevenir el comportamiento nativo del formulario
+    event?.preventDefault();
     try {
       setErrorLogin(null);
       await login(data);
