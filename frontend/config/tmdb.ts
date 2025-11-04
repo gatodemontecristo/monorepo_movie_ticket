@@ -106,9 +106,8 @@ export const buildImageUser = (
 };
 
 export const buildImageLogin = (founded?: boolean): string => {
-  console.log('founded', founded);
-  if (!founded) return NOT_FOUND_USER;
-  return IMAGE_FOUND_USER;
+  if (!founded) return IMAGE_FOUND_USER;
+  return NOT_FOUND_USER;
 };
 
 /**

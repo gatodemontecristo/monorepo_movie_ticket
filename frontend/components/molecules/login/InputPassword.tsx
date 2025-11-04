@@ -1,6 +1,6 @@
 import { MsgError } from '@/components/atoms';
 import React from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { UseFormRegister, Validate } from 'react-hook-form';
 
 interface InputPasswordProps {
   errorMsg: string | undefined;
@@ -9,6 +9,11 @@ interface InputPasswordProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>;
   name: string;
+  validate?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | Validate<string, any>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | Record<string, Validate<string, any>>
+    | undefined;
 }
 
 export const InputPassword = ({
@@ -17,12 +22,14 @@ export const InputPassword = ({
   placeholder,
   register,
   name,
+  validate,
 }: InputPasswordProps) => {
   return (
     <>
       <input
         {...register(name, {
           required: requiredMsg,
+          validate: validate,
           minLength: {
             value: 6,
             message: 'Password must be at least 6 characters',
