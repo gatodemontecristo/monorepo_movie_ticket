@@ -76,14 +76,14 @@ export const UserStatusDialog = ({
           </div>
         </div>
       ) : (
-        <div className='p-6 text-center'>
+        <div className='p-6 text-center flex flex-col items-center  justify-center'>
           <FaUserCircle className='text-movie-duck text-4xl mx-auto mb-3' />
           <UserNotFound />
           <ButtonUserSign
             isPending={isPending}
             onLogout={onLogout}
             text='Sign In'
-            icon={<FaSignOutAlt className='text-red-400' />}
+            icon={<FaSignOutAlt className='text-movie-black' />}
           />
         </div>
       )}
