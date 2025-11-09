@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonUserSignProps {
   isPending?: boolean;
   onLogout: () => void;
-  text: string;
+  text?: string;
   icon?: React.ReactNode;
 }
 export const ButtonUserSign = ({
@@ -19,7 +19,7 @@ export const ButtonUserSign = ({
       className='bg-movie-duck cursor-pointer text-center justify-center items-center flex flex-row gap-2 text-movie-black px-4 py-2 rounded-lg font-mont font-semibold hover:bg-movie-duck/90 transition-colors duration-200'
     >
       {icon && icon}
-      {text}
+      {text && text}
     </button>
   );
 };

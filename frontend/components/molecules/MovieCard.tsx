@@ -2,7 +2,7 @@ import { NOT_FOUND_BACKGROUND } from '@/constants';
 import { Movie } from '@/types';
 import Image from 'next/image';
 import React from 'react';
-import { FaStar, FaPlay, FaHeart, FaBookmark } from 'react-icons/fa6';
+import { FaStar } from 'react-icons/fa6';
 import { ButtonMovie } from '../atoms';
 import Link from 'next/link';
 
@@ -27,13 +27,11 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           priority
         />
 
-        {/* Contenedor de botones que aparece desde abajo */}
         <div
           className='absolute inset-0 bg-transparent  group-hover:bg-[#000000b5]
                         transition-all duration-400 ease-out
                         flex items-end justify-center pb-6'
         >
-          {/* Contenedor de botones con animación desde abajo */}
           <div
             className='flex flex-col justify-center items-center gap-3 transform translate-y-50 group-hover:translate-y-0 
                           transition-transform duration-500 ease-out delay-100'
@@ -75,7 +73,6 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         </div>
       </div>
 
-      {/* Información de la película */}
       <div className='flex flex-col ms-2 mt-2'>
         <p className='text-movie-white font-caros text-2xl font-semibold line-clamp-3 overflow-hidden text-ellipsis'>
           {movie.title}

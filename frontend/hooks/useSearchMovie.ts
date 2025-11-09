@@ -1,9 +1,10 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import { useSearchStore } from '@/store';
+import React, { useEffect, useRef } from 'react';
 
 export const useSearchMovie = () => {
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const { searchValue, setSearchValue, isSearchActive, setIsSearchActive } =
+    useSearchStore();
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isSearchActive && inputRef.current) {
@@ -28,8 +29,6 @@ export const useSearchMovie = () => {
     handleSearchClick,
     handleBlur,
     handleSearchChange,
-    isSearchActive,
     inputRef,
-    searchValue,
   };
 };

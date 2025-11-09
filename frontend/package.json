@@ -21,7 +21,8 @@
     "react-icons": "^5.5.0",
     "sass": "^1.92.0",
     "tailwindcss": "^4.1.11",
-    "world-countries": "^5.1.0"
+    "world-countries": "^5.1.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",

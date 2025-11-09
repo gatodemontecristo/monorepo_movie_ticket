@@ -1,16 +1,18 @@
+'use client';
+
 import { useSearchMovie } from '@/hooks';
+import { useSearchStore } from '@/store';
 import React from 'react';
 import { IoSearch } from 'react-icons/io5';
 
-export const SearchMovie = () => {
-  const {
-    handleSearchClick,
-    handleBlur,
-    handleSearchChange,
-    isSearchActive,
-    inputRef,
-    searchValue,
-  } = useSearchMovie();
+interface SearchMovieProps {
+  placeholder?: string;
+}
+export const SearchMovie = ({ placeholder }: SearchMovieProps) => {
+  const { handleSearchClick, handleBlur, handleSearchChange, inputRef } =
+    useSearchMovie();
+  const { searchValue, isSearchActive } = useSearchStore();
+
   return (
     <div className='relative flex items-center'>
       <div
@@ -27,7 +29,7 @@ export const SearchMovie = () => {
             value={searchValue}
             onChange={handleSearchChange}
             onBlur={handleBlur}
-            placeholder='Introduce movie'
+            placeholder={placeholder || 'Introduce movie'}
             className='w-full bg-transparent font-mont text-movie-black placeholder-gray-500 text-sm font-medium outline-none pr-8'
           />
         ) : null}
