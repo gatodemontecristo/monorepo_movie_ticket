@@ -5,11 +5,8 @@ import { ButtonMovie, InfoLabel } from '../atoms';
 import Link from 'next/link';
 import { SecondaryInfo } from '../organisms';
 import MainInfo from '../organisms/MainInfo';
-import { usePathname } from 'next/navigation';
 
 export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
-  const pathname: string = usePathname();
-
   return (
     <div className='absolute flex flex-row bottom-0 w-full justify-evenly items-baseline-last text-center px-0 py-8 mb-5 gap-10 text-white'>
       <MainInfo movie={movie}>
