@@ -5,6 +5,7 @@ import {
   CardCollection,
   GeneralLoader,
   MenuBar,
+  NotFoundText,
 } from '@/components';
 import FooterSection from '@/components/organisms/FooterSection';
 import { COMPLETE_RESOURCES_SECTION } from '@/constants';
@@ -27,7 +28,7 @@ export default function MoviesLayout({
   };
   return (
     <>
-      <div className='min-h-screen'>
+      <div className='min-h-screen relative'>
         <MenuBar />
         {!isSearchActive && children}
 
@@ -36,7 +37,7 @@ export default function MoviesLayout({
             <div className='relative overflow-hidden h-screen w-screen'>
               <GeneralLoader></GeneralLoader>
             </div>
-          ) : (
+          ) : data?.results && data?.results.length > 0 ? (
             <div className='relative flex flex-col mt-[120px] p-2'>
               <div className='absolute top-5 right-20'>
                 <ButtonUserSign
@@ -52,6 +53,11 @@ export default function MoviesLayout({
                 title={`Search Results for "${searchValue}"`}
               ></CardCollection>
             </div>
+          ) : (
+            <NotFoundText
+              text={`No movie was found.`}
+              className='absolute'
+            ></NotFoundText>
           ))}
       </div>
       <FooterSection>
