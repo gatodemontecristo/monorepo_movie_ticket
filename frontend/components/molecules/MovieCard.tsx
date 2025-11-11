@@ -38,7 +38,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           >
             <Link
               href={{
-                pathname: `movies/ticket/${movie.id}`,
+                pathname: `/movies/ticket/${movie.id}`,
               }}
             >
               <ButtonMovie
@@ -49,7 +49,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             </Link>
             <Link
               href={{
-                pathname: `movies/review/${movie.id}`,
+                pathname: `/movies/review/${movie.id}`,
               }}
             >
               <ButtonMovie
@@ -60,7 +60,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             </Link>
             <Link
               href={{
-                pathname: `movies/more/${movie.id}`,
+                pathname: `/movies/more/${movie.id}`,
               }}
             >
               <ButtonMovie

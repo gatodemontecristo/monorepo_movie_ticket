@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { buildImageLogin } from '@/config/tmdb';
 import { Notyf } from 'notyf';
 import { UserStatusDialog } from './login';
+import Link from 'next/link';
 
 export const MenuBar = () => {
   const router = useRouter();
@@ -40,7 +41,13 @@ export const MenuBar = () => {
           : 'bg-gradient-to-b from-movie-black via-movie-black to-transparent py-7'
       }`}
     >
-      <LogoWeb webname={SITE_NAME}></LogoWeb>
+      <Link
+        href={{
+          pathname: '/movies',
+        }}
+      >
+        <LogoWeb webname={SITE_NAME}></LogoWeb>
+      </Link>
       <div className='flex flex-row items-center gap-10'>
         <SearchMovie></SearchMovie>
         {BUTTON_NAVIGATION.map(button => (
