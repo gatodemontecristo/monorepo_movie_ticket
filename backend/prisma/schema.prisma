@@ -13,4 +13,39 @@ model User {
     passwordHash String
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
+
+    // Relación uno a muchos con tickets
+    tickets Ticket[]
+}
+
+model Ticket {
+    idticket  String   @id @default(uuid())
+    price     Float
+    movieName String
+    idmovie   Int
+    iduser    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relación muchos a uno con usuario
+    user User @relation(fields: [iduser], references: [id], onDelete: Cascade)
+
+    // Relación uno a muchos con asientos
+    seats Seat[]
+
+    @@map("tickets")
+}
+
+model Seat {
+    id        String   @id @default(uuid())
+    column    Int
+    row       Int
+    idticket  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relación muchos a uno con ticket
+    ticket Ticket @relation(fields: [idticket], references: [idticket], onDelete: Cascade)
+
+    @@map("seats")
 }
