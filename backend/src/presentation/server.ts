@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 
 import usuarioRoutes from './users/usuarioRoutes';
+import ticketRoutes from './tickets/ticketRoutes';
+import seatRoutes from './seats/seatRoutes';
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(
 app.use(express.json());
 
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/tickets', ticketRoutes);
+app.use('/api/seats', seatRoutes);
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }));
 
