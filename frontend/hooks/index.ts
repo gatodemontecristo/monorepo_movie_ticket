@@ -6,3 +6,4 @@ export * from './useCastScroll';
 export * from './useNavigation';
 export * from './useMovieTheater';
 export * from './useUser';
+export * from './useTickets';

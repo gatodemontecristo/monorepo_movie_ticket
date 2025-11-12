@@ -3,7 +3,8 @@
  * Centraliza todas las query keys para mejor organización y type safety
  */
 
-import { MovieFilters, SearchFilters } from '../types/tmdb';
+import { MovieFilters } from '../types/tmdb';
+import { TicketFilters } from '../types/ticket';
 
 export const queryKeys = {
   // Movies
@@ -43,6 +44,24 @@ export const queryKeys = {
 
     // Homepage composite
     homepage: () => [...queryKeys.movies.lists(), 'homepage'] as const,
+  },
+
+  // Tickets
+  tickets: {
+    all: ['tickets'] as const,
+    lists: () => [...queryKeys.tickets.all, 'list'] as const,
+    list: (filters?: TicketFilters) =>
+      [...queryKeys.tickets.lists(), { filters }] as const,
+    details: () => [...queryKeys.tickets.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.tickets.details(), id] as const,
+
+    // Specific ticket lists
+    byUser: (userId: string) =>
+      [...queryKeys.tickets.lists(), 'byUser', { userId }] as const,
+    byMovie: (movieId: number) =>
+      [...queryKeys.tickets.lists(), 'byMovie', { movieId }] as const,
+    myTickets: (filters?: TicketFilters) =>
+      [...queryKeys.tickets.lists(), 'myTickets', { filters }] as const,
   },
 
   // Genres
