@@ -10,6 +10,9 @@ export interface Ticket {
   movieName: string;
   idmovie: number;
   iduser: string;
+  day: string;
+  hour: string;
+  location: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -20,6 +23,9 @@ export interface CreateTicketDto {
   movieName: string;
   idmovie: number;
   iduser: string;
+  day: string;
+  hour: string;
+  location: string;
 }
 
 export interface UpdateTicketDto {
@@ -28,6 +34,9 @@ export interface UpdateTicketDto {
   movieName?: string;
   idmovie?: number;
   iduser?: string;
+  day?: string;
+  hour?: string;
+  location?: string;
 }
 
 // Respuesta del backend con estructura estándar
@@ -62,6 +71,10 @@ export interface TicketFilters {
   maxPrice?: number;
   startDate?: string;
   endDate?: string;
+  day?: string;
+  location?: string;
+  timeFrom?: string;
+  timeTo?: string;
 }
 
 // Para estadísticas y reportes

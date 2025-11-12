@@ -72,6 +72,30 @@ export const useMyTickets = (filters?: TicketFilters) => {
   });
 };
 
+/**
+ * Hook para obtener tickets por ubicación
+ */
+export const useTicketsByLocation = (location: string) => {
+  return useQuery({
+    queryKey: queryKeys.tickets.byLocation(location),
+    queryFn: () => TicketService.getTicketsByLocation(location),
+    enabled: !!location && location.trim().length > 0,
+    staleTime: STALE_TIME_TANSTACK,
+  });
+};
+
+/**
+ * Hook para obtener tickets de un día específico
+ */
+export const useTicketsForDay = (day: string) => {
+  return useQuery({
+    queryKey: queryKeys.tickets.byDay(day),
+    queryFn: () => TicketService.getTicketsForDay(day),
+    enabled: !!day && TicketService.isValidDateFormat(day),
+    staleTime: STALE_TIME_TANSTACK,
+  });
+};
+
 // ==========================================
 // HOOKS DE MUTACIÓN (CREATE, UPDATE, DELETE)
 // ==========================================
@@ -179,7 +203,16 @@ export const useTicketStats = () => {
         ? TicketService.calculateTotalRevenue(tickets) / tickets.length
         : 0,
     ticketsByMovie: TicketService.groupTicketsByMovie(tickets),
+    ticketsByLocation: TicketService.groupTicketsByLocation(tickets),
     latestTicket: TicketService.getLatestTicket(tickets),
+    uniqueLocations: TicketService.getUniqueLocations(tickets),
+    uniqueShowTimes: TicketService.getUniqueShowTimes(tickets),
+    expiredTickets: tickets.filter(ticket =>
+      TicketService.isTicketExpired(ticket),
+    ),
+    upcomingTickets: tickets.filter(
+      ticket => !TicketService.isTicketExpired(ticket),
+    ),
   };
 
   return {
@@ -258,6 +291,15 @@ export const useFilteredTickets = (filters: TicketFilters) => {
       const endDate = new Date(filters.endDate);
       if (ticketDate > endDate) return false;
     }
+    // Nuevos filtros
+    if (filters.day && ticket.day !== filters.day) return false;
+    if (
+      filters.location &&
+      !ticket.location.toLowerCase().includes(filters.location.toLowerCase())
+    )
+      return false;
+    if (filters.timeFrom && ticket.hour < filters.timeFrom) return false;
+    if (filters.timeTo && ticket.hour > filters.timeTo) return false;
     return true;
   });
 
@@ -299,5 +341,116 @@ export const usePrefetchRelatedTickets = (
     prefetchByUser,
     prefetchCurrentMovie: movieId ? () => prefetchByMovie(movieId) : undefined,
     prefetchCurrentUser: userId ? () => prefetchByUser(userId) : undefined,
+  };
+};
+
+// ==========================================
+// HOOKS ESPECÍFICOS PARA NUEVOS CAMPOS
+// ==========================================
+
+/**
+ * Hook para obtener información de estado de un ticket específico
+ */
+export const useTicketStatus = (ticket: Ticket | undefined) => {
+  if (!ticket) {
+    return {
+      status: 'unknown' as const,
+      timeUntilShow: 'N/A',
+      isExpired: false,
+      formattedShowTime: 'N/A',
+    };
+  }
+
+  return {
+    status: TicketService.getTicketStatus(ticket),
+    timeUntilShow: TicketService.getTimeUntilShow(ticket),
+    isExpired: TicketService.isTicketExpired(ticket),
+    formattedShowTime: TicketService.formatShowDateTime(ticket),
+    fullInfo: TicketService.getFullTicketInfo(ticket),
+  };
+};
+
+/**
+ * Hook para validación en tiempo real de datos de ticket
+ */
+export const useTicketValidation = (ticketData: Partial<CreateTicketDto>) => {
+  const errors = TicketService.validateCreateTicketData(
+    ticketData as CreateTicketDto,
+  );
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    hasErrors: errors.length > 0,
+  };
+};
+
+/**
+ * Hook para obtener tickets agrupados por ubicación
+ */
+export const useTicketsByLocationGrouped = () => {
+  const { data: tickets = [], ...queryState } = useAllTickets();
+
+  const groupedTickets = TicketService.groupTicketsByLocation(tickets);
+  const locations = TicketService.getUniqueLocations(tickets);
+
+  return {
+    groupedTickets,
+    locations,
+    totalLocations: locations.length,
+    ...queryState,
+  };
+};
+
+/**
+ * Hook para obtener información de horarios únicos
+ */
+export const useUniqueShowTimes = (movieId?: number) => {
+  const { data: allTickets = [] } = useAllTickets();
+
+  const relevantTickets = movieId
+    ? allTickets.filter(ticket => ticket.idmovie === movieId)
+    : allTickets;
+
+  const showTimes = TicketService.getUniqueShowTimes(relevantTickets);
+
+  return {
+    showTimes,
+    totalShowTimes: showTimes.length,
+    formattedShowTimes: showTimes.map(time =>
+      TicketService.formatTimeTo12Hour(time),
+    ),
+  };
+};
+
+/**
+ * Hook para obtener tickets del día actual
+ */
+export const useTodayTickets = () => {
+  const today = TicketService.getCurrentDate();
+  return useTicketsForDay(today);
+};
+
+/**
+ * Hook para búsqueda avanzada de tickets
+ */
+export const useTicketSearch = (searchTerm: string) => {
+  const { data: tickets = [], ...queryState } = useAllTickets();
+
+  const searchResults = tickets.filter(ticket => {
+    const term = searchTerm.toLowerCase();
+    return (
+      ticket.movieName.toLowerCase().includes(term) ||
+      ticket.location.toLowerCase().includes(term) ||
+      ticket.day.includes(term) ||
+      ticket.hour.includes(term)
+    );
+  });
+
+  return {
+    results: searchResults,
+    totalResults: searchResults.length,
+    hasResults: searchResults.length > 0,
+    ...queryState,
   };
 };

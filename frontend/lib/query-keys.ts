@@ -61,6 +61,10 @@ export const queryKeys = {
       [...queryKeys.tickets.lists(), 'byUser', { userId }] as const,
     byMovie: (movieId: number) =>
       [...queryKeys.tickets.lists(), 'byMovie', { movieId }] as const,
+    byLocation: (location: string) =>
+      [...queryKeys.tickets.lists(), 'byLocation', { location }] as const,
+    byDay: (day: string) =>
+      [...queryKeys.tickets.lists(), 'byDay', { day }] as const,
     myTickets: (filters?: TicketFilters) =>
       [...queryKeys.tickets.lists(), 'myTickets', { filters }] as const,
   },
