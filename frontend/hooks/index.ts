@@ -7,3 +7,4 @@ export * from './useNavigation';
 export * from './useMovieTheater';
 export * from './useUser';
 export * from './useTickets';
+export * from './useSeats';

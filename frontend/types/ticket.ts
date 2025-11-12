@@ -2,6 +2,8 @@
 // Ticket Interfaces - Frontend
 // ==========================================
 
+import { Seat } from './seat';
+
 export interface Ticket {
   idticket: string;
   price: number;
@@ -45,14 +47,6 @@ export interface TicketWithSeats extends Ticket {
 }
 
 // Interfaz básica de asiento (para la relación con ticket)
-export interface Seat {
-  id: string;
-  column: number;
-  row: number;
-  idticket: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
 
 // Respuesta del backend para tickets con asientos
 export interface TicketWithSeatsResponse {

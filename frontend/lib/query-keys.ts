@@ -5,6 +5,7 @@
 
 import { MovieFilters } from '../types/tmdb';
 import { TicketFilters } from '../types/ticket';
+import { SeatFilters } from '../types/seat';
 
 export const queryKeys = {
   // Movies
@@ -62,6 +63,28 @@ export const queryKeys = {
       [...queryKeys.tickets.lists(), 'byMovie', { movieId }] as const,
     myTickets: (filters?: TicketFilters) =>
       [...queryKeys.tickets.lists(), 'myTickets', { filters }] as const,
+  },
+
+  // Seats
+  seats: {
+    all: ['seats'] as const,
+    lists: () => [...queryKeys.seats.all, 'list'] as const,
+    list: (filters?: SeatFilters) =>
+      [...queryKeys.seats.lists(), { filters }] as const,
+    details: () => [...queryKeys.seats.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.seats.details(), id] as const,
+
+    // Specific seat lists
+    byTicket: (ticketId: string) =>
+      [...queryKeys.seats.lists(), 'byTicket', { ticketId }] as const,
+    byMovie: (movieId: number) =>
+      [...queryKeys.seats.lists(), 'byMovie', { movieId }] as const,
+    byPosition: (row: number, column: number, ticketId: string) =>
+      [
+        ...queryKeys.seats.lists(),
+        'byPosition',
+        { row, column, ticketId },
+      ] as const,
   },
 
   // Genres
