@@ -1,15 +1,22 @@
-import { NOT_FOUND_BACKGROUND } from '@/constants';
+import { NOT_FOUND_POSTER } from '@/constants';
 import { Movie } from '@/types';
 import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa6';
 import { ButtonMovie } from '../atoms';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { useSearchStore } from '@/store';
 
 interface MovieCardProps {
   movie: Movie;
 }
 export const MovieCard = ({ movie }: MovieCardProps) => {
+  const { setSearchValue, setIsSearchActive } = useSearchStore();
+  const redirectTo = (path: string) => {
+    setSearchValue('');
+    setIsSearchActive(false);
+    redirect(path);
+  };
   return (
     <div className='flex flex-col w-1/6 p-5 text-movie-white'>
       {/* Contenedor de la imagen con efectos hover */}
@@ -18,7 +25,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           src={
             movie.poster_path
               ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
-              : NOT_FOUND_BACKGROUND
+              : NOT_FOUND_POSTER
           }
           alt={movie.title}
           width={500}
@@ -36,39 +43,24 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             className='flex flex-col justify-center items-center gap-3 transform translate-y-50 group-hover:translate-y-0 
                           transition-transform duration-500 ease-out delay-100'
           >
-            <Link
-              href={{
-                pathname: `/movies/ticket/${movie.id}`,
-              }}
-            >
-              <ButtonMovie
-                type='filled'
-                text='Book Tickets'
-                className='shadow-lg !border-0'
-              />
-            </Link>
-            <Link
-              href={{
-                pathname: `/movies/review/${movie.id}`,
-              }}
-            >
-              <ButtonMovie
-                type='filled'
-                text='Review'
-                className='shadow-lg !border-0'
-              />
-            </Link>
-            <Link
-              href={{
-                pathname: `/movies/more/${movie.id}`,
-              }}
-            >
-              <ButtonMovie
-                type='filled'
-                text='More'
-                className='shadow-lg !border-0'
-              />
-            </Link>
+            <ButtonMovie
+              type='filled'
+              text='Book Tickets'
+              className='shadow-lg !border-0'
+              onClick={() => redirectTo(`/movies/ticket/${movie.id}`)}
+            />
+            <ButtonMovie
+              type='filled'
+              text='Review'
+              className='shadow-lg !border-0'
+              onClick={() => redirectTo(`/movies/review/${movie.id}`)}
+            />
+            <ButtonMovie
+              type='filled'
+              text='More'
+              className='shadow-lg !border-0'
+              onClick={() => redirectTo(`/movies/more/${movie.id}`)}
+            />
           </div>
         </div>
       </div>

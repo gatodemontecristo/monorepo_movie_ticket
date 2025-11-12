@@ -8,7 +8,7 @@ import MainInfo from '../organisms/MainInfo';
 
 export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
   return (
-    <div className='absolute flex flex-row bottom-0 w-full justify-evenly items-baseline-last text-center px-0 py-8 mb-5 gap-10 text-white'>
+    <div className='absolute flex flex-row bottom-0 w-full justify-evenly items-baseline-last text-center px-0 py-8 mb-5 gap-10 text-white z-50'>
       <MainInfo movie={movie}>
         <MainInfo.Header />
         <MainInfo.OtherInfo />

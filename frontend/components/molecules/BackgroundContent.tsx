@@ -1,6 +1,7 @@
 import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import Image from 'next/image';
 import React from 'react';
+import { BackgroundGradient } from '../atoms';
 
 interface BackgroundContentProps {
   title: string;
@@ -31,18 +32,7 @@ export const BackgroundContent = ({
       <div className={`absolute inset-0 ${className}`} />
 
       {/* Overlay para el fade */}
-      {/* <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          height: '50%',
-          background: `linear-gradient(to top, #0a061e, transparent)`,
-          padding: '1rem',
-          zIndex: 5,
-        }}
-      ></div> */}
+      <BackgroundGradient shadowSize='md'></BackgroundGradient>
 
       {/* Content */}
       {children}
