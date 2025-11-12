@@ -7,6 +7,7 @@ import {
   GetSeatById,
   GetListSeat,
   GetSeatsByTicketId,
+  GetSeatsByMovieId,
   GetSeatByPosition,
   UpdateSeat,
   UpdateSeatDto,
@@ -43,6 +44,23 @@ export class SeatController {
       .execute(idticket)
       .then(seats => res.json(seats))
       .catch(error => res.status(400).json({ error }));
+  };
+
+  public getSeatsByMovieId = (req: Request, res: Response) => {
+    const idmovie = parseInt(req.params.movieId);
+
+    if (isNaN(idmovie)) {
+      return res.status(400).json({ error: 'Movie ID must be a valid number' });
+    }
+
+    new GetSeatsByMovieId(this.seatRepository)
+      .execute(idmovie)
+      .then(seats => res.json({ success: true, data: seats }))
+      .catch(error =>
+        res
+          .status(400)
+          .json({ success: false, error: (error as Error).message }),
+      );
   };
 
   public getSeatByPosition = (req: Request, res: Response) => {

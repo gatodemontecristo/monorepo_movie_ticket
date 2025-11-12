@@ -18,6 +18,9 @@ export class SeatRepositoryImpl implements SeatRepository {
   findByTicketId(idticket: string): Promise<SeatEntity[]> {
     return this.datasource.findByTicketId(idticket);
   }
+  findByMovieId(idmovie: number): Promise<SeatEntity[]> {
+    return this.datasource.findByMovieId(idmovie);
+  }
   findByPosition(
     column: number,
     row: number,

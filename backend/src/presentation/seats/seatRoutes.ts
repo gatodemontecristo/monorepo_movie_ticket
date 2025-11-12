@@ -30,6 +30,7 @@ router.get(
   authMiddleware,
   seatController.getSeatsByTicketId,
 );
+router.get('/movie/:movieId', authMiddleware, seatController.getSeatsByMovieId);
 router.get(
   '/position/search',
   authMiddleware,

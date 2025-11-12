@@ -6,6 +6,7 @@ export abstract class SeatRepository {
 
   abstract findById(id: string): Promise<SeatEntity | null>;
   abstract findByTicketId(idticket: string): Promise<SeatEntity[]>;
+  abstract findByMovieId(idmovie: number): Promise<SeatEntity[]>;
   abstract findByPosition(
     column: number,
     row: number,

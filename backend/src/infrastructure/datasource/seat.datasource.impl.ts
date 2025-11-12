@@ -35,6 +35,25 @@ export class SeatDataSourceImpl implements SeatDataSource {
     return seats.map(seat => SeatEntity.fromObject(seat));
   }
 
+  async findByMovieId(idmovie: number): Promise<SeatEntity[]> {
+    const seats = await prisma.seat.findMany({
+      where: {
+        ticket: {
+          idmovie: idmovie,
+        },
+      },
+      include: {
+        ticket: true,
+      },
+      orderBy: [
+        { ticket: { idmovie: 'asc' } },
+        { row: 'asc' },
+        { column: 'asc' },
+      ],
+    });
+    return seats.map(seat => SeatEntity.fromObject(seat));
+  }
+
   async findByPosition(
     column: number,
     row: number,

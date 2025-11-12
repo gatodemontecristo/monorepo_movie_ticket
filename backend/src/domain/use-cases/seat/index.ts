@@ -3,5 +3,6 @@ export * from './delete-seat';
 export * from './get-list-seat';
 export * from './get-seat-by-id';
 export * from './get-seat-by-position';
+export * from './get-seats-by-movie-id';
 export * from './get-seats-by-ticket-id';
 export * from './update-seat';
