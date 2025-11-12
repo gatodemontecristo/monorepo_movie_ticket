@@ -7,6 +7,9 @@ export class TicketEntity {
     public movieName: string,
     public idmovie: number,
     public iduser: string,
+    public day: string,
+    public hour: string,
+    public location: string,
     public createdAt?: Date | null,
     public updatedAt?: Date | null,
   ) {}
@@ -18,6 +21,9 @@ export class TicketEntity {
       movieName,
       idmovie,
       iduser,
+      day,
+      hour,
+      location,
       createdAt,
       updatedAt,
     } = object;
@@ -27,6 +33,9 @@ export class TicketEntity {
     if (!movieName) throw 'Movie name is required';
     if (idmovie === undefined || idmovie === null) throw 'Movie ID is required';
     if (!iduser) throw 'User ID is required';
+    if (!day) throw 'Day is required';
+    if (!hour) throw 'Hour is required';
+    if (!location) throw 'Location is required';
 
     // Validaciones adicionales
     if (price < 0) throw 'Price must be a positive number';
@@ -52,6 +61,9 @@ export class TicketEntity {
       movieName,
       idmovie,
       iduser,
+      day,
+      hour,
+      location,
       newCreatedAt,
       newUpdatedAt,
     );

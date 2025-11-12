@@ -5,6 +5,9 @@ export class UpdateTicketDto {
     public readonly movieName?: string,
     public readonly idmovie?: number,
     public readonly iduser?: string,
+    public readonly day?: string,
+    public readonly hour?: string,
+    public readonly location?: string,
   ) {}
 
   get values() {
@@ -13,12 +16,18 @@ export class UpdateTicketDto {
       movieName?: string;
       idmovie?: number;
       iduser?: string;
+      day?: string;
+      hour?: string;
+      location?: string;
     } = {};
 
     if (this.price !== undefined) returnObj.price = this.price;
     if (this.movieName) returnObj.movieName = this.movieName;
     if (this.idmovie !== undefined) returnObj.idmovie = this.idmovie;
     if (this.iduser) returnObj.iduser = this.iduser;
+    if (this.day) returnObj.day = this.day;
+    if (this.hour) returnObj.hour = this.hour;
+    if (this.location) returnObj.location = this.location;
 
     return returnObj;
   }
@@ -29,8 +38,12 @@ export class UpdateTicketDto {
     movieName?: string;
     idmovie?: number;
     iduser?: string;
+    day?: string;
+    hour?: string;
+    location?: string;
   }): [string?, UpdateTicketDto?] {
-    const { idticket, price, movieName, idmovie, iduser } = props;
+    const { idticket, price, movieName, idmovie, iduser, day, hour, location } =
+      props;
 
     if (!idticket || typeof idticket !== 'string') {
       return ['Ticket ID must be a valid string'];
@@ -52,9 +65,30 @@ export class UpdateTicketDto {
       return ['User ID must be a string'];
     }
 
+    if (day !== undefined && typeof day !== 'string') {
+      return ['Day must be a string'];
+    }
+
+    if (hour !== undefined && typeof hour !== 'string') {
+      return ['Hour must be a string'];
+    }
+
+    if (location !== undefined && typeof location !== 'string') {
+      return ['Location must be a string'];
+    }
+
     return [
       undefined,
-      new UpdateTicketDto(idticket, price, movieName, idmovie, iduser),
+      new UpdateTicketDto(
+        idticket,
+        price,
+        movieName,
+        idmovie,
+        iduser,
+        day,
+        hour,
+        location,
+      ),
     ];
   }
 }
