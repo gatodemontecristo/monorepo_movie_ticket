@@ -5,6 +5,7 @@ import { ButtonMovie, InfoLabel } from '../atoms';
 import { MovieScore } from '../molecules';
 import { Credits, MovieDetails } from '@/types';
 import { nanoid } from 'nanoid';
+import Link from 'next/link';
 
 interface MoreSectionValue {
   movie: MovieDetails;
@@ -39,7 +40,13 @@ const MoreSectionMain = () => {
       <p className='text-lg font-mont max-w-4xl mx-auto line-clamp-6 overflow-hidden text-ellipsis'>
         {movie.overview}
       </p>
-      <ButtonMovie type='filled' text='Book Tickets' className='mt-3' />
+      <Link
+        href={{
+          pathname: `/movies/ticket/${movie.id}`,
+        }}
+      >
+        <ButtonMovie type='filled' text='Book Tickets' className='mt-3' />
+      </Link>
     </SecondaryInfo>
   );
 };

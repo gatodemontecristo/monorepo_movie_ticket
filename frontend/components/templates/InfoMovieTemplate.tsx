@@ -16,21 +16,21 @@ export const InfoMovieTemplate = ({ movie }: { movie: Movie }) => {
         <MainInfo.Buttons>
           <Link
             href={{
-              pathname: `movies/ticket/${movie.id}`,
+              pathname: `/movies/ticket/${movie.id}`,
             }}
           >
             <ButtonMovie type='filled' text='Book Tickets' />
           </Link>
           <Link
             href={{
-              pathname: `movies/review/${movie.id}`,
+              pathname: `/movies/review/${movie.id}`,
             }}
           >
             <ButtonMovie type='outlined' text='Review' />
           </Link>
           <Link
             href={{
-              pathname: `movies/more/${movie.id}`,
+              pathname: `/movies/more/${movie.id}`,
             }}
           >
             <ButtonMovie type='outlined' text='More' />
