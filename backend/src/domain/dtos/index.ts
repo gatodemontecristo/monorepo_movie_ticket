@@ -4,3 +4,4 @@ export * from './ticket/create-ticket.dto';
 export * from './ticket/update-ticket.dto';
 export * from './seat/create-seat.dto';
 export * from './seat/update-seat.dto';
+export * from './seat/create-multiple-seats.dto';

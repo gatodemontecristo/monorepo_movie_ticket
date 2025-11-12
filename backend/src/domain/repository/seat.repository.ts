@@ -1,4 +1,4 @@
-import { CreateSeatDto, UpdateSeatDto } from '../dtos';
+import { CreateSeatDto, UpdateSeatDto, CreateMultipleSeatsDto } from '../dtos';
 import { SeatEntity } from '../entities/seat.entity';
 
 export abstract class SeatRepository {
@@ -15,4 +15,7 @@ export abstract class SeatRepository {
   abstract list(): Promise<SeatEntity[]>;
   abstract update(updateSeatDto: UpdateSeatDto): Promise<SeatEntity>;
   abstract delete(id: string): Promise<void>;
+  abstract createMany(
+    createMultipleSeatsDto: CreateMultipleSeatsDto,
+  ): Promise<SeatEntity[]>;
 }

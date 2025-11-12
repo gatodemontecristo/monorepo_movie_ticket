@@ -1,6 +1,7 @@
 import {
   CreateSeatDto,
   UpdateSeatDto,
+  CreateMultipleSeatsDto,
   SeatDataSource,
   SeatEntity,
   SeatRepository,
@@ -36,5 +37,10 @@ export class SeatRepositoryImpl implements SeatRepository {
   }
   delete(id: string): Promise<void> {
     return this.datasource.delete(id);
+  }
+  createMany(
+    createMultipleSeatsDto: CreateMultipleSeatsDto,
+  ): Promise<SeatEntity[]> {
+    return this.datasource.createMany(createMultipleSeatsDto);
   }
 }

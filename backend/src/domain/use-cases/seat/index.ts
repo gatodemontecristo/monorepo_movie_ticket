@@ -1,4 +1,5 @@
 export * from './create-seat';
+export * from './create-multiple-seats';
 export * from './delete-seat';
 export * from './get-list-seat';
 export * from './get-seat-by-id';
