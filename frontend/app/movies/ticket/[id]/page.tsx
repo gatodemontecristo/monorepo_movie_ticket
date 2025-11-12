@@ -2,6 +2,7 @@
 
 import {
   BackgroundContent,
+  BackgroundGradient,
   ButtonHome,
   ButtonPay,
   MovieTheater,
@@ -234,9 +235,10 @@ export default function MovieTicketPage({ params }: Props) {
             </div>
           </div>
         </div>
-        <div className='flex flex-row w-full items-center justify-center my-5'>
+        <div className='relative flex flex-row w-full items-center justify-center my-5 z-50'>
           <ButtonHome type='filled' />
         </div>
+        <BackgroundGradient shadowSize='md'></BackgroundGradient>
       </ScreenContent>
     </>
   );

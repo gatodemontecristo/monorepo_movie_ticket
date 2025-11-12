@@ -6,3 +6,4 @@ export * from './text';
 export * from './skeleton';
 export * from './item';
 export * from './SelectCountry';
+export * from './decoration';
