@@ -1,6 +1,7 @@
 import {
   CreateSeatDto,
   UpdateSeatDto,
+  CreateMultipleSeatsDto,
   SeatDataSource,
   SeatEntity,
 } from '../../domain';
@@ -118,5 +119,66 @@ export class SeatDataSourceImpl implements SeatDataSource {
     });
 
     return createdSeats.map(seat => SeatEntity.fromObject(seat));
+  }
+
+  async createMany(
+    createMultipleSeatsDto: CreateMultipleSeatsDto,
+  ): Promise<SeatEntity[]> {
+    const { seats, idticket } = createMultipleSeatsDto;
+
+    // Verificar que el ticket existe
+    const ticket = await prisma.ticket.findUnique({
+      where: { idticket },
+    });
+    if (!ticket) {
+      throw new Error(`Ticket with ID ${idticket} not found`);
+    }
+
+    // Verificar que no existan asientos duplicados en la base de datos
+    const existingSeats = await prisma.seat.findMany({
+      where: {
+        idticket,
+        OR: seats.map(seat => ({
+          row: seat.row,
+          column: seat.column,
+        })),
+      },
+    });
+
+    if (existingSeats.length > 0) {
+      const duplicatedPositions = existingSeats.map(
+        seat => `row ${seat.row}, column ${seat.column}`,
+      );
+      throw new Error(
+        `Seats already exist at positions: ${duplicatedPositions.join(', ')}`,
+      );
+    }
+
+    // Crear todos los asientos usando una transacción
+    const result = await prisma.$transaction(async tx => {
+      const createdSeats = await tx.seat.createMany({
+        data: seats.map(seat => ({
+          column: seat.column,
+          row: seat.row,
+          idticket: seat.idticket,
+        })),
+      });
+
+      // Obtener los asientos creados
+      const newSeats = await tx.seat.findMany({
+        where: {
+          idticket,
+          OR: seats.map(seat => ({
+            row: seat.row,
+            column: seat.column,
+          })),
+        },
+        orderBy: [{ row: 'asc' }, { column: 'asc' }],
+      });
+
+      return newSeats;
+    });
+
+    return result.map(seat => SeatEntity.fromObject(seat));
   }
 }

@@ -18,23 +18,16 @@ const ticketRepository = new TicketRepositoryImpl(ticketDatasource);
 const seatController = new SeatController(seatRepository, ticketRepository);
 
 // CRUD Seats (requieren autenticación)
-router.get('/', authMiddleware, seatController.getListSeat);
-router.get('/:id', authMiddleware, seatController.getSeatById);
+router.get('/', seatController.getListSeat);
+router.get('/:id', seatController.getSeatById);
 router.post('/', authMiddleware, seatController.createSeat);
+router.post('/bulk', authMiddleware, seatController.createMultipleSeats);
 router.put('/:id', authMiddleware, seatController.updateSeat);
 router.delete('/:id', authMiddleware, seatController.deleteSeat);
 
 // Rutas específicas de seats
-router.get(
-  '/ticket/:ticketId',
-  authMiddleware,
-  seatController.getSeatsByTicketId,
-);
-router.get('/movie/:movieId', authMiddleware, seatController.getSeatsByMovieId);
-router.get(
-  '/position/search',
-  authMiddleware,
-  seatController.getSeatByPosition,
-);
+router.get('/ticket/:ticketId', seatController.getSeatsByTicketId);
+router.get('/movie/:movieId', seatController.getSeatsByMovieId);
+router.get('/position/search', seatController.getSeatByPosition);
 
 export default router;

@@ -24,6 +24,9 @@ model Ticket {
     movieName String
     idmovie   Int
     iduser    String
+    day       String
+    hour      String
+    location  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 

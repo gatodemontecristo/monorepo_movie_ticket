@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import {
   CreateSeat,
   CreateSeatDto,
+  CreateMultipleSeats,
+  CreateMultipleSeatsDto,
   DeleteSeat,
   GetSeatById,
   GetListSeat,
@@ -97,6 +99,30 @@ export class SeatController {
       .then(seat => res.json(seat))
       .catch(error =>
         res.status(400).json({ error: (error as Error).message }),
+      );
+  };
+
+  public createMultipleSeats = (req: Request, res: Response) => {
+    const [error, createMultipleSeatsDto] = CreateMultipleSeatsDto.create(
+      req.body,
+    );
+
+    if (error) return res.status(400).json({ error });
+
+    new CreateMultipleSeats(this.seatRepository)
+      .execute(createMultipleSeatsDto!)
+      .then(seats =>
+        res.json({
+          success: true,
+          message: `Successfully created ${seats.length} seats`,
+          data: seats,
+        }),
+      )
+      .catch(error =>
+        res.status(400).json({
+          success: false,
+          error: (error as Error).message,
+        }),
       );
   };
 

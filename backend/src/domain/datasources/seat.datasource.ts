@@ -1,5 +1,6 @@
 import { CreateSeatDto } from '../dtos';
 import { UpdateSeatDto } from '../dtos';
+import { CreateMultipleSeatsDto } from '../dtos';
 import { SeatEntity } from '../entities/seat.entity';
 
 export abstract class SeatDataSource {
@@ -17,4 +18,7 @@ export abstract class SeatDataSource {
   abstract delete(id: string): Promise<void>;
   abstract findAvailableSeats(idticket: string): Promise<SeatEntity[]>;
   abstract bulkCreate(createSeatsDto: CreateSeatDto[]): Promise<SeatEntity[]>;
+  abstract createMany(
+    createMultipleSeatsDto: CreateMultipleSeatsDto,
+  ): Promise<SeatEntity[]>;
 }

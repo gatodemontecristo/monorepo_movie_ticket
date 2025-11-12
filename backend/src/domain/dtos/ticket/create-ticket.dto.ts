@@ -4,6 +4,9 @@ export class CreateTicketDto {
     public readonly movieName: string,
     public readonly idmovie: number,
     public readonly iduser: string,
+    public readonly day: string,
+    public readonly hour: string,
+    public readonly location: string,
   ) {}
 
   static create(props: {
@@ -11,8 +14,11 @@ export class CreateTicketDto {
     movieName: string;
     idmovie: number;
     iduser: string;
+    day: string;
+    hour: string;
+    location: string;
   }): [string?, CreateTicketDto?] {
-    const { price, movieName, idmovie, iduser } = props;
+    const { price, movieName, idmovie, iduser, day, hour, location } = props;
 
     if (price === undefined || price === null)
       return ['Price property is required', undefined];
@@ -32,6 +38,27 @@ export class CreateTicketDto {
     if (typeof iduser !== 'string')
       return ['User ID must be a string', undefined];
 
-    return [undefined, new CreateTicketDto(price, movieName, idmovie, iduser)];
+    if (!day) return ['Day property is required', undefined];
+    if (typeof day !== 'string') return ['Day must be a string', undefined];
+
+    if (!hour) return ['Hour property is required', undefined];
+    if (typeof hour !== 'string') return ['Hour must be a string', undefined];
+
+    if (!location) return ['Location property is required', undefined];
+    if (typeof location !== 'string')
+      return ['Location must be a string', undefined];
+
+    return [
+      undefined,
+      new CreateTicketDto(
+        price,
+        movieName,
+        idmovie,
+        iduser,
+        day,
+        hour,
+        location,
+      ),
+    ];
   }
 }

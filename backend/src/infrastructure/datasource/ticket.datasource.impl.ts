@@ -8,13 +8,17 @@ import { prisma } from '../prismaClient';
 
 export class TicketDataSourceImpl implements TicketDataSource {
   async create(createTicketDto: CreateTicketDto): Promise<TicketEntity> {
-    const { price, movieName, idmovie, iduser } = createTicketDto;
+    const { price, movieName, idmovie, iduser, day, hour, location } =
+      createTicketDto;
     const ticket = await prisma.ticket.create({
       data: {
         price,
         movieName,
         idmovie,
         iduser,
+        day,
+        hour,
+        location,
       },
     });
     return TicketEntity.fromObject(ticket);
@@ -59,7 +63,7 @@ export class TicketDataSourceImpl implements TicketDataSource {
 
     const ticket = await prisma.ticket.update({
       where: { idticket },
-      data: updateData,
+      data: updateTicketDto.values,
     });
     return TicketEntity.fromObject(ticket);
   }

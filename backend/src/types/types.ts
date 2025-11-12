@@ -12,6 +12,9 @@ export interface TicketProps {
   movieName: string;
   idmovie: number;
   iduser: string;
+  day: string;
+  hour: string;
+  location: string;
   createdAt?: Date | string | null;
   updatedAt?: Date | string | null;
 }
