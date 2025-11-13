@@ -27,6 +27,19 @@ export interface UpdateSeatDto {
   idticket?: string;
 }
 
+// DTO para creación múltiple de asientos
+export interface CreateMultipleSeatsDto {
+  idticket: string;
+  seats: Array<{ row: number; column: number }>;
+}
+
+// Respuesta específica para creación múltiple
+export interface CreateMultipleSeatsResponse {
+  success: boolean;
+  message: string;
+  data: Seat[];
+}
+
 // Respuesta del backend con estructura estándar
 export interface SeatResponse {
   success: boolean;
@@ -92,4 +105,40 @@ export interface SeatOccupancyStats {
   occupancyRate: number;
   seatsByRow: Record<number, number>;
   seatsByMovie: Record<number, number>;
+}
+
+// Para generación de patrones de asientos
+export interface SeatPattern {
+  type: 'consecutive' | 'rectangular' | 'specific' | 'checkerboard';
+  positions: Array<{ row: number; column: number }>;
+}
+
+export interface ConsecutivePattern {
+  row: number;
+  startColumn: number;
+  count: number;
+}
+
+export interface RectangularPattern {
+  startRow: number;
+  endRow: number;
+  startColumn: number;
+  endColumn: number;
+}
+
+export interface CheckerboardPattern {
+  startRow: number;
+  endRow: number;
+  startColumn: number;
+  endColumn: number;
+  offset?: boolean;
+}
+
+// Para preview y validación
+export interface SeatsPreview {
+  total: number;
+  byRow: Record<number, number>;
+  range: string;
+  positions: string[];
+  estimatedTime: string;
 }
