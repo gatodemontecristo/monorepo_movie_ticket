@@ -5,6 +5,7 @@ import {
   BackgroundGradient,
   ButtonHome,
   ButtonPay,
+  HourSchedule,
   MovieTheater,
   SadLine,
   ScreenContent,
@@ -12,6 +13,7 @@ import {
   SelectCountry,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
+import { TIMES_SCHEDULE } from '@/constants';
 import { useMovieDetails, useMovieTheater } from '@/hooks';
 import { getDays } from '@/utils';
 import { nanoid } from 'nanoid';
@@ -76,24 +78,7 @@ export default function MovieTicketPage({ params }: Props) {
                   </div>
                 ))}
               </div>
-              <p className='font-caros text-movie-white text-lg'>Time</p>
-              <div className='flex flex-row gap-2 flex-wrap'>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>16:00 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>18:00 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>20:30 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>21:30 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>22:45 pm</p>
-                </div>
-              </div>
+              <HourSchedule hours={TIMES_SCHEDULE} title='Time' />
               {movie && (
                 <ReviewPanel movie={movie}>
                   <ReviewPanel.Title size='text-xl' className='text-red-500' />
