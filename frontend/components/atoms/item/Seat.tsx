@@ -1,8 +1,9 @@
+import { SEAT_SIZES, SEAT_STATES } from '@/constants';
 import React from 'react';
 import { MdEventSeat } from 'react-icons/md';
 interface SeatProps {
-  size: 'small' | 'medium' | 'large';
-  state: 'available' | 'selected' | 'unavailable';
+  size: SEAT_SIZES;
+  state: SEAT_STATES;
   disable?: boolean;
   onClick?: () => void;
 }
@@ -18,7 +19,12 @@ export const Seat = ({ size, state, onClick, disable = false }: SeatProps) => {
     unavailable: 'text-movie-gray cursor-not-allowed',
   };
   return (
-    <div className={`p-0 ${stateClasses[state]}`} onClick={onClick}>
+    <div
+      className={`p-0 ${stateClasses[state]}`}
+      onClick={
+        state === 'available' || state === 'selected' ? onClick : undefined
+      }
+    >
       <MdEventSeat className={sizeClasses[size]} />
     </div>
   );

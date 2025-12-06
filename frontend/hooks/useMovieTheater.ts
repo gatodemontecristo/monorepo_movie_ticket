@@ -1,13 +1,17 @@
 'use client';
 import { LineTheather, MovieTheather, SeatPosition } from '@/types';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
+import { useSeatsByMovieId } from './useSeats';
+import { getMovieTheather } from '@/utils';
 export type ActionTheater =
   | {
       type: 'select';
       payload: SeatPosition;
     }
-  | { type: 'occupied'; payload: SeatPosition[] };
-export const useMovieTheater = (initialState: MovieTheather[]) => {
+  | { type: 'occupied'; payload: SeatPosition[] }
+  | { type: 'theather'; payload: MovieTheather[] };
+export const useMovieTheater = (movieId: number) => {
+  const { data: seats, isLoading, isError } = useSeatsByMovieId(movieId);
   const MovieReducer = (
     state: MovieTheather[],
     action: ActionTheater,
@@ -56,11 +60,17 @@ export const useMovieTheater = (initialState: MovieTheather[]) => {
             other_lines: updateLines(theater.other_lines),
           } as MovieTheather;
         });
+      case 'theather':
+        return action.payload;
 
       default:
         return state;
     }
   };
-  const [state, dispatch] = useReducer(MovieReducer, initialState);
-  return { state, dispatch };
+  const [state, dispatch] = useReducer(MovieReducer, []);
+
+  useEffect(() => {
+    dispatch({ type: 'theather', payload: getMovieTheather(seats || []) });
+  }, [seats]);
+  return { state, dispatch, isLoading, isError };
 };

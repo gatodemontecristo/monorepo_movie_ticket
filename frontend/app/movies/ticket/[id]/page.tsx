@@ -8,12 +8,12 @@ import {
   MovieTheater,
   SadLine,
   ScreenContent,
-  Seat,
+  SeatLegend,
   SelectCountry,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { useMovieDetails, useMovieTheater } from '@/hooks';
-import { getMovieTheather } from '@/utils';
+import { getDays } from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -21,68 +21,7 @@ interface Props {
   params: Promise<{ id: number }>;
 }
 
-const getDays = () => {
-  const today = new Date();
-  const days = [];
-  // Ayer
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  days.push({
-    label: `${String(yesterday.getDate()).padStart(2, '0')} ${yesterday.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-    date: yesterday,
-    highlight: false,
-  });
-  // Hoy
-  days.push({
-    label: `${String(today.getDate()).padStart(2, '0')} ${today.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-    date: today,
-    highlight: true,
-  });
-  // Próximos 3 días
-  for (let i = 1; i <= 3; i++) {
-    const nextDay = new Date(today);
-    nextDay.setDate(today.getDate() + i);
-    days.push({
-      label: `${String(nextDay.getDate()).padStart(2, '0')} ${nextDay.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-      date: nextDay,
-      highlight: false,
-    });
-  }
-  return days;
-};
-
-const TicketWidget = () => (
-  <div className='widget ticket --flex-column'>
-    <div className='top --flex-column'>
-      <div className='bandname font-bold'>Ghost Mice</div>
-      <div className='tourname'>Home Tour</div>
-      <img
-        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/concert.png'
-        alt=''
-      />
-      <div className='deetz flex flex-row justify-between'>
-        <div className='event flex flex-col'>
-          <div className='date'>3rd March 2017</div>
-          <div className='location font-bold'>Bloomington, Indiana</div>
-        </div>
-        <div className='price flex flex-col'>
-          <div className='label'>Price</div>
-          <div className='cost font-bold'>$30</div>
-        </div>
-      </div>
-    </div>
-    <div className='rip'></div>
-    <div className='bottom flex flex-row justify-between items-center'>
-      <div className='barcode'></div>
-      <a className='buy' href='#'>
-        BUY TICKET
-      </a>
-    </div>
-  </div>
-);
-
 export default function MovieTicketPage({ params }: Props) {
-  const { state, dispatch } = useMovieTheater(getMovieTheather());
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
   useEffect(() => {
@@ -94,6 +33,12 @@ export default function MovieTicketPage({ params }: Props) {
   }, [params]);
 
   const { data: movie, error, isLoading } = useMovieDetails(movieId || 0);
+  const {
+    state,
+    dispatch,
+    isLoading: isLoadingTheater,
+  } = useMovieTheater(634649);
+
   if (error) {
     notFound();
   }
@@ -102,7 +47,10 @@ export default function MovieTicketPage({ params }: Props) {
 
   return (
     <>
-      <ScreenContent isLoading={isLoading || !movieId} outside>
+      <ScreenContent
+        isLoading={isLoading || isLoadingTheater || !movieId}
+        outside
+      >
         <BackgroundContent
           key={nanoid()}
           title={movie?.title || 'Movie Image'}
@@ -172,22 +120,7 @@ export default function MovieTicketPage({ params }: Props) {
                 </MovieTheater>
               ))}
             </div>
-            <div className='flex flex-row justify-center w-full items-center gap-5 mt-5'>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='available' disable />
-                <p className='text-movie-white font-mont text-sm'>Available</p>
-              </div>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='selected' disable />
-                <p className='text-movie-white font-mont text-sm'>Selected</p>
-              </div>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='unavailable' />
-                <p className='text-movie-white font-mont text-sm'>
-                  Unavailable
-                </p>
-              </div>
-            </div>
+            <SeatLegend />
           </div>
           <div className='flex flex-col w-1/4 relative'>
             <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 w-[90%] items-center rounded-lg gap-2'>
