@@ -26,7 +26,12 @@ export const reviewFeature = (movie: MovieDetails): InfoBoxProps[] => [
     text: 'Budget',
   },
 ];
-
+const formatDate = (date: Date) => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = date.toLocaleDateString('en-US', { month: 'long' });
+  const year = date.getFullYear();
+  return `${day} ${month}, ${year}`;
+};
 export const getDays = () => {
   const today = new Date();
   const days = [];
@@ -35,21 +40,30 @@ export const getDays = () => {
   yesterday.setDate(today.getDate() - 1);
   days.push({
     label: `${String(yesterday.getDate()).padStart(2, '0')} ${yesterday.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
+    format: formatDate(yesterday),
+    dayOfWeek: yesterday.toLocaleDateString('en-US', { weekday: 'long' }),
     date: yesterday,
     highlight: false,
+    type: 'past',
   });
   days.push({
     label: `${String(today.getDate()).padStart(2, '0')} ${today.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
+    format: formatDate(today),
+    dayOfWeek: today.toLocaleDateString('en-US', { weekday: 'long' }),
     date: today,
     highlight: true,
+    type: 'current',
   });
   for (let i = 1; i <= 3; i++) {
     const nextDay = new Date(today);
     nextDay.setDate(today.getDate() + i);
     days.push({
       label: `${String(nextDay.getDate()).padStart(2, '0')} ${nextDay.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
+      format: formatDate(nextDay),
+      dayOfWeek: nextDay.toLocaleDateString('en-US', { weekday: 'long' }),
       date: nextDay,
       highlight: false,
+      type: 'future',
     });
   }
   return days;

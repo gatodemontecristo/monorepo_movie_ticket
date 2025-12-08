@@ -1,12 +1,5 @@
+import { countryList } from '@/utils';
 import React from 'react';
-import countries from 'world-countries';
-
-const countryList = countries
-  .map(c => ({
-    name: c.name.common,
-    code: c.cca2,
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name));
 
 export const SelectCountry = ({
   value = 'US',
