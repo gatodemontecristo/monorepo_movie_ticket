@@ -106,6 +106,10 @@ export class TicketService {
         queryParams.append('maxPrice', filters.maxPrice.toString());
       if (filters.startDate) queryParams.append('startDate', filters.startDate);
       if (filters.endDate) queryParams.append('endDate', filters.endDate);
+      if (filters.day) queryParams.append('day', filters.day);
+      if (filters.location) queryParams.append('location', filters.location);
+      if (filters.timeFrom) queryParams.append('timeFrom', filters.timeFrom);
+      if (filters.timeTo) queryParams.append('timeTo', filters.timeTo);
     }
 
     if (queryParams.toString()) {
@@ -140,6 +144,28 @@ export class TicketService {
 
     if (!data.iduser || data.iduser.trim().length === 0) {
       errors.push('El ID del usuario es requerido');
+    }
+
+    if (!data.day || data.day.trim().length === 0) {
+      errors.push('El día es requerido');
+    }
+
+    if (!data.hour || data.hour.trim().length === 0) {
+      errors.push('La hora es requerida');
+    }
+
+    if (!data.location || data.location.trim().length === 0) {
+      errors.push('La ubicación es requerida');
+    }
+
+    // Validación de formato de fecha (YYYY-MM-DD)
+    if (data.day && !/^\d{4}-\d{2}-\d{2}$/.test(data.day)) {
+      errors.push('El formato del día debe ser YYYY-MM-DD');
+    }
+
+    // Validación de formato de hora (HH:MM)
+    if (data.hour && !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(data.hour)) {
+      errors.push('El formato de la hora debe ser HH:MM');
     }
 
     return errors;
@@ -239,16 +265,210 @@ export class TicketService {
    * Generar resumen del ticket para mostrar en UI
    */
   static getTicketSummary(ticket: Ticket): string {
-    return `${ticket.movieName} - ${this.formatPrice(ticket.price)}`;
+    return `${ticket.movieName} - ${this.formatPrice(ticket.price)} - ${ticket.day} ${ticket.hour}`;
   }
 
   /**
-   * Obtener status del ticket basado en la fecha
-   * (Para futuras funcionalidades como expiración)
+   * Formatear información completa del ticket
    */
-  static getTicketStatus(): 'active' | 'expired' | 'upcoming' {
-    // Por ahora todos los tickets son activos
-    // Esta lógica puede expandirse según reglas de negocio
-    return 'active';
+  static getFullTicketInfo(ticket: Ticket): string {
+    return `${ticket.movieName} | ${this.formatPrice(ticket.price)} | ${this.formatShowDateTime(ticket)} | ${ticket.location}`;
+  }
+
+  /**
+   * Formatear fecha y hora de la función
+   */
+  static formatShowDateTime(ticket: Ticket): string {
+    try {
+      const date = new Date(`${ticket.day}T${ticket.hour}`);
+      return new Intl.DateTimeFormat('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date);
+    } catch {
+      return `${ticket.day} ${ticket.hour}`;
+    }
+  }
+
+  /**
+   * Verificar si un ticket ya pasó (función ya terminó)
+   */
+  static isTicketExpired(ticket: Ticket): boolean {
+    try {
+      const showDateTime = new Date(`${ticket.day}T${ticket.hour}`);
+      return showDateTime < new Date();
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Obtener tickets por ubicación
+   */
+  static async getTicketsByLocation(location: string): Promise<Ticket[]> {
+    const tickets = await this.getAllTickets();
+    return tickets.filter(ticket =>
+      ticket.location.toLowerCase().includes(location.toLowerCase()),
+    );
+  }
+
+  /**
+   * Obtener tickets para un día específico
+   */
+  static async getTicketsForDay(day: string): Promise<Ticket[]> {
+    const tickets = await this.getAllTickets();
+    return tickets.filter(ticket => ticket.day === day);
+  }
+
+  /**
+   * Agrupar tickets por ubicación
+   */
+  static groupTicketsByLocation(tickets: Ticket[]): Record<string, Ticket[]> {
+    return tickets.reduce(
+      (groups, ticket) => {
+        const location = ticket.location;
+        if (!groups[location]) {
+          groups[location] = [];
+        }
+        groups[location].push(ticket);
+        return groups;
+      },
+      {} as Record<string, Ticket[]>,
+    );
+  }
+
+  /**
+   * Obtener horarios únicos para una película
+   */
+  static getUniqueShowTimes(tickets: Ticket[]): string[] {
+    const times = tickets.map(ticket => ticket.hour);
+    return [...new Set(times)].sort();
+  }
+
+  /**
+   * Obtener ubicaciones únicas
+   */
+  static getUniqueLocations(tickets: Ticket[]): string[] {
+    const locations = tickets.map(ticket => ticket.location);
+    return [...new Set(locations)].sort();
+  }
+
+  // ==========================================
+  // Utilidades de Fecha y Hora
+  // ==========================================
+
+  /**
+   * Validar formato de fecha (YYYY-MM-DD)
+   */
+  static isValidDateFormat(date: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date);
+  }
+
+  /**
+   * Validar formato de hora (HH:MM)
+   */
+  static isValidTimeFormat(time: string): boolean {
+    return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(time);
+  }
+
+  /**
+   * Convertir fecha a formato legible
+   */
+  static formatDateForDisplay(date: string): string {
+    try {
+      return new Intl.DateTimeFormat('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(new Date(date));
+    } catch {
+      return date;
+    }
+  }
+
+  /**
+   * Convertir hora a formato de 12 horas
+   */
+  static formatTimeTo12Hour(time: string): string {
+    try {
+      const [hours, minutes] = time.split(':');
+      const hour12 = parseInt(hours) % 12 || 12;
+      const ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
+      return `${hour12}:${minutes} ${ampm}`;
+    } catch {
+      return time;
+    }
+  }
+
+  /**
+   * Obtener fecha actual en formato YYYY-MM-DD
+   */
+  static getCurrentDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  /**
+   * Obtener hora actual en formato HH:MM
+   */
+  static getCurrentTime(): string {
+    const now = new Date();
+    return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+  }
+
+  /**
+   * Obtener status del ticket basado en la fecha y hora de la función
+   */
+  static getTicketStatus(ticket: Ticket): 'active' | 'expired' | 'upcoming' {
+    try {
+      const showDateTime = new Date(`${ticket.day}T${ticket.hour}`);
+      const now = new Date();
+      const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
+
+      if (showDateTime < now) {
+        return 'expired';
+      } else if (showDateTime < oneHourFromNow) {
+        return 'active'; // Función próxima (dentro de 1 hora)
+      } else {
+        return 'upcoming'; // Función futura
+      }
+    } catch {
+      return 'active'; // Si hay error en el parsing, consideramos activo por defecto
+    }
+  }
+
+  /**
+   * Obtener tiempo restante hasta la función
+   */
+  static getTimeUntilShow(ticket: Ticket): string {
+    try {
+      const showDateTime = new Date(`${ticket.day}T${ticket.hour}`);
+      const now = new Date();
+      const diffMs = showDateTime.getTime() - now.getTime();
+
+      if (diffMs <= 0) {
+        return 'Función finalizada';
+      }
+
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (days > 0) {
+        return `${days} día${days > 1 ? 's' : ''} y ${hours} hora${hours > 1 ? 's' : ''}`;
+      } else if (hours > 0) {
+        return `${hours} hora${hours > 1 ? 's' : ''} y ${minutes} minuto${minutes > 1 ? 's' : ''}`;
+      } else {
+        return `${minutes} minuto${minutes > 1 ? 's' : ''}`;
+      }
+    } catch {
+      return 'Tiempo no disponible';
+    }
   }
 }

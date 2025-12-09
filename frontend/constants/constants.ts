@@ -21,3 +21,11 @@ export const GENRES_EXPIRY_TIME = 24 * 60 * 60 * 1000; // 24 hours
 
 export const STALE_TIME_TANSTACK = 1000 * 60 * 30; // 30 MINUTES
 export const REFETCH_INTERVAL_TANSTACK = 1000 * 60 * 45; // 45 MINUTES
+
+export const TIMES_SCHEDULE = [
+  '16:00 pm',
+  '18:00 pm',
+  '20:30 pm',
+  '21:30 pm',
+  '22:45 pm',
+];

@@ -3,6 +3,8 @@ import type {
   Seat,
   CreateSeatDto,
   UpdateSeatDto,
+  CreateMultipleSeatsDto,
+  CreateMultipleSeatsResponse,
   SeatResponse,
   SeatsListResponse,
   SeatWithTicket,
@@ -10,6 +12,7 @@ import type {
   SeatPositionQuery,
   TheaterSeat,
   SeatOccupancyStats,
+  SeatsPreview,
 } from '../types/seat';
 
 export class SeatService {
@@ -137,9 +140,30 @@ export class SeatService {
   // ==========================================
 
   /**
-   * Crear múltiples asientos de una vez
+   * Crear múltiples asientos usando el nuevo endpoint bulk del backend
    */
   static async createMultipleSeats(
+    ticketId: string,
+    seatPositions: Array<{ row: number; column: number }>,
+  ): Promise<Seat[]> {
+    const requestData = {
+      idticket: ticketId,
+      seats: seatPositions,
+    };
+
+    const response = await apiClient.post<CreateMultipleSeatsResponse>(
+      '/seats/bulk',
+      requestData,
+    );
+
+    return response.data;
+  }
+
+  /**
+   * Crear múltiples asientos de forma individual (fallback)
+   * @deprecated Usar createMultipleSeats() que usa el endpoint bulk
+   */
+  static async createMultipleSeatsLegacy(
     seatsData: CreateSeatDto[],
   ): Promise<Seat[]> {
     const createdSeats: Seat[] = [];
@@ -185,6 +209,55 @@ export class SeatService {
 
     if (!data.idticket || data.idticket.trim().length === 0) {
       errors.push('El ID del ticket es requerido');
+    }
+
+    return errors;
+  }
+
+  /**
+   * Validar datos para creación múltiple de asientos
+   */
+  static validateMultipleSeatsData(
+    ticketId: string,
+    seatPositions: Array<{ row: number; column: number }>,
+  ): string[] {
+    const errors: string[] = [];
+
+    if (!ticketId || ticketId.trim().length === 0) {
+      errors.push('El ID del ticket es requerido');
+    }
+
+    if (!seatPositions || !Array.isArray(seatPositions)) {
+      errors.push('Se requiere un array de posiciones de asientos');
+      return errors;
+    }
+
+    if (seatPositions.length === 0) {
+      errors.push('Debe proporcionar al menos una posición de asiento');
+      return errors;
+    }
+
+    if (seatPositions.length > 50) {
+      errors.push('No se pueden crear más de 50 asientos a la vez');
+    }
+
+    // Validar cada posición individualmente
+    seatPositions.forEach((position, index) => {
+      if (!position.row || position.row <= 0) {
+        errors.push(`La fila del asiento ${index + 1} debe ser mayor a 0`);
+      }
+      if (!position.column || position.column <= 0) {
+        errors.push(`La columna del asiento ${index + 1} debe ser mayor a 0`);
+      }
+    });
+
+    // Verificar duplicados
+    const positionStrings = seatPositions.map(
+      pos => `${pos.row}-${pos.column}`,
+    );
+    const uniquePositions = new Set(positionStrings);
+    if (uniquePositions.size !== positionStrings.length) {
+      errors.push('Se encontraron posiciones de asientos duplicadas');
     }
 
     return errors;
@@ -471,5 +544,138 @@ export class SeatService {
       this.formatSeatPosition(seat.row, seat.column),
     );
     return `Asientos: ${positions.join(', ')}`;
+  }
+
+  // ==========================================
+  // Generadores de Patrones de Asientos
+  // ==========================================
+
+  /**
+   * Generar asientos consecutivos en una fila
+   */
+  static generateConsecutiveSeats(
+    row: number,
+    startColumn: number,
+    count: number,
+  ): Array<{ row: number; column: number }> {
+    const seats = [];
+    for (let i = 0; i < count; i++) {
+      seats.push({
+        row,
+        column: startColumn + i,
+      });
+    }
+    return seats;
+  }
+
+  /**
+   * Generar asientos en bloque rectangular
+   */
+  static generateRectangularBlock(
+    startRow: number,
+    endRow: number,
+    startColumn: number,
+    endColumn: number,
+  ): Array<{ row: number; column: number }> {
+    const seats = [];
+    for (let row = startRow; row <= endRow; row++) {
+      for (let column = startColumn; column <= endColumn; column++) {
+        seats.push({ row, column });
+      }
+    }
+    return seats;
+  }
+
+  /**
+   * Generar asientos específicos por posiciones
+   */
+  static generateSpecificSeats(
+    positions: string[],
+  ): Array<{ row: number; column: number }> {
+    return positions
+      .map(position => this.parseSeatPosition(position))
+      .filter(pos => pos !== null) as Array<{ row: number; column: number }>;
+  }
+
+  /**
+   * Generar asientos en patrón de ajedrez (intercalados)
+   */
+  static generateCheckerboardPattern(
+    startRow: number,
+    endRow: number,
+    startColumn: number,
+    endColumn: number,
+    offset: boolean = false,
+  ): Array<{ row: number; column: number }> {
+    const seats = [];
+    for (let row = startRow; row <= endRow; row++) {
+      for (let column = startColumn; column <= endColumn; column++) {
+        const isEven = (row + column + (offset ? 1 : 0)) % 2 === 0;
+        if (isEven) {
+          seats.push({ row, column });
+        }
+      }
+    }
+    return seats;
+  }
+
+  // ==========================================
+  // Utilidades para Gestión de Reservas
+  // ==========================================
+
+  /**
+   * Calcular el número total de asientos que se pueden crear
+   */
+  static calculateMaxSeats(
+    seatPositions: Array<{ row: number; column: number }>,
+  ): number {
+    return seatPositions.length;
+  }
+
+  /**
+   * Estimar tiempo de creación para múltiples asientos
+   */
+  static estimateCreationTime(seatCount: number): string {
+    // Estimación aproximada: 1 asiento por segundo en promedio
+    const seconds = Math.ceil(seatCount / 10); // Bulk creation es más rápida
+    if (seconds < 60) {
+      return `~${seconds} segundos`;
+    } else {
+      const minutes = Math.ceil(seconds / 60);
+      return `~${minutes} minuto${minutes > 1 ? 's' : ''}`;
+    }
+  }
+
+  /**
+   * Generar preview de asientos a crear
+   */
+  static generateSeatsPreview(
+    seatPositions: Array<{ row: number; column: number }>,
+  ): SeatsPreview {
+    const byRow = seatPositions.reduce(
+      (acc, seat) => {
+        acc[seat.row] = (acc[seat.row] || 0) + 1;
+        return acc;
+      },
+      {} as Record<number, number>,
+    );
+
+    const minRow = Math.min(...seatPositions.map(s => s.row));
+    const maxRow = Math.max(...seatPositions.map(s => s.row));
+    const minCol = Math.min(...seatPositions.map(s => s.column));
+    const maxCol = Math.max(...seatPositions.map(s => s.column));
+
+    const range = `Filas ${minRow}-${maxRow}, Columnas ${minCol}-${maxCol}`;
+    const positions = seatPositions.map(seat =>
+      this.formatSeatPosition(seat.row, seat.column),
+    );
+
+    return {
+      total: seatPositions.length,
+      byRow,
+      range,
+      positions: positions.slice(0, 10), // Mostrar solo las primeras 10 posiciones
+      estimatedTime: this.estimateCreationTime(seatPositions.length),
+    };
   }
 }

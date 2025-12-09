@@ -5,84 +5,27 @@ import {
   BackgroundGradient,
   ButtonHome,
   ButtonPay,
+  HourSchedule,
   MovieTheater,
   SadLine,
   ScreenContent,
-  Seat,
+  SeatLegend,
   SelectCountry,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
+import { TIMES_SCHEDULE } from '@/constants';
 import { useMovieDetails, useMovieTheater } from '@/hooks';
-import { getMovieTheather } from '@/utils';
+import { getCountryName, getDays, isPastTime } from '@/utils';
+import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { CgUnavailable } from 'react-icons/cg';
 interface Props {
   params: Promise<{ id: number }>;
 }
 
-const getDays = () => {
-  const today = new Date();
-  const days = [];
-  // Ayer
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  days.push({
-    label: `${String(yesterday.getDate()).padStart(2, '0')} ${yesterday.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-    date: yesterday,
-    highlight: false,
-  });
-  // Hoy
-  days.push({
-    label: `${String(today.getDate()).padStart(2, '0')} ${today.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-    date: today,
-    highlight: true,
-  });
-  // Próximos 3 días
-  for (let i = 1; i <= 3; i++) {
-    const nextDay = new Date(today);
-    nextDay.setDate(today.getDate() + i);
-    days.push({
-      label: `${String(nextDay.getDate()).padStart(2, '0')} ${nextDay.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}`,
-      date: nextDay,
-      highlight: false,
-    });
-  }
-  return days;
-};
-
-const TicketWidget = () => (
-  <div className='widget ticket --flex-column'>
-    <div className='top --flex-column'>
-      <div className='bandname font-bold'>Ghost Mice</div>
-      <div className='tourname'>Home Tour</div>
-      <img
-        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/concert.png'
-        alt=''
-      />
-      <div className='deetz flex flex-row justify-between'>
-        <div className='event flex flex-col'>
-          <div className='date'>3rd March 2017</div>
-          <div className='location font-bold'>Bloomington, Indiana</div>
-        </div>
-        <div className='price flex flex-col'>
-          <div className='label'>Price</div>
-          <div className='cost font-bold'>$30</div>
-        </div>
-      </div>
-    </div>
-    <div className='rip'></div>
-    <div className='bottom flex flex-row justify-between items-center'>
-      <div className='barcode'></div>
-      <a className='buy' href='#'>
-        BUY TICKET
-      </a>
-    </div>
-  </div>
-);
-
 export default function MovieTicketPage({ params }: Props) {
-  const { state, dispatch } = useMovieTheater(getMovieTheather());
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
   useEffect(() => {
@@ -94,15 +37,63 @@ export default function MovieTicketPage({ params }: Props) {
   }, [params]);
 
   const { data: movie, error, isLoading } = useMovieDetails(movieId || 0);
+  const {
+    state,
+    dispatch,
+    isLoading: isLoadingTheater,
+  } = useMovieTheater(634649);
+
   if (error) {
     notFound();
   }
 
-  const days = getDays();
-
+  const [days, setDays] = useState(getDays());
+  const getTotal = () => {
+    let total = 0;
+    state.forEach(theater => {
+      theater.lines.forEach(line => {
+        if (line.state === 'selected') {
+          total += 20.99;
+        }
+      });
+      theater.other_lines.forEach(other_line => {
+        if (other_line.state === 'selected') {
+          total += 20.99;
+        }
+      });
+    });
+    return total.toFixed(2);
+  };
+  const getDefaultHour = () => {
+    const defaultHour =
+      TIMES_SCHEDULE.find(hour => {
+        return !isPastTime(hour);
+      }) || '';
+    return defaultHour;
+  };
+  const [hourSelected, setHourSelected] = useState(getDefaultHour());
+  const getNotAvailableWSeats = () => {
+    let notAvailable = true;
+    state.forEach(theater => {
+      theater.lines.forEach(line => {
+        if (line.state === 'selected') {
+          notAvailable = false;
+        }
+      });
+      theater.other_lines.forEach(other_line => {
+        if (other_line.state === 'selected') {
+          notAvailable = false;
+        }
+      });
+    });
+    return notAvailable;
+  };
   return (
     <>
-      <ScreenContent isLoading={isLoading || !movieId} outside>
+      <ScreenContent
+        isLoading={isLoading || isLoadingTheater || !movieId}
+        outside
+      >
         <BackgroundContent
           key={nanoid()}
           title={movie?.title || 'Movie Image'}
@@ -118,34 +109,38 @@ export default function MovieTicketPage({ params }: Props) {
                 {days.map((day, idx) => (
                   <div
                     key={idx}
-                    className={`px-2 py-2 rounded-lg bg-movie-black text-center font-mont text-sm ${
+                    className={clsx(
+                      'px-2 py-2 rounded-lg bg-movie-black text-center font-mont text-sm ',
                       day.highlight
                         ? 'border-2 border-movie-yellow font-bold'
-                        : ''
-                    }`}
+                        : '',
+                      day.type === 'past'
+                        ? 'bg-movie-grey cursor-not-allowed'
+                        : 'cursor-pointer',
+                    )}
+                    onClick={() => {
+                      return (
+                        day.type !== 'past' &&
+                        setDays(prevDays =>
+                          prevDays.map((d, i) =>
+                            i === idx
+                              ? { ...d, highlight: true }
+                              : { ...d, highlight: false },
+                          ),
+                        )
+                      );
+                    }}
                   >
                     {day.label}
                   </div>
                 ))}
               </div>
-              <p className='font-caros text-movie-white text-lg'>Time</p>
-              <div className='flex flex-row gap-2 flex-wrap'>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>16:00 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>18:00 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>20:30 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>21:30 pm</p>
-                </div>
-                <div className='font-mont text-xs text-movie-white px-3 py-1  bg-movie-black border-movie-yellow border-2 rounded-2xl'>
-                  <p>22:45 pm</p>
-                </div>
-              </div>
+              <HourSchedule
+                hours={TIMES_SCHEDULE}
+                title='Time'
+                selected={hourSelected}
+                onSelect={setHourSelected}
+              />
               {movie && (
                 <ReviewPanel movie={movie}>
                   <ReviewPanel.Title size='text-xl' className='text-red-500' />
@@ -172,24 +167,9 @@ export default function MovieTicketPage({ params }: Props) {
                 </MovieTheater>
               ))}
             </div>
-            <div className='flex flex-row justify-center w-full items-center gap-5 mt-5'>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='available' disable />
-                <p className='text-movie-white font-mont text-sm'>Available</p>
-              </div>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='selected' disable />
-                <p className='text-movie-white font-mont text-sm'>Selected</p>
-              </div>
-              <div className='flex flex-row items-center gap-2'>
-                <Seat size='large' state='unavailable' />
-                <p className='text-movie-white font-mont text-sm'>
-                  Unavailable
-                </p>
-              </div>
-            </div>
+            <SeatLegend />
           </div>
-          <div className='flex flex-col w-1/4 relative'>
+          <div className='flex flex-col w-1/4 relative justify-start items-start'>
             <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 w-[90%] items-center rounded-lg gap-2'>
               <p className='font-mont text-movie-white text-xl uppercase font-bold'>
                 Tickets
@@ -197,41 +177,78 @@ export default function MovieTicketPage({ params }: Props) {
               <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
               <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-bold'>
                 <p>PVR</p>
-                <p>Mumbai</p>
+                <p>{getCountryName(country)}</p>
               </div>
               <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
                 <div className='flex flex-col'>
-                  <p>Friday</p>
-                  <p className='text-xs italic'>09:00 AM</p>
+                  <p>{days.find(day => day.highlight)?.dayOfWeek}</p>
+                  <p className='text-xs italic'>
+                    {hourSelected || 'No time available'}
+                  </p>
                 </div>
-                <p>21 July, 2023</p>
+                <p>{days.find(day => day.highlight)?.format}</p>
               </div>
               <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
                 <p>Row</p>
                 <p>Seat</p>
                 <p>Price</p>
               </div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
-                <p>G</p>
-                <p>5</p>
-                <p>180</p>
-              </div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
-                <p>G</p>
-                <p>5</p>
-                <p>180</p>
-              </div>
+              {getNotAvailableWSeats() ? (
+                <div className='flex flex-row items-center gap-2'>
+                  <p className='text-movie-white text-sm italic my-5'>
+                    No seats available
+                  </p>
+                  <CgUnavailable className='size-5' />
+                </div>
+              ) : (
+                state.map(theater => (
+                  <>
+                    {theater.lines
+                      .filter(line => line.state === 'selected')
+                      .map(line => (
+                        <div
+                          className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'
+                          key={nanoid()}
+                        >
+                          <p>{theater.row}</p>
+                          <p>{line.number}</p>
+                          <p>$20.99</p>
+                        </div>
+                      ))}
+                    {theater.other_lines
+                      .filter(other_line => other_line.state === 'selected')
+                      .map(other_line => (
+                        <div
+                          className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'
+                          key={nanoid()}
+                        >
+                          <p>{theater.row}</p>
+                          <p>{other_line.number}</p>
+                          <p>$20.99</p>
+                        </div>
+                      ))}
+                  </>
+                ))
+              )}
               <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
               <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
                 <p>Total</p>
-                <p>360</p>
+                <p>${getTotal()}</p>
               </div>
             </div>
             <div
               className='aux-container-2 bg-movie-grey flex flex-col  w-[90%] items-center
              rounded-lg'
             >
-              <ButtonPay className='w-full' text='Go to pay' />
+              <ButtonPay
+                className='w-full'
+                text={
+                  hourSelected === '' || getNotAvailableWSeats()
+                    ? 'Disabled :('
+                    : 'Go to pay'
+                }
+                disabled={hourSelected === '' || getNotAvailableWSeats()}
+              />
             </div>
           </div>
         </div>
