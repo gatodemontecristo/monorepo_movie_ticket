@@ -15,8 +15,9 @@ import {
   TicketSeatTable,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
+import { useRouter } from 'next/navigation';
 import { TIMES_SCHEDULE } from '@/constants';
-import { useMovieDetails, useMovieTheater } from '@/hooks';
+import { useAuth, useMovieDetails, useMovieTheater } from '@/hooks';
 import { useTheaterStore } from '@/store';
 import { getCountryName, getNotAvailableWSeats, getTotal } from '@/utils';
 import { nanoid } from 'nanoid';
@@ -27,8 +28,18 @@ interface Props {
 }
 
 export default function MovieTicketPage({ params }: Props) {
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
+
   useEffect(() => {
     const resolveParams = async () => {
       const { id } = await params;
@@ -43,15 +54,17 @@ export default function MovieTicketPage({ params }: Props) {
     dispatch,
     isLoading: isLoadingTheater,
   } = useMovieTheater(634649);
-
   if (error) {
     notFound();
   }
+
   const { days, hourSelected, setHourSelected } = useTheaterStore();
   return (
     <>
       <ScreenContent
-        isLoading={isLoading || isLoadingTheater || !movieId}
+        isLoading={
+          isLoading || isLoadingTheater || !movieId || !isAuthenticated
+        }
         outside
       >
         <BackgroundContent
