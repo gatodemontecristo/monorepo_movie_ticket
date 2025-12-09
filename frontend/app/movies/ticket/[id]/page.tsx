@@ -5,6 +5,7 @@ import {
   BackgroundGradient,
   ButtonHome,
   ButtonPay,
+  DaySelected,
   HourSchedule,
   MovieTheater,
   SadLine,
@@ -15,8 +16,8 @@ import {
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { TIMES_SCHEDULE } from '@/constants';
 import { useMovieDetails, useMovieTheater } from '@/hooks';
-import { getCountryName, getDays, isPastTime } from '@/utils';
-import clsx from 'clsx';
+import { useTheaterStore } from '@/store';
+import { getCountryName, isPastTime } from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -47,7 +48,6 @@ export default function MovieTicketPage({ params }: Props) {
     notFound();
   }
 
-  const [days, setDays] = useState(getDays());
   const getTotal = () => {
     let total = 0;
     state.forEach(theater => {
@@ -88,6 +88,8 @@ export default function MovieTicketPage({ params }: Props) {
     });
     return notAvailable;
   };
+
+  const { days } = useTheaterStore();
   return (
     <>
       <ScreenContent
@@ -105,36 +107,7 @@ export default function MovieTicketPage({ params }: Props) {
           <div className='flex flex-col gap-2 w-1/4 items-end'>
             <div className='flex flex-col gap-2 items-start justify-center w-[90%]'>
               <SelectCountry value={country} onChange={setCountry} />
-              <div className='flex gap-2'>
-                {days.map((day, idx) => (
-                  <div
-                    key={idx}
-                    className={clsx(
-                      'px-2 py-2 rounded-lg bg-movie-black text-center font-mont text-sm ',
-                      day.highlight
-                        ? 'border-2 border-movie-yellow font-bold'
-                        : '',
-                      day.type === 'past'
-                        ? 'bg-movie-grey cursor-not-allowed'
-                        : 'cursor-pointer',
-                    )}
-                    onClick={() => {
-                      return (
-                        day.type !== 'past' &&
-                        setDays(prevDays =>
-                          prevDays.map((d, i) =>
-                            i === idx
-                              ? { ...d, highlight: true }
-                              : { ...d, highlight: false },
-                          ),
-                        )
-                      );
-                    }}
-                  >
-                    {day.label}
-                  </div>
-                ))}
-              </div>
+              <DaySelected />
               <HourSchedule
                 hours={TIMES_SCHEDULE}
                 title='Time'
