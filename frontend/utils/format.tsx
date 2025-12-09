@@ -68,3 +68,27 @@ export const getDays = () => {
   }
   return days;
 };
+
+export const isPastTime = (text: string) => {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
+
+  const timeMatch = text.match(/(\d{1,2}):(\d{2})/);
+  if (!timeMatch) return true;
+
+  let hour = parseInt(timeMatch[1]);
+  const minutes = parseInt(timeMatch[2]);
+  if (hour <= 12) {
+    if (text.toLowerCase().includes('pm') && hour !== 12) {
+      hour += 12;
+    } else if (text.toLowerCase().includes('am') && hour === 12) {
+      hour = 0;
+    }
+  }
+
+  const timeInMinutes = hour * 60 + minutes;
+  const currentTimeInMinutes = currentHour * 60 + currentMinutes;
+
+  return timeInMinutes < currentTimeInMinutes;
+};
