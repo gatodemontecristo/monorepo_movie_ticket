@@ -12,16 +12,16 @@ import {
   ScreenContent,
   SeatLegend,
   SelectCountry,
+  TicketSeatTable,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { TIMES_SCHEDULE } from '@/constants';
 import { useMovieDetails, useMovieTheater } from '@/hooks';
 import { useTheaterStore } from '@/store';
-import { getCountryName, isPastTime } from '@/utils';
+import { getCountryName, getNotAvailableWSeats, getTotal } from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { CgUnavailable } from 'react-icons/cg';
 interface Props {
   params: Promise<{ id: number }>;
 }
@@ -47,49 +47,7 @@ export default function MovieTicketPage({ params }: Props) {
   if (error) {
     notFound();
   }
-
-  const getTotal = () => {
-    let total = 0;
-    state.forEach(theater => {
-      theater.lines.forEach(line => {
-        if (line.state === 'selected') {
-          total += 20.99;
-        }
-      });
-      theater.other_lines.forEach(other_line => {
-        if (other_line.state === 'selected') {
-          total += 20.99;
-        }
-      });
-    });
-    return total.toFixed(2);
-  };
-  const getDefaultHour = () => {
-    const defaultHour =
-      TIMES_SCHEDULE.find(hour => {
-        return !isPastTime(hour);
-      }) || '';
-    return defaultHour;
-  };
-  const [hourSelected, setHourSelected] = useState(getDefaultHour());
-  const getNotAvailableWSeats = () => {
-    let notAvailable = true;
-    state.forEach(theater => {
-      theater.lines.forEach(line => {
-        if (line.state === 'selected') {
-          notAvailable = false;
-        }
-      });
-      theater.other_lines.forEach(other_line => {
-        if (other_line.state === 'selected') {
-          notAvailable = false;
-        }
-      });
-    });
-    return notAvailable;
-  };
-
-  const { days } = useTheaterStore();
+  const { days, hourSelected, setHourSelected } = useTheaterStore();
   return (
     <>
       <ScreenContent
@@ -161,52 +119,15 @@ export default function MovieTicketPage({ params }: Props) {
                 </div>
                 <p>{days.find(day => day.highlight)?.format}</p>
               </div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
-                <p>Row</p>
-                <p>Seat</p>
-                <p>Price</p>
-              </div>
-              {getNotAvailableWSeats() ? (
-                <div className='flex flex-row items-center gap-2'>
-                  <p className='text-movie-white text-sm italic my-5'>
-                    No seats available
-                  </p>
-                  <CgUnavailable className='size-5' />
-                </div>
-              ) : (
-                state.map(theater => (
-                  <>
-                    {theater.lines
-                      .filter(line => line.state === 'selected')
-                      .map(line => (
-                        <div
-                          className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'
-                          key={nanoid()}
-                        >
-                          <p>{theater.row}</p>
-                          <p>{line.number}</p>
-                          <p>$20.99</p>
-                        </div>
-                      ))}
-                    {theater.other_lines
-                      .filter(other_line => other_line.state === 'selected')
-                      .map(other_line => (
-                        <div
-                          className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'
-                          key={nanoid()}
-                        >
-                          <p>{theater.row}</p>
-                          <p>{other_line.number}</p>
-                          <p>$20.99</p>
-                        </div>
-                      ))}
-                  </>
-                ))
-              )}
+
+              <TicketSeatTable
+                isEmpty={getNotAvailableWSeats(state)}
+                state={state}
+              />
               <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
               <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
                 <p>Total</p>
-                <p>${getTotal()}</p>
+                <p>${getTotal(state)}</p>
               </div>
             </div>
             <div
@@ -216,11 +137,11 @@ export default function MovieTicketPage({ params }: Props) {
               <ButtonPay
                 className='w-full'
                 text={
-                  hourSelected === '' || getNotAvailableWSeats()
+                  hourSelected === '' || getNotAvailableWSeats(state)
                     ? 'Disabled :('
                     : 'Go to pay'
                 }
-                disabled={hourSelected === '' || getNotAvailableWSeats()}
+                disabled={hourSelected === '' || getNotAvailableWSeats(state)}
               />
             </div>
           </div>

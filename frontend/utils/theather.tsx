@@ -1,5 +1,11 @@
-import { LINES_THEATHER_A, LINES_THEATHER_B, ROWS_THEATHER } from '@/constants';
+import {
+  LINES_THEATHER_A,
+  LINES_THEATHER_B,
+  ROWS_THEATHER,
+  TIMES_SCHEDULE,
+} from '@/constants';
 import { LineTheather, MovieTheather, SeatWithTicket } from '@/types';
+import { isPastTime } from './format';
 
 export const getMovieTheather = (seats: SeatWithTicket[]): MovieTheather[] => {
   const occupiedPositions = new Set(
@@ -22,4 +28,46 @@ export const getMovieTheather = (seats: SeatWithTicket[]): MovieTheather[] => {
     })) as LineTheather[],
   }));
   return movieTheather;
+};
+
+export const getTotal = (state: MovieTheather[]) => {
+  let total = 0;
+  state.forEach(theater => {
+    theater.lines.forEach(line => {
+      if (line.state === 'selected') {
+        total += 20.99;
+      }
+    });
+    theater.other_lines.forEach(other_line => {
+      if (other_line.state === 'selected') {
+        total += 20.99;
+      }
+    });
+  });
+  return total.toFixed(2);
+};
+
+export const getNotAvailableWSeats = (state: MovieTheather[]) => {
+  let notAvailable = true;
+  state.forEach(theater => {
+    theater.lines.forEach(line => {
+      if (line.state === 'selected') {
+        notAvailable = false;
+      }
+    });
+    theater.other_lines.forEach(other_line => {
+      if (other_line.state === 'selected') {
+        notAvailable = false;
+      }
+    });
+  });
+  return notAvailable;
+};
+
+export const getDefaultHour = () => {
+  const defaultHour =
+    TIMES_SCHEDULE.find(hour => {
+      return !isPastTime(hour);
+    }) || '';
+  return defaultHour;
 };
