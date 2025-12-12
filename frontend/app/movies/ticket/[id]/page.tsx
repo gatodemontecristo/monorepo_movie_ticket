@@ -17,7 +17,7 @@ import {
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { useRouter } from 'next/navigation';
 import { TIMES_SCHEDULE } from '@/constants';
-import { useAuth, useMovieDetails, useMovieTheater } from '@/hooks';
+import { useCurrentUser, useMovieDetails, useMovieTheater } from '@/hooks';
 import { useTheaterStore } from '@/store';
 import { getCountryName, getNotAvailableWSeats, getTotal } from '@/utils';
 import { nanoid } from 'nanoid';
@@ -29,16 +29,15 @@ interface Props {
 
 export default function MovieTicketPage({ params }: Props) {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
-
+  const currentUser = useCurrentUser();
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
+    if (!currentUser) {
+      router.push(`/login`);
     }
-  }, [isAuthenticated, router]);
+  }, [currentUser, router]);
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -62,9 +61,7 @@ export default function MovieTicketPage({ params }: Props) {
   return (
     <>
       <ScreenContent
-        isLoading={
-          isLoading || isLoadingTheater || !movieId || !isAuthenticated
-        }
+        isLoading={isLoading || isLoadingTheater || !movieId}
         outside
       >
         <BackgroundContent
