@@ -37,11 +37,8 @@ export class TicketService {
    * Crear un nuevo ticket
    */
   static async createTicket(ticketData: CreateTicketDto): Promise<Ticket> {
-    const response = await apiClient.post<TicketResponse>(
-      '/tickets',
-      ticketData,
-    );
-    return response.data;
+    const response = await apiClient.post<Ticket>('/tickets', ticketData);
+    return response;
   }
 
   /**

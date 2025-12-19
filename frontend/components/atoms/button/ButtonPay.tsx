@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import React from 'react';
+import { GeneralLoader } from '../skeleton';
 interface ButtonPayProps {
   text: string;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 export const ButtonPay = ({
@@ -12,6 +14,7 @@ export const ButtonPay = ({
   text,
   className,
   disabled = false,
+  isLoading = false,
 }: ButtonPayProps) => {
   return (
     <button
@@ -23,9 +26,15 @@ export const ButtonPay = ({
           : ' bg-movie-yellow text-movie-black hover:bg-movie-black hover:text-movie-yellow cursor-pointer',
       )}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
-      {text}
+      {isLoading ? (
+        <div className='relative flex flex-row justify-center my-5'>
+          <GeneralLoader />
+        </div>
+      ) : (
+        text
+      )}
     </button>
   );
 };

@@ -17,12 +17,19 @@ import {
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { useRouter } from 'next/navigation';
 import { TIMES_SCHEDULE } from '@/constants';
-import { useCurrentUser, useMovieDetails, useMovieTheater } from '@/hooks';
+import {
+  useCurrentUser,
+  useMovieDetails,
+  useMovieTheater,
+  useCreateTicket,
+  useCreateMultipleSeats,
+} from '@/hooks';
 import { useTheaterStore } from '@/store';
 import { getCountryName, getNotAvailableWSeats, getTotal } from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { Notyf } from 'notyf';
 interface Props {
   params: Promise<{ id: number }>;
 }
@@ -32,12 +39,13 @@ export default function MovieTicketPage({ params }: Props) {
   const currentUser = useCurrentUser();
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
+  const [isLoadingService, setIsLoadingService] = useState(false);
 
   useEffect(() => {
-    if (!currentUser) {
-      router.push(`/login`);
+    if (!currentUser && movieId) {
+      router.push(`/login?ticketId=${movieId}`);
     }
-  }, [currentUser, router]);
+  }, [currentUser, router, movieId]);
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -52,7 +60,105 @@ export default function MovieTicketPage({ params }: Props) {
     state,
     dispatch,
     isLoading: isLoadingTheater,
-  } = useMovieTheater(634649);
+  } = useMovieTheater(movieId || 0);
+
+  // Hooks for creating ticket and seats
+  const createTicketMutation = useCreateTicket();
+  const createMultipleSeatsMutation = useCreateMultipleSeats();
+
+  // Function to handle the payment process
+  const handlePayment = async () => {
+    setIsLoadingService(true);
+    const notyf = new Notyf();
+
+    try {
+      if (!currentUser) {
+        notyf.error('User not authenticated');
+        return;
+      }
+
+      if (!movie) {
+        notyf.error('Movie information not available');
+        return;
+      }
+
+      // Get selected day
+      const selectedDay = days.find(day => day.highlight);
+      if (!selectedDay) {
+        notyf.error('Please select a day');
+        return;
+      }
+
+      // Validate that there's a selected time
+      if (!hourSelected) {
+        notyf.error('Please select a time');
+        return;
+      }
+
+      // Get selected seats
+      const selectedSeats: Array<{ row: string; number: number }> = [];
+      state.forEach(theater => {
+        theater.lines.forEach(line => {
+          if (line.state === 'selected') {
+            selectedSeats.push({ row: theater.row, number: line.number });
+          }
+        });
+        theater.other_lines.forEach(other_line => {
+          if (other_line.state === 'selected') {
+            selectedSeats.push({ row: theater.row, number: other_line.number });
+          }
+        });
+      });
+
+      if (selectedSeats.length === 0) {
+        notyf.error('Please select at least one seat');
+        return;
+      }
+
+      // Prepare ticket data
+      const ticketData = {
+        iduser: currentUser.id,
+        idmovie: movie.id,
+        price: parseFloat(getTotal(state)),
+        day: selectedDay.date.toISOString().split('T')[0], // YYYY-MM-DD format
+        hour: hourSelected,
+        location: getCountryName(country),
+        movieName: movie.title,
+      };
+
+      notyf.success('Creating ticket...');
+
+      // 1. Create the ticket
+      const createdTicket = await createTicketMutation.mutateAsync(ticketData);
+
+      // 2. Prepare seat positions (convert row string to number)
+
+      const seatPositions = selectedSeats.map(seat => {
+        // Convert row letter to number (A=1, B=2, etc.)
+        const rowNumber = seat.row.charCodeAt(0) - 64;
+        return {
+          row: rowNumber - 1,
+          column: seat.number,
+        };
+      });
+
+      // 3. Create multiple seats
+      await createMultipleSeatsMutation.mutateAsync({
+        ticketId: createdTicket.idticket,
+        seatPositions: seatPositions,
+      });
+
+      notyf.success('Ticket and seats created successfully!');
+
+      // Redirect to a confirmation page or tickets list
+      // router.push('/my-tickets');
+    } catch (error) {
+      notyf.error('Failed to create ticket. Please try again.');
+    } finally {
+      setIsLoadingService(false);
+    }
+  };
+
   if (error) {
     notFound();
   }
@@ -151,7 +257,9 @@ export default function MovieTicketPage({ params }: Props) {
                     ? 'Disabled :('
                     : 'Go to pay'
                 }
+                isLoading={isLoadingService}
                 disabled={hourSelected === '' || getNotAvailableWSeats(state)}
+                onClick={handlePayment}
               />
             </div>
           </div>
