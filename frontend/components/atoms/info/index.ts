@@ -5,3 +5,5 @@ export * from './NoCast';
 export * from './InfoBox';
 export * from './TitleInfo';
 export * from './MsgError';
+export * from './NotSeats';
+export * from './InfoRow';

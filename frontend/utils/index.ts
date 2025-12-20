@@ -3,3 +3,4 @@ export * from './genres-storage';
 export * from './format';
 export * from './theather';
 export * from './countries';
+export * from './date-formatter';

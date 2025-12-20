@@ -51,7 +51,11 @@ export const MenuBar = () => {
       <div className='flex flex-row items-center gap-10'>
         <SearchMovie></SearchMovie>
         {BUTTON_NAVIGATION.map(button => (
-          <ButtonMenu text={button.name} key={nanoid()}></ButtonMenu>
+          <ButtonMenu
+            text={button.name}
+            key={nanoid()}
+            href={button.href}
+          ></ButtonMenu>
         ))}
         <div
           className='relative'
@@ -67,11 +71,12 @@ export const MenuBar = () => {
             priority
           />
           <div
-            className={`absolute top-16 right-0 w-72 bg-movie-black/95 backdrop-blur-sm border border-movie-duck/20 rounded-xl shadow-2xl transform transition-all duration-300 ease-out ${
-              showUserTooltip
-                ? 'opacity-100 translate-y-0 pointer-events-auto'
-                : 'opacity-0 -translate-y-2 pointer-events-none'
-            }`}
+            className={`absolute top-15  right-0 w-72 bg-movie-black/95 backdrop-blur-sm border border-movie-duck/20 rounded-xl shadow-2xl transform transition-all duration-500 ease-initial
+ ${
+   showUserTooltip
+     ? 'opacity-100 translate-y-0 pointer-events-auto'
+     : 'opacity-0 -translate-y-2 pointer-events-none'
+ }`}
           >
             <UserStatusDialog
               currentUser={currentUser}

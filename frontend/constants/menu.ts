@@ -6,11 +6,11 @@ export interface ButtonNavigation {
 }
 export const BUTTON_NAVIGATION: ButtonNavigation[] = [
   {
-    name: 'Home',
-    href: '/',
-  },
-  {
     name: 'Movies',
     href: '/movies',
+  },
+  {
+    name: 'Tickets',
+    href: '/movies/history',
   },
 ];

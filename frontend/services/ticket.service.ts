@@ -37,11 +37,8 @@ export class TicketService {
    * Crear un nuevo ticket
    */
   static async createTicket(ticketData: CreateTicketDto): Promise<Ticket> {
-    const response = await apiClient.post<TicketResponse>(
-      '/tickets',
-      ticketData,
-    );
-    return response.data;
+    const response = await apiClient.post<Ticket>('/tickets', ticketData);
+    return response;
   }
 
   /**
@@ -74,10 +71,8 @@ export class TicketService {
    * Obtener tickets por ID de usuario
    */
   static async getTicketsByUserId(userId: string): Promise<Ticket[]> {
-    const response = await apiClient.get<TicketsListResponse>(
-      `/tickets/user/${userId}`,
-    );
-    return response.data;
+    const response = await apiClient.get<Ticket[]>(`/tickets/user/${userId}`);
+    return response;
   }
 
   /**

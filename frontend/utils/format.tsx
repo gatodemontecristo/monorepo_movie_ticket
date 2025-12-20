@@ -32,9 +32,17 @@ const formatDate = (date: Date) => {
   const year = date.getFullYear();
   return `${day} ${month}, ${year}`;
 };
-export const getDays = () => {
+export interface DayProps {
+  label: string;
+  format: string;
+  dayOfWeek: string;
+  date: Date;
+  highlight: boolean;
+  type: 'past' | 'current' | 'future';
+}
+export const getDays = (): DayProps[] => {
   const today = new Date();
-  const days = [];
+  const days: DayProps[] = [];
   // Ayer
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);

@@ -28,4 +28,5 @@ export const TIMES_SCHEDULE = [
   '20:30 pm',
   '21:30 pm',
   '22:45 pm',
+  '23:45 pm',
 ];
