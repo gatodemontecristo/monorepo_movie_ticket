@@ -1,3 +1,5 @@
+import { Ticket } from '@/types';
+
 /**
  * Formats a date string from 'YYYY-MM-DD' format to 'MMM DD, YYYY' format
  * @param dateString - Date string in format 'YYYY-MM-DD' (e.g., '2025-12-18')
@@ -56,4 +58,22 @@ export const splitDateTime = (
   } catch (error) {
     return { date: '-', time: '-' };
   }
+};
+
+export const getTicketStatus = (ticket: Ticket): 'Pending' | 'Finished' => {
+  const now = new Date();
+
+  const [time, period] = ticket.hour.toLowerCase().split(' ');
+  const splitTime = time.split(':').map(Number);
+
+  let hours = splitTime[0];
+  const minutes = splitTime[1];
+
+  if (period === 'pm' && hours < 12) hours += 12;
+  if (period === 'am' && hours === 12) hours = 0;
+
+  const ticketDate = new Date(ticket.day);
+  ticketDate.setHours(hours, minutes, 0, 0);
+
+  return ticketDate > now ? 'Pending' : 'Finished';
 };
