@@ -27,7 +27,6 @@ export default function LoginPage() {
             <SignFormMain.Link />
             <SignFormMain.Captcha />
           </SignFormMain>
-          // <SignUpForm onSignUp={toggleForm} />
         )}
       </div>
     </div>
