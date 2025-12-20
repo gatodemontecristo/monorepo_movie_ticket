@@ -51,7 +51,11 @@ export const MenuBar = () => {
       <div className='flex flex-row items-center gap-10'>
         <SearchMovie></SearchMovie>
         {BUTTON_NAVIGATION.map(button => (
-          <ButtonMenu text={button.name} key={nanoid()}></ButtonMenu>
+          <ButtonMenu
+            text={button.name}
+            key={nanoid()}
+            href={button.href}
+          ></ButtonMenu>
         ))}
         <div
           className='relative'

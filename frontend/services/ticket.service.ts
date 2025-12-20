@@ -71,10 +71,8 @@ export class TicketService {
    * Obtener tickets por ID de usuario
    */
   static async getTicketsByUserId(userId: string): Promise<Ticket[]> {
-    const response = await apiClient.get<TicketsListResponse>(
-      `/tickets/user/${userId}`,
-    );
-    return response.data;
+    const response = await apiClient.get<Ticket[]>(`/tickets/user/${userId}`);
+    return response;
   }
 
   /**

@@ -29,8 +29,11 @@ export const FormLogin = () => {
 
       // Check if there's a ticketId parameter to redirect back to the specific ticket page
       const ticketId = searchParams.get('ticketId');
+      const originPath = searchParams.get('origin');
       if (ticketId) {
         router.push(`/movies/ticket/${ticketId}`);
+      } else if (originPath) {
+        router.push(`/movies/${originPath}`);
       } else {
         router.push('/movies');
       }

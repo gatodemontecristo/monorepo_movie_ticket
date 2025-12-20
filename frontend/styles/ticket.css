@@ -1,3 +1,35 @@
+.aux-container3 {
+  -webkit-mask-image:
+    radial-gradient(
+      circle 10px at center right,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    ),
+    radial-gradient(
+      circle 10px at center left,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    );
+  mask-image:
+    radial-gradient(
+      circle 10px at center right,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    ),
+    radial-gradient(
+      circle 10px at center left,
+      transparent 0,
+      transparent 20px,
+      black 21px
+    );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in; /* Safari */
+  mask-composite: intersect; /* Otros navegadores */
+}
 .aux-container {
   -webkit-mask-image:
     radial-gradient(
