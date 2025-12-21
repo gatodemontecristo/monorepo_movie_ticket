@@ -15,7 +15,7 @@ export const TicketHistory = ({ ticket }: TicketHistoryProps) => {
   return (
     <div className='flex flex-row w-1/3 h-[170px] aux-container3'>
       <div className='bg-movie-yellow w-1/5 p-4 flex flex-col items-center justify-center'>
-        <p className='[writing-mode:vertical-lr] rotate-180  text-rotate-0 text-2xl  text-white font-bold font-caros'>
+        <p className='[writing-mode:vertical-rl] rotate-180  text-rotate-0 text-2xl  text-white font-bold font-caros'>
           {ticket.movieName}
         </p>
       </div>

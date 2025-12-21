@@ -21,13 +21,6 @@ export default function HistoryPage() {
     isLoading,
     error,
   } = useTicketsByUserId(currentUser?.id || '');
-  if (isLoading) {
-    return (
-      <div className='min-h-screen bg-movie-black p-8 mt-20 flex items-center justify-center'>
-        <p className='text-movie-white font-mont text-xl'>Loading tickets...</p>
-      </div>
-    );
-  }
 
   if (error) {
     return (
