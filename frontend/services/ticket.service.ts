@@ -25,12 +25,13 @@ export class TicketService {
 
   /**
    * Obtener un ticket por su ID (incluye asientos asociados)
+   * Endpoint público - no requiere autenticación
    */
   static async getTicketById(id: string): Promise<TicketWithSeats> {
-    const response = await apiClient.get<TicketWithSeatsResponse>(
+    const response = await apiClient.getPublic<TicketWithSeats>(
       `/tickets/${id}`,
     );
-    return response.data;
+    return response;
   }
 
   /**

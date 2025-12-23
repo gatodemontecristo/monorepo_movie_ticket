@@ -46,9 +46,43 @@ export class ApiClient {
     return response.json();
   }
 
+  // Request sin autenticación
+  private async requestWithoutAuth<T>(
+    endpoint: string,
+    options: RequestInit = {},
+  ): Promise<T> {
+    const url = `${this.baseURL}${endpoint}`;
+
+    const config: RequestInit = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    };
+
+    // NO agregar token de autorización para requests públicos
+
+    const response = await fetch(url, config);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.error || `HTTP error! status: ${response.status}`,
+      );
+    }
+
+    return response.json();
+  }
+
   // Métodos GET
   async get<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, { method: 'GET' });
+  }
+
+  // GET público (sin autenticación)
+  async getPublic<T>(endpoint: string): Promise<T> {
+    return this.requestWithoutAuth<T>(endpoint, { method: 'GET' });
   }
 
   // Métodos POST

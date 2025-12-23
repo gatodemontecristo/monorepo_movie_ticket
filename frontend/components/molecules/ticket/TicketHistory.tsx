@@ -1,5 +1,7 @@
+import { useCurrentUser } from '@/hooks';
 import { Ticket } from '@/types';
 import { formatDateString, getTicketStatus, splitDateTime } from '@/utils';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaCalendar, FaLocationDot } from 'react-icons/fa6';
 
@@ -7,13 +9,24 @@ interface TicketHistoryProps {
   ticket: Ticket;
 }
 export const TicketHistory = ({ ticket }: TicketHistoryProps) => {
+  const router = useRouter();
+  const currentUser = useCurrentUser();
   const status = getTicketStatus(ticket);
   const statusColor =
     status === 'Pending' ? 'text-green-400' : 'text-movie-grey';
   const statusBgColor = status === 'Pending' ? 'bg-green-400' : 'bg-movie-grey';
 
+  const handleClick = () => {
+    router.push(
+      `/movies/detail?idMovie=${ticket.idmovie}&userId=${currentUser?.id}&ticketId=${ticket.idticket}`,
+    );
+  };
+
   return (
-    <div className='flex flex-row w-1/3 h-[170px] aux-container3'>
+    <div
+      className='flex flex-row w-1/3 h-[170px] aux-container3 cursor-pointer'
+      onClick={handleClick}
+    >
       <div className='bg-movie-yellow w-1/5 p-4 flex flex-col items-center justify-center'>
         <p className='[writing-mode:vertical-rl] rotate-180  text-rotate-0 text-2xl  text-white font-bold font-caros'>
           {ticket.movieName}

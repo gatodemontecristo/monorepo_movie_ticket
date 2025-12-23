@@ -5,12 +5,15 @@ import { InputEmail, InputPassword } from '@/components/molecules';
 import { useLogin } from '@/hooks/useUser';
 import { LoginUserDto } from '@/types/user';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import { Notyf } from 'notyf';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export const FormLogin = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const errorMessage = searchParams.get('error');
+
   const {
     register,
     handleSubmit,
@@ -18,6 +21,15 @@ export const FormLogin = () => {
   } = useForm<LoginUserDto>();
   const { mutateAsync: login, isError, isPending, error } = useLogin();
   const [errorLogin, setErrorLogin] = useState<string | null>(null);
+
+  // Show error message from URL parameter using Notyf
+  useEffect(() => {
+    if (errorMessage) {
+      const notyf = new Notyf();
+      notyf.error(decodeURIComponent(errorMessage));
+    }
+  }, [errorMessage]);
+
   const onSubmit = async (
     data: LoginUserDto,
     event?: React.BaseSyntheticEvent,
