@@ -43,11 +43,17 @@ export const FormLogin = () => {
       const ticketId = searchParams.get('ticketId');
       const originPath = searchParams.get('origin');
       if (ticketId) {
-        router.push(`/movies/ticket/${ticketId}`);
+        router.push(
+          `/movies/ticket/${ticketId}?message=${encodeURIComponent('Login successful!')}`,
+        );
       } else if (originPath) {
-        router.push(`/movies/${originPath}`);
+        router.push(
+          `/movies/${originPath}?message=${encodeURIComponent('Login successful!')}`,
+        );
       } else {
-        router.push('/movies');
+        router.push(
+          `/movies?message=${encodeURIComponent('Login successful!')}`,
+        );
       }
     } catch (error) {
       setErrorLogin('Login failed: ' + error);

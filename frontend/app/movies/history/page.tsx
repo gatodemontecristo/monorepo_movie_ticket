@@ -3,14 +3,22 @@
 import { useCurrentUser, useTicketsByUserId } from '@/hooks';
 import { nanoid } from 'nanoid';
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TicketHistory } from '@/components/molecules/ticket';
 import { ScreenContent } from '@/components/molecules/ScreenContent';
+import { Notyf } from 'notyf';
 
 export default function HistoryPage() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const successMessage = searchParams.get('message');
   const currentUser = useCurrentUser();
+  useEffect(() => {
+    if (successMessage) {
+      const notyf = new Notyf();
+      notyf.success(decodeURIComponent(successMessage));
+    }
+  }, [successMessage]);
   useEffect(() => {
     if (!currentUser) {
       router.push(

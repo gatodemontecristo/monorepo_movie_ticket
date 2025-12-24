@@ -34,12 +34,12 @@ export default function DetailPage() {
   } = useSeatsByTicketId(ticketId || '');
 
   useEffect(() => {
-    if (!idMovie || !userId || !ticketId) {
+    if (!idMovie || !userId || !ticketId || ticketError || seatsError) {
       router.push(
         `/login?error=${encodeURIComponent('Ticket format not found')}`,
       );
     }
-  }, [idMovie, userId, ticketId]);
+  }, [idMovie, userId, ticketId, ticketError, seatsError]);
   const {
     data: movie,
     error: errorMovie,

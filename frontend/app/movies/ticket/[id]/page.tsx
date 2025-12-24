@@ -15,7 +15,7 @@ import {
   TicketSeatTable,
 } from '@/components';
 import ReviewPanel from '@/components/organisms/ReviewPanel';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TIMES_SCHEDULE } from '@/constants';
 import {
   useCurrentUser,
@@ -36,6 +36,14 @@ interface Props {
 
 export default function MovieTicketPage({ params }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const successMessage = searchParams.get('message');
+  useEffect(() => {
+    if (successMessage) {
+      const notyf = new Notyf();
+      notyf.success(decodeURIComponent(successMessage));
+    }
+  }, [successMessage]);
   const currentUser = useCurrentUser();
   const [country, setCountry] = useState('US');
   const [movieId, setMovieId] = useState<number | null>(null);
@@ -128,8 +136,6 @@ export default function MovieTicketPage({ params }: Props) {
         movieName: movie.title,
       };
 
-      notyf.success('Creating ticket...');
-
       // 1. Create the ticket
       const createdTicket = await createTicketMutation.mutateAsync(ticketData);
 
@@ -149,11 +155,10 @@ export default function MovieTicketPage({ params }: Props) {
         ticketId: createdTicket.idticket,
         seatPositions: seatPositions,
       });
-
-      notyf.success('Ticket and seats created successfully!');
-
-      // Redirect to a confirmation page or tickets list
-      // router.push('/my-tickets');
+      // 4. Redirect to history with success message
+      router.push(
+        `/history?message=${encodeURIComponent('Ticket and seats created successfully!')}`,
+      );
     } catch (error) {
       notyf.error('Failed to create ticket. Please try again.');
     } finally {

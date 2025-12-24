@@ -11,7 +11,9 @@ import FooterSection from '@/components/organisms/FooterSection';
 import { COMPLETE_RESOURCES_SECTION } from '@/constants';
 import { useSearchMovies } from '@/hooks';
 import { useSearchStore } from '@/store';
-import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Notyf } from 'notyf';
+import React, { useEffect } from 'react';
 import { RxCross2 } from 'react-icons/rx';
 
 export default function MoviesLayout({
@@ -19,6 +21,14 @@ export default function MoviesLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const searchParams = useSearchParams();
+  const successMessage = searchParams.get('message');
+  useEffect(() => {
+    if (successMessage) {
+      const notyf = new Notyf();
+      notyf.success(decodeURIComponent(successMessage));
+    }
+  }, [successMessage]);
   const { searchValue, isSearchActive, setSearchValue, setIsSearchActive } =
     useSearchStore();
   const { data, isLoading } = useSearchMovies(searchValue);
