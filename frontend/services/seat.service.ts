@@ -74,10 +74,8 @@ export class SeatService {
    * Obtener asientos por ID de ticket
    */
   static async getSeatsByTicketId(ticketId: string): Promise<Seat[]> {
-    const response = await apiClient.get<SeatsListResponse>(
-      `/seats/ticket/${ticketId}`,
-    );
-    return response.data;
+    const response = await apiClient.get<Seat[]>(`/seats/ticket/${ticketId}`);
+    return response;
   }
 
   /**

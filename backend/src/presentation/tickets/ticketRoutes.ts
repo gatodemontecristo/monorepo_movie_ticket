@@ -19,7 +19,7 @@ const ticketController = new TicketController(ticketRepository, userRepository);
 
 // CRUD Tickets (requieren autenticación)
 router.get('/', authMiddleware, ticketController.getListTicket);
-router.get('/:id', authMiddleware, ticketController.getTicketById);
+router.get('/:id', ticketController.getTicketById);
 router.post('/', authMiddleware, ticketController.createTicket);
 router.put('/:id', authMiddleware, ticketController.updateTicket);
 router.delete('/:id', authMiddleware, ticketController.deleteTicket);

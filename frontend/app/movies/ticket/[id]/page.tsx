@@ -43,7 +43,9 @@ export default function MovieTicketPage({ params }: Props) {
 
   useEffect(() => {
     if (!currentUser && movieId) {
-      router.push(`/login?ticketId=${movieId}`);
+      router.push(
+        `/login?ticketId=${movieId}&error=${encodeURIComponent('You must be logged in to book tickets')}`,
+      );
     }
   }, [currentUser, router, movieId]);
 
