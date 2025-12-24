@@ -13,7 +13,9 @@ export default function HistoryPage() {
   const currentUser = useCurrentUser();
   useEffect(() => {
     if (!currentUser) {
-      router.push(`/login?origin=history`);
+      router.push(
+        `/login?origin=history&error=${encodeURIComponent('You must be logged in to view your ticket history')}`,
+      );
     }
   }, [currentUser, router]);
   const {

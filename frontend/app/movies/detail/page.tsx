@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { ScreenContent } from '@/components/molecules/ScreenContent';
-import { useMovieDetails, useTicketById } from '@/hooks';
+import { useMovieDetails, useTicketById, useSeatsByTicketId } from '@/hooks';
 import { formatDateString } from '@/utils';
 import Image from 'next/image';
 import { NOT_FOUND_BACKGROUND } from '@/constants';
@@ -24,12 +24,19 @@ export default function DetailPage() {
     data: ticketData,
     error: ticketError,
     isLoading: isLoadingTicket,
-  } = useTicketById('ff8449d9-9bb8-45fe-b09c-0535bb504525');
+  } = useTicketById(ticketId || '');
+
+  // Hook para obtener asientos por ticket ID
+  const {
+    data: seatsData,
+    error: seatsError,
+    isLoading: isLoadingSeats,
+  } = useSeatsByTicketId(ticketId || '');
 
   useEffect(() => {
     if (!idMovie || !userId || !ticketId) {
       router.push(
-        `/login?error=${encodeURIComponent('You must be logged in to view ticket details')}`,
+        `/login?error=${encodeURIComponent('Ticket format not found')}`,
       );
     }
   }, [idMovie, userId, ticketId]);
@@ -42,17 +49,28 @@ export default function DetailPage() {
   if (!movie || ticketError || errorMovie || !ticketData) {
     return <div>Movie not found</div>;
   }
+
+  // Formatear asientos en el formato solicitado (D12, D13, D14)
+  const formattedSeats =
+    seatsData && seatsData.length > 0
+      ? seatsData
+          .map(seat => `${String.fromCharCode(65 + seat.row)}${seat.column}`)
+          .join(', ')
+      : 'No seats assigned';
+
   return (
     <ScreenContent
       isLoading={
-        isLoadingMovie || !idMovie || !userId || !ticketId || isLoadingTicket
+        isLoadingMovie ||
+        !idMovie ||
+        !userId ||
+        !ticketId ||
+        isLoadingTicket ||
+        isLoadingSeats
       }
       outside
     >
       <div className='min-h-screen bg-movie-black p-8 mt-24 flex flex-col items-center gap-4'>
-        <p className='w-full text-4xl font-mont font-medium text-movie-white mb-8 text-center'>
-          My Ticket History 2
-        </p>
         <div className='bg-movie-white w-1/3 rounded-3xl p-4 flex flex-col'>
           <Image
             src={
@@ -100,7 +118,7 @@ export default function DetailPage() {
             <div className='flex flex-row text-lg mt-4 '>
               <div className='flex flex-col items-start w-1/3 p-2'>
                 <p>Seats</p>
-                <p className='text-2xl font-bold'>D12, D13, D14</p>
+                <p className='text-2xl font-bold'>{formattedSeats}</p>
               </div>
               <div className='flex flex-col w-2/3 border-s-3 border-dashed border-movie-grey p-2 px-5 justify-start items-start'>
                 <p>QR code generated</p>
@@ -110,9 +128,12 @@ export default function DetailPage() {
                 />
               </div>
             </div>
-            <div className='flex flex-row text-lg mt-4 '>
+            <div className='flex flex-col text-lg mt-4 '>
               <p className='font-mont text-movie-grey leading-none text-[15px] text-justify'>
                 {movie.overview}
+              </p>
+              <p className='font-mont text-movie-grey leading-none text-[14px] text-center mt-6'>
+                {ticketData.idticket}
               </p>
             </div>
           </div>
