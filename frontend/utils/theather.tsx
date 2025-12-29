@@ -1,4 +1,5 @@
 import {
+  LIMIT_SEATS,
   LINES_THEATHER_A,
   LINES_THEATHER_B,
   ROWS_THEATHER,
@@ -61,7 +62,28 @@ export const getNotAvailableWSeats = (state: MovieTheather[]) => {
       }
     });
   });
+
   return notAvailable;
+};
+export const getCountSeatsSelected = (state: MovieTheather[]): boolean => {
+  let cont = 0;
+  state.forEach(theater => {
+    theater.lines.forEach(line => {
+      if (line.state === 'selected') {
+        cont++;
+      }
+    });
+    theater.other_lines.forEach(other_line => {
+      if (other_line.state === 'selected') {
+        cont++;
+      }
+    });
+  });
+  if (cont >= LIMIT_SEATS) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const getDefaultHour = () => {

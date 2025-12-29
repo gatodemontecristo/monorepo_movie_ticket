@@ -23,7 +23,7 @@ const MoreSectionContext = createContext<MoreSectionValue>({
 const MoreSection = ({ movie, credits, children }: MoreSectionProps) => {
   return (
     <MoreSectionContext.Provider value={{ movie, credits }}>
-      <div className='absolute inset-0 flex items-center justify-around text-movie-white'>
+      <div className='absolute inset-0 flex items-center justify-around text-movie-white z-50'>
         {children}
       </div>
     </MoreSectionContext.Provider>

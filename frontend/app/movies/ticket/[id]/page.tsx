@@ -25,7 +25,12 @@ import {
   useCreateMultipleSeats,
 } from '@/hooks';
 import { useTheaterStore } from '@/store';
-import { getCountryName, getNotAvailableWSeats, getTotal } from '@/utils';
+import {
+  getCountryName,
+  getCountSeatsSelected,
+  getNotAvailableWSeats,
+  getTotal,
+} from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -157,7 +162,7 @@ export default function MovieTicketPage({ params }: Props) {
       });
       // 4. Redirect to history with success message
       router.push(
-        `/history?message=${encodeURIComponent('Ticket and seats created successfully!')}`,
+        `/movies/history?message=${encodeURIComponent('Ticket and seats created successfully!')}`,
       );
     } catch (error) {
       notyf.error('Failed to create ticket. Please try again.');
@@ -171,6 +176,13 @@ export default function MovieTicketPage({ params }: Props) {
   }
 
   const { days, hourSelected, setHourSelected } = useTheaterStore();
+  const disableButton = hourSelected === '' || getNotAvailableWSeats(state);
+  useEffect(() => {
+    if (getCountSeatsSelected(state)) {
+      const notyf = new Notyf();
+      notyf.error(`You can select a maximum of 5 seats per booking.`);
+    }
+  }, [state]);
   return (
     <>
       <ScreenContent
@@ -215,6 +227,7 @@ export default function MovieTicketPage({ params }: Props) {
                   key={nanoid()}
                   theather={theater}
                   dispatch={dispatch}
+                  disable={getCountSeatsSelected(state)}
                 >
                   <MovieTheater.MovieSection lines={theater.lines} isReverse />
                   <MovieTheater.MovieSection lines={theater.other_lines} />
@@ -259,13 +272,9 @@ export default function MovieTicketPage({ params }: Props) {
             >
               <ButtonPay
                 className='w-full'
-                text={
-                  hourSelected === '' || getNotAvailableWSeats(state)
-                    ? 'Disabled :('
-                    : 'Go to pay'
-                }
+                text={disableButton ? 'Disabled :(' : 'Go to pay'}
                 isLoading={isLoadingService}
-                disabled={hourSelected === '' || getNotAvailableWSeats(state)}
+                disabled={disableButton}
                 onClick={handlePayment}
               />
             </div>

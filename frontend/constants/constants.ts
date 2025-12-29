@@ -30,3 +30,4 @@ export const TIMES_SCHEDULE = [
   '22:45 pm',
   '23:45 pm',
 ];
+export const MESSAGE_LOGIN = 'Login successful! Welcome back.';

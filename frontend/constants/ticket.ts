@@ -24,3 +24,4 @@ export const GENERAL_SEAT_CATEGORIES: GeneralSeatCategoryProps[] = [
 export type SEAT_SIZES = 'small' | 'medium' | 'large';
 export type SEAT_STATES = 'available' | 'selected' | 'unavailable';
 export const SEAT_PRICE = 20.99;
+export const LIMIT_SEATS = 5;
