@@ -150,7 +150,7 @@ export default function MovieTicketPage({ params }: Props) {
         // Convert row letter to number (A=1, B=2, etc.)
         const rowNumber = seat.row.charCodeAt(0) - 64;
         return {
-          row: rowNumber - 1,
+          row: rowNumber,
           column: seat.number,
         };
       });

@@ -54,7 +54,9 @@ export default function DetailPage() {
   const formattedSeats =
     seatsData && seatsData.length > 0
       ? seatsData
-          .map(seat => `${String.fromCharCode(65 + seat.row)}${seat.column}`)
+          .map(
+            seat => `${String.fromCharCode(65 + seat.row - 1)}${seat.column}`,
+          )
           .join(', ')
       : 'No seats assigned';
 
