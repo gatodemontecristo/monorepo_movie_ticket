@@ -6,6 +6,7 @@ import {
   ButtonHome,
   ButtonPay,
   DaySelected,
+  FormTicketMain,
   HourSchedule,
   MovieTheater,
   SadLine,
@@ -236,40 +237,12 @@ export default function MovieTicketPage({ params }: Props) {
             </div>
             <SeatLegend />
           </div>
-          <div className='flex flex-col w-1/4 relative justify-start items-start'>
-            <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 w-[90%] items-center rounded-lg gap-2'>
-              <p className='font-mont text-movie-white text-xl uppercase font-bold'>
-                Tickets
-              </p>
-              <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-bold'>
-                <p>PVR</p>
-                <p>{getCountryName(country)}</p>
-              </div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm'>
-                <div className='flex flex-col'>
-                  <p>{days.find(day => day.highlight)?.dayOfWeek}</p>
-                  <p className='text-xs italic'>
-                    {hourSelected || 'No time available'}
-                  </p>
-                </div>
-                <p>{days.find(day => day.highlight)?.format}</p>
-              </div>
-
-              <TicketSeatTable
-                isEmpty={getNotAvailableWSeats(state)}
-                state={state}
-              />
-              <div className='w-full border-t border-1 border-movie-white border-dashed my-2'></div>
-              <div className='text-movie-white flex flex-row justify-between w-full font-mont text-sm font-semibold'>
-                <p>Total</p>
-                <p>${getTotal(state)}</p>
-              </div>
-            </div>
-            <div
-              className='aux-container-2 bg-movie-grey flex flex-col  w-[90%] items-center
-             rounded-lg'
-            >
+          <FormTicketMain
+            country={country}
+            hourSelected={hourSelected}
+            days={days}
+            state={state}
+            button={
               <ButtonPay
                 className='w-full'
                 text={disableButton ? 'Disabled :(' : 'Go to pay'}
@@ -277,8 +250,17 @@ export default function MovieTicketPage({ params }: Props) {
                 disabled={disableButton}
                 onClick={handlePayment}
               />
-            </div>
-          </div>
+            }
+          >
+            <FormTicketMain.Title title='Tickets' />
+            <FormTicketMain.Country title='PVR' />
+            <FormTicketMain.InfoCountry />
+            <TicketSeatTable
+              isEmpty={getNotAvailableWSeats(state)}
+              state={state}
+            />
+            <FormTicketMain.Total title='Total' />
+          </FormTicketMain>
         </div>
         <div className='relative flex flex-row w-full items-center justify-center my-5 z-50'>
           <ButtonHome type='filled' />

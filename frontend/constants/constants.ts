@@ -31,3 +31,4 @@ export const TIMES_SCHEDULE = [
   '23:45 pm',
 ];
 export const MESSAGE_LOGIN = 'Login successful! Welcome back.';
+export const DEFAULT_REGION = 'US';
