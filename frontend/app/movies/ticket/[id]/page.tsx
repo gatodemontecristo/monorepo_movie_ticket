@@ -18,29 +18,35 @@ import {
 import ReviewPanel from '@/components/organisms/ReviewPanel';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TIMES_SCHEDULE } from '@/constants';
-import {
-  useCurrentUser,
-  useMovieDetails,
-  useMovieTheater,
-  useCreateTicket,
-  useCreateMultipleSeats,
-} from '@/hooks';
-import { useTheaterStore } from '@/store';
-import {
-  getCountryName,
-  getCountSeatsSelected,
-  getNotAvailableWSeats,
-  getTotal,
-} from '@/utils';
+import { useCurrentUser, usePayment } from '@/hooks';
+import { getCountSeatsSelected, getNotAvailableWSeats } from '@/utils';
 import { nanoid } from 'nanoid';
 import { notFound } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Notyf } from 'notyf';
 interface Props {
   params: Promise<{ id: number }>;
 }
 
 export default function MovieTicketPage({ params }: Props) {
+  const {
+    handlePayment,
+    isLoadingService,
+    setMovieId,
+    movieId,
+    movie,
+    error,
+    isLoading,
+    country,
+    setCountry,
+    state,
+    isLoadingTheater,
+    dispatch,
+    days,
+    hourSelected,
+    setHourSelected,
+  } = usePayment();
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const successMessage = searchParams.get('message');
@@ -51,9 +57,6 @@ export default function MovieTicketPage({ params }: Props) {
     }
   }, [successMessage]);
   const currentUser = useCurrentUser();
-  const [country, setCountry] = useState('US');
-  const [movieId, setMovieId] = useState<number | null>(null);
-  const [isLoadingService, setIsLoadingService] = useState(false);
 
   useEffect(() => {
     if (!currentUser && movieId) {
@@ -71,112 +74,10 @@ export default function MovieTicketPage({ params }: Props) {
     resolveParams();
   }, [params]);
 
-  const { data: movie, error, isLoading } = useMovieDetails(movieId || 0);
-  const {
-    state,
-    dispatch,
-    isLoading: isLoadingTheater,
-  } = useMovieTheater(movieId || 0);
-
-  // Hooks for creating ticket and seats
-  const createTicketMutation = useCreateTicket();
-  const createMultipleSeatsMutation = useCreateMultipleSeats();
-
-  // Function to handle the payment process
-  const handlePayment = async () => {
-    setIsLoadingService(true);
-    const notyf = new Notyf();
-
-    try {
-      if (!currentUser) {
-        notyf.error('User not authenticated');
-        return;
-      }
-
-      if (!movie) {
-        notyf.error('Movie information not available');
-        return;
-      }
-
-      // Get selected day
-      const selectedDay = days.find(day => day.highlight);
-      if (!selectedDay) {
-        notyf.error('Please select a day');
-        return;
-      }
-
-      // Validate that there's a selected time
-      if (!hourSelected) {
-        notyf.error('Please select a time');
-        return;
-      }
-
-      // Get selected seats
-      const selectedSeats: Array<{ row: string; number: number }> = [];
-      state.forEach(theater => {
-        theater.lines.forEach(line => {
-          if (line.state === 'selected') {
-            selectedSeats.push({ row: theater.row, number: line.number });
-          }
-        });
-        theater.other_lines.forEach(other_line => {
-          if (other_line.state === 'selected') {
-            selectedSeats.push({ row: theater.row, number: other_line.number });
-          }
-        });
-      });
-
-      if (selectedSeats.length === 0) {
-        notyf.error('Please select at least one seat');
-        return;
-      }
-
-      // Prepare ticket data
-      const ticketData = {
-        iduser: currentUser.id,
-        idmovie: movie.id,
-        price: parseFloat(getTotal(state)),
-        day: selectedDay.date.toISOString().split('T')[0], // YYYY-MM-DD format
-        hour: hourSelected,
-        location: getCountryName(country),
-        movieName: movie.title,
-      };
-
-      // 1. Create the ticket
-      const createdTicket = await createTicketMutation.mutateAsync(ticketData);
-
-      // 2. Prepare seat positions (convert row string to number)
-
-      const seatPositions = selectedSeats.map(seat => {
-        // Convert row letter to number (A=1, B=2, etc.)
-        const rowNumber = seat.row.charCodeAt(0) - 64;
-        return {
-          row: rowNumber,
-          column: seat.number,
-        };
-      });
-
-      // 3. Create multiple seats
-      await createMultipleSeatsMutation.mutateAsync({
-        ticketId: createdTicket.idticket,
-        seatPositions: seatPositions,
-      });
-      // 4. Redirect to history with success message
-      router.push(
-        `/movies/history?message=${encodeURIComponent('Ticket and seats created successfully!')}`,
-      );
-    } catch (error) {
-      notyf.error('Failed to create ticket. Please try again.');
-    } finally {
-      setIsLoadingService(false);
-    }
-  };
-
   if (error) {
     notFound();
   }
 
-  const { days, hourSelected, setHourSelected } = useTheaterStore();
   const disableButton = hourSelected === '' || getNotAvailableWSeats(state);
   useEffect(() => {
     if (getCountSeatsSelected(state)) {

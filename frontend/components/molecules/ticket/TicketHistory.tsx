@@ -4,6 +4,7 @@ import { formatDateString, getTicketStatus, splitDateTime } from '@/utils';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaCalendar, FaLocationDot } from 'react-icons/fa6';
+import { MdNavigateNext } from 'react-icons/md';
 
 interface TicketHistoryProps {
   ticket: Ticket;
@@ -24,7 +25,8 @@ export const TicketHistory = ({ ticket }: TicketHistoryProps) => {
 
   return (
     <div
-      className='flex flex-row w-1/3 h-[170px] aux-container3 cursor-pointer'
+      className='group relative flex flex-row w-2/5 h-[170px] aux-container3 cursor-pointer
+             transition-transform duration-300 ease-out hover:-translate-x-5'
       onClick={handleClick}
     >
       <div className='bg-movie-yellow w-1/5 p-4 flex flex-col items-center justify-center'>

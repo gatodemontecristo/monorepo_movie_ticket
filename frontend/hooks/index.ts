@@ -8,3 +8,4 @@ export * from './useMovieTheater';
 export * from './useUser';
 export * from './useTickets';
 export * from './useSeats';
+export * from './usePayment';
