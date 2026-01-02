@@ -11,7 +11,7 @@ import FooterSection from '@/components/organisms/FooterSection';
 import { COMPLETE_RESOURCES_SECTION } from '@/constants';
 import { useSearchMovies } from '@/hooks';
 import { useSearchStore } from '@/store';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Notyf } from 'notyf';
 import React, { useEffect } from 'react';
 import { RxCross2 } from 'react-icons/rx';

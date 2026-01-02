@@ -5,18 +5,21 @@ interface InfoLabelProps {
   text?: string;
   subtext?: string;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export const InfoLabel = ({
   text = '-',
   subtext,
   children,
+  className,
 }: InfoLabelProps) => {
   return (
     <div
       className={clsx(
         'font-mont',
-        children && 'flex flex-row items-center justify-end gap-1',
+        className,
+        children && 'flex flex-row items-center justify-end gap-1 ',
       )}
     >
       {text}
