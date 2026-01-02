@@ -10,6 +10,7 @@ import { ActionTheater } from '@/hooks';
 interface MovieTheaterValue {
   theather: MovieTheather;
   dispatch: Dispatch<ActionTheater>;
+  disable?: boolean;
 }
 export interface MovieTheaterProps extends MovieTheaterValue {
   children?: React.ReactNode;
@@ -18,15 +19,17 @@ export interface MovieTheaterProps extends MovieTheaterValue {
 const MovieTheatherContext = createContext<MovieTheaterValue>({
   theather: {} as MovieTheather,
   dispatch: () => null,
+  disable: false,
 });
 export const MovieTheater = ({
   theather,
   children,
   dispatch,
+  disable,
 }: MovieTheaterProps) => {
   return (
-    <MovieTheatherContext.Provider value={{ theather, dispatch }}>
-      <div className='flex flex-row gap-10'>{children}</div>
+    <MovieTheatherContext.Provider value={{ theather, dispatch, disable }}>
+      <div className={`flex flex-row gap-10`}>{children}</div>
     </MovieTheatherContext.Provider>
   );
 };
@@ -38,7 +41,7 @@ const MovieTheaterSide = ({
   lines: LineTheather[];
   isReverse?: boolean;
 }) => {
-  const { theather, dispatch } = useContext(MovieTheatherContext);
+  const { theather, dispatch, disable } = useContext(MovieTheatherContext);
   return (
     <div
       className={`flex items-center gap-5 ${isReverse ? 'flex-row-reverse' : 'flex-row'}`}
@@ -49,6 +52,7 @@ const MovieTheaterSide = ({
             key={nanoid()}
             size='large'
             state={line.state}
+            generalDisable={disable}
             onClick={() => {
               dispatch({
                 type: 'select',

@@ -22,7 +22,7 @@ const MainContext = createContext<MainContextValue>({
 const MainInfo = ({ children, movie }: MainInfoProps) => {
   return (
     <MainContext.Provider value={{ movie }}>
-      <div className='flex flex-col gap-4 w-1/2  justify-start text-left mb-6'>
+      <div className='flex flex-col gap-4 w-full md:w-1/2  justify-start text-left mb-6'>
         {children}
       </div>
     </MainContext.Provider>

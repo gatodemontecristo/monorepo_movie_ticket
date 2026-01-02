@@ -34,12 +34,12 @@ export default function DetailPage() {
   } = useSeatsByTicketId(ticketId || '');
 
   useEffect(() => {
-    if (!idMovie || !userId || !ticketId) {
+    if (!idMovie || !userId || !ticketId || ticketError || seatsError) {
       router.push(
         `/login?error=${encodeURIComponent('Ticket format not found')}`,
       );
     }
-  }, [idMovie, userId, ticketId]);
+  }, [idMovie, userId, ticketId, ticketError, seatsError]);
   const {
     data: movie,
     error: errorMovie,
@@ -54,7 +54,9 @@ export default function DetailPage() {
   const formattedSeats =
     seatsData && seatsData.length > 0
       ? seatsData
-          .map(seat => `${String.fromCharCode(65 + seat.row)}${seat.column}`)
+          .map(
+            seat => `${String.fromCharCode(65 + seat.row - 1)}${seat.column}`,
+          )
           .join(', ')
       : 'No seats assigned';
 

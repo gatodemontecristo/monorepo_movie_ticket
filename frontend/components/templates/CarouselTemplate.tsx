@@ -42,7 +42,7 @@ export const CarouselTemplate = ({
           </BackgroundContent>
         ))}
       </div>
-      <div className='absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-50'>
+      <div className='absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-row flex-wrap justify-center gap-2 z-50'>
         {movies?.map((_, index) => (
           <button
             key={nanoid()}

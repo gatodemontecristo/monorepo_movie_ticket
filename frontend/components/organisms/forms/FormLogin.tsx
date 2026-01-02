@@ -2,6 +2,7 @@
 
 import { GeneralLoader, MsgError } from '@/components/atoms';
 import { InputEmail, InputPassword } from '@/components/molecules';
+import { MESSAGE_LOGIN } from '@/constants';
 import { useLogin } from '@/hooks/useUser';
 import { LoginUserDto } from '@/types/user';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -43,11 +44,15 @@ export const FormLogin = () => {
       const ticketId = searchParams.get('ticketId');
       const originPath = searchParams.get('origin');
       if (ticketId) {
-        router.push(`/movies/ticket/${ticketId}`);
+        router.push(
+          `/movies/ticket/${ticketId}?message=${encodeURIComponent(MESSAGE_LOGIN)}`,
+        );
       } else if (originPath) {
-        router.push(`/movies/${originPath}`);
+        router.push(
+          `/movies/${originPath}?message=${encodeURIComponent(MESSAGE_LOGIN)}`,
+        );
       } else {
-        router.push('/movies');
+        router.push(`/movies?message=${encodeURIComponent(MESSAGE_LOGIN)}`);
       }
     } catch (error) {
       setErrorLogin('Login failed: ' + error);
