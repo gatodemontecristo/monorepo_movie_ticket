@@ -18,7 +18,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     redirect(path);
   };
   return (
-    <div className='flex flex-col w-1/6 p-5 text-movie-white'>
+    <div className='flex flex-col w-1/2 md:w-1/6 p-2 md:p-5 text-movie-white'>
       {/* Contenedor de la imagen con efectos hover */}
       <div className='relative overflow-hidden rounded-lg group cursor-pointer'>
         <Image
@@ -66,7 +66,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       </div>
 
       <div className='flex flex-col ms-2 mt-2'>
-        <p className='text-movie-white font-caros text-2xl font-semibold line-clamp-3 overflow-hidden text-ellipsis'>
+        <p className='text-movie-white font-caros text-xl md:text-2xl font-semibold line-clamp-3 overflow-hidden text-ellipsis'>
           {movie.title}
         </p>
 

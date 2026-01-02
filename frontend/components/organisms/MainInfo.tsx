@@ -32,7 +32,7 @@ const MainInfo = ({ children, movie }: MainInfoProps) => {
 const MainInfoHeader = () => {
   const { movie } = useContext(MainContext);
   return (
-    <h2 className='text-6xl  font-bold  font-mont line-clamp-3 overflow-hidden text-ellipsis'>
+    <h2 className='text-4xl md:text-6xl  font-bold  font-mont line-clamp-3 overflow-hidden text-ellipsis'>
       {movie.title}
     </h2>
   );

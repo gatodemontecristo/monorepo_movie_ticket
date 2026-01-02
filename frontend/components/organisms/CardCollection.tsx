@@ -23,8 +23,8 @@ export const CardCollection = ({
   });
 
   return (
-    <div className='flex flex-col gap-6 p-5'>
-      <p className='w-full text-4xl font-mont font-medium text-movie-white ms-4'>
+    <div className='flex flex-col md:gap-6 gap-4 md:p-5 p-4'>
+      <p className='w-full md:text-4xl text-3xl font-mont font-medium text-movie-white ms-4'>
         {title}
       </p>
       {isLoading ? (

@@ -13,7 +13,7 @@ export const LinkCollection = ({
   className,
 }: LinkCollectionProps) => {
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col md:w-1/4 w-1/2 ${className}`}>
       <p className='text-movie-black font-mont font-semibold mb-3'>{title}</p>
       {collection.map(link => (
         <LinkTab key={nanoid()} {...link} />

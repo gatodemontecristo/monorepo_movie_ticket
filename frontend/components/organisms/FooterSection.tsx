@@ -21,20 +21,20 @@ const FooterSocial = ({ label }: { label: string }) => {
     window.open(url, '_blank');
   };
   return (
-    <div className='flex flex-row items-center justify-between py-5 px-10'>
-      <p className='text-movie-black font-mont'>{label}</p>
+    <div className='flex flex-row items-center justify-between py-5 md:px-10 px-5'>
+      <p className='text-movie-black font-mont md:text-base text-sm'>{label}</p>
       <div className='flex flex-row gap-1'>
         <ButtonCircle type='filled' onClick={() => windowOpen(LINKEDIN_URL)}>
-          <FaLinkedin className='w-5 h-5 p-0.5' />
+          <FaLinkedin className='md:w-5 md:h-5 w-4 h-4 p-0.5' />
         </ButtonCircle>
         <ButtonCircle type='filled' onClick={() => windowOpen(GITHUB_URL)}>
-          <FaGithub className='w-5 h-5 p-0.5' />
+          <FaGithub className='md:w-5 md:h-5 w-4 h-4 p-0.5' />
         </ButtonCircle>
         <ButtonCircle type='filled' onClick={() => windowOpen(LEETCODE_URL)}>
-          <SiLeetcode className='w-5 h-5 p-0.5' />
+          <SiLeetcode className='md:w-5 md:h-5 w-4 h-4 p-0.5' />
         </ButtonCircle>
         <ButtonCircle type='filled' onClick={() => windowOpen(LETTERBOXD_URL)}>
-          <FaSquareLetterboxd className='w-5 h-5 p-0.5' />
+          <FaSquareLetterboxd className='md:w-5 md:h-5 w-4 h-4 p-0.5' />
         </ButtonCircle>
       </div>
     </div>
@@ -47,7 +47,7 @@ const FooterLine = () => {
 
 const FooterLinks = ({ collection }: { collection: LinkSection[] }) => {
   return (
-    <footer className='flex flex-row items-start justify-between py-5 px-10 mt-5 mb-5'>
+    <footer className='flex flex-row w-full flex-wrap items-start gap-y-5 justify-around py-5 md:px-10 px-5 mt-5 mb-5'>
       {collection.map(section => (
         <LinkCollection
           key={nanoid()}
