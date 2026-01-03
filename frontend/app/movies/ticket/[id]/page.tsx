@@ -98,9 +98,9 @@ export default function MovieTicketPage({ params }: Props) {
           className='bg-black/70 '
           classDiv='absolute'
         ></BackgroundContent>
-        <div className='relative text-movie-white pt-[100px] w-full flex items-center flex-row z-10'>
-          <div className='flex flex-col gap-2 w-1/4 items-end'>
-            <div className='flex flex-col gap-2 items-start justify-center w-[90%]'>
+        <div className='relative text-movie-white pt-[100px] w-full flex items-center flex-col md:flex-row gap-10 md:gap-0 z-10'>
+          <div className='flex flex-col gap-2 w-full md:w-1/4 md:items-end items-center md:px-0 px-4'>
+            <div className='flex flex-col gap-2 md:items-start items-center justify-center w-[90%]'>
               <SelectCountry value={country} onChange={setCountry} />
               <DaySelected />
               <HourSchedule
@@ -121,7 +121,7 @@ export default function MovieTicketPage({ params }: Props) {
               )}
             </div>
           </div>
-          <div className='flex flex-col gap-4 w-2/4'>
+          <div className='flex flex-col gap-4 w-full md:w-2/4 md:px-0 px-6'>
             <SadLine className='my-0' />
             <div className='flex flex-col justify-center w-full items-center'>
               {state.map(theater => (

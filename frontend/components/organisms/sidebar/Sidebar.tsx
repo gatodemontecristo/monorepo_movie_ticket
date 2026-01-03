@@ -19,7 +19,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     <div>
       <div
         className={clsx(
-          'fixed left-0 top-0 lg:w-1/5 md:w-1/2 w-4/6 h-full p-8 shadow-lg bg-ghibli-black  transform transition-transform duration-500 ease-in-out z-50 bg-movie-black',
+          'fixed left-0 top-0 lg:w-1/5 md:w-1/2 w-4/6 h-full p-8 shadow-lg bg-ghibli-black  transform transition-transform duration-500 ease-in-out z-99 bg-movie-black',
           isOpen ? 'translate-x-0' : '-translate-x-full',
         )}
       >

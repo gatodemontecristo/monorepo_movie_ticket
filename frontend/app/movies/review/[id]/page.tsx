@@ -29,8 +29,8 @@ export default function MovieMorePage({ params }: Props) {
 
   return (
     <ScreenContent isLoading={isLoading || !movie} outside={true}>
-      <div className='flex flex-row pt-[100px] text-movie-white'>
-        <div className=' flex flex-col w-1/3 gap-4 items-center'>
+      <div className='flex flex-col md:flex-row pt-[100px] text-movie-white'>
+        <div className=' flex flex-col w-full md:w-1/3 gap-4 items-center'>
           {movie && (
             <ReviewPanel movie={movie}>
               <ReviewPanel.Title />
@@ -65,7 +65,7 @@ export default function MovieMorePage({ params }: Props) {
             </ReviewPanel>
           )}
         </div>
-        <div className='flex flex-col w-2/3 mt-10 p-6 me-10 gap-6'>
+        <div className='flex flex-col w-full md:w-2/3 mt-10 p-6 me-10 gap-6'>
           <div className='flex flex-col gap-4'>
             <TitleInfo title='Story' text={movie?.overview}></TitleInfo>
           </div>

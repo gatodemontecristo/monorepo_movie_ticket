@@ -23,7 +23,7 @@ const MoreSectionContext = createContext<MoreSectionValue>({
 const MoreSection = ({ movie, credits, children }: MoreSectionProps) => {
   return (
     <MoreSectionContext.Provider value={{ movie, credits }}>
-      <div className='absolute inset-0 flex items-center justify-around text-movie-white z-50'>
+      <div className='absolute inset-0 flex items-center justify-around text-movie-white z-50 p-4 md:p-0'>
         {children}
       </div>
     </MoreSectionContext.Provider>
@@ -33,7 +33,7 @@ const MoreSection = ({ movie, credits, children }: MoreSectionProps) => {
 const MoreSectionMain = () => {
   const { movie } = useContext(MoreSectionContext);
   return (
-    <SecondaryInfo className=' text-left text-sm' width='part'>
+    <SecondaryInfo className=' text-left text-sm hidden md:flex' width='part'>
       <h1 className='text-5xl font-caros font-bold mb-4 line-clamp-3 overflow-hidden text-ellipsis'>
         {movie.title}
       </h1>
@@ -101,13 +101,30 @@ const MoreSectionDetail = () => {
     },
   ];
   return (
-    <SecondaryInfo className=' text-right text-sm' width='part'>
+    <SecondaryInfo
+      className='w-full text-right text-sm items-end justify-end'
+      width='part'
+    >
+      <h1 className='md:hidden block text-5xl font-caros font-bold mb-4 line-clamp-3 overflow-hidden text-ellipsis'>
+        {movie.title}
+      </h1>
       {moreInfo.map(info => (
         <InfoLabel {...info} key={nanoid()}></InfoLabel>
       ))}
       <InfoLabel text='' subtext='Score'>
         <MovieScore score={movie.vote_average}></MovieScore>
       </InfoLabel>
+      <Link
+        href={{
+          pathname: `/movies/ticket/${movie.id}`,
+        }}
+      >
+        <ButtonMovie
+          type='filled'
+          text='Book Tickets'
+          className='mt-3 md:hidden block'
+        />
+      </Link>
     </SecondaryInfo>
   );
 };
