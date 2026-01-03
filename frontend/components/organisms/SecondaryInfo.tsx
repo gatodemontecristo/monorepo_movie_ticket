@@ -11,13 +11,13 @@ export const SecondaryInfo = ({
   width,
 }: SecondaryInfoProps) => {
   const size = {
-    full: 'w-full',
-    half: 'w-1/2',
-    part: 'w-1/3',
-    tiny: 'w-1/4',
+    full: 'md:w-full',
+    half: 'md:w-1/2',
+    part: 'md:w-1/3',
+    tiny: 'md:w-1/4',
   };
   return (
-    <div className={`flex flex-col gap-2 ${className} ${size[width]}`}>
+    <div className={`flex flex-col  gap-2 ${className} ${size[width]}`}>
       {children}
     </div>
   );
