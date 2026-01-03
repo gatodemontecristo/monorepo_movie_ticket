@@ -8,3 +8,4 @@ export * from './ReviewPanel';
 export * from './MovieTheather';
 export * from './login';
 export * from './forms';
+export * from './sidebar';
