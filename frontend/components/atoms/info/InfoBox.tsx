@@ -13,7 +13,7 @@ export const InfoBox = ({
 }: InfoBoxProps) => {
   return (
     <div
-      className={`w-full flex justify-center text-center items-center flex-col px-10 py-10 ${color}`}
+      className={`w-full flex justify-center text-center items-center flex-col px-10 py-5 md:py-10 ${color}`}
     >
       <p className='text-movie-white font-caros text-2xl'>
         {number.toFixed(0)}

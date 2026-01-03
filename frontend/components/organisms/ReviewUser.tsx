@@ -24,7 +24,9 @@ const ReviewContext = createContext<ReviewContextValue>({
 const Review = ({ children, review }: ReviewUserProps) => {
   return (
     <ReviewContext.Provider value={{ review }}>
-      <div className=' bg-movie-grey px-10 py-8'>{children}</div>
+      <div className=' bg-movie-grey md:px-10 px-8 md:py-8 py-5'>
+        {children}
+      </div>
     </ReviewContext.Provider>
   );
 };
@@ -49,7 +51,7 @@ const ReviewTitle = ({
 const ReviewMain = () => {
   const { review } = useContext(ReviewContext);
   return (
-    <div className='flex flex-row justify-between items-center mb-4'>
+    <div className='flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 mb-4'>
       <div className='flex flex-row gap-4 items-center align-middle'>
         <Image
           src={buildImageUser(review.author_details.avatar_path)}
@@ -75,7 +77,7 @@ const ReviewParagraph = () => {
   const { review } = useContext(ReviewContext);
   return (
     <div
-      className='font-mont font-normal text-sm line-clamp-7 overflow-hidden text-ellipsis'
+      className='md:text-left text-center font-mont font-normal text-sm line-clamp-7 overflow-hidden text-ellipsis'
       dangerouslySetInnerHTML={{ __html: review.content }}
     />
   );
@@ -97,7 +99,7 @@ const ReviewIcon = ({
 const ReviewFooter = () => {
   const { review } = useContext(ReviewContext);
   return (
-    <div className='flex flex-row justify-between items-center py-2 px-4'>
+    <div className='flex flex-col md:flex-row justify-between gap-2 md:gap-0 items-center py-2 px-4'>
       <div className='flex flex-row gap-4'>
         <ReviewIcon
           icon={<FaCalendar />}

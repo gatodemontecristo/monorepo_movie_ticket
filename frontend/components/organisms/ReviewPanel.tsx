@@ -1,6 +1,5 @@
 'use client';
 
-import { buildImageUrl, IMAGE_SIZES } from '@/config/tmdb';
 import { MovieDetails } from '@/types';
 import Image from 'next/image';
 import React, { createContext, useContext } from 'react';
@@ -11,6 +10,7 @@ import { FaRegCalendar } from 'react-icons/fa6';
 import { IoLanguage } from 'react-icons/io5';
 import { formatScore, reviewFeature } from '@/utils';
 import { nanoid } from 'nanoid';
+import { NOT_FOUND_POSTER } from '@/constants';
 
 interface ReviewContextValue {
   movie: MovieDetails;
@@ -55,7 +55,9 @@ const ReviewPoster = () => {
   return (
     <Image
       src={
-        buildImageUrl(movie?.poster_path, IMAGE_SIZES.POSTER.LARGE) as string
+        movie.poster_path
+          ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
+          : NOT_FOUND_POSTER
       }
       alt='Movie Poster'
       width={500}
