@@ -17,7 +17,7 @@ export const HourSchedule = ({
   return (
     <>
       <p className='font-caros text-movie-white text-lg'>{title}</p>
-      <div className='flex flex-row gap-2 flex-wrap'>
+      <div className='flex flex-row gap-2 flex-wrap md:items-start items-center justify-center md:justify-start'>
         {hours.map((hour, index) => (
           <HourTime
             text={hour}

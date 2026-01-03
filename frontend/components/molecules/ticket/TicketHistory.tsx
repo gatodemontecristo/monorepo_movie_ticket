@@ -25,23 +25,23 @@ export const TicketHistory = ({ ticket }: TicketHistoryProps) => {
 
   return (
     <div
-      className='group relative flex flex-row w-2/5 h-[170px] aux-container3 cursor-pointer
+      className='group relative flex flex-row md:w-2/5 w-full md:h-[170px] h-[200px] aux-container3 cursor-pointer
              transition-transform duration-300 ease-out hover:-translate-x-5'
       onClick={handleClick}
     >
       <div className='bg-movie-yellow w-1/5 p-4 flex flex-col items-center justify-center'>
-        <p className='[writing-mode:vertical-rl] rotate-180  text-rotate-0 text-2xl  text-white font-bold font-caros'>
+        <p className='[writing-mode:vertical-rl] rotate-180  text-rotate-0 md:text-2xl text-lg  text-white font-bold font-caros'>
           {ticket.movieName}
         </p>
       </div>
-      <div className='bg-white w-4/5 p-4 flex flex-row justify-between'>
+      <div className='bg-white w-4/5 md:p-4 p-3 flex flex-row justify-between'>
         <div className='flex flex-col justify-between'>
           <div className='flex flex-col'>
-            <div className='text-movie-black font-caros text-3xl font-bold flex items-center gap-2'>
+            <div className='text-movie-black font-caros md:text-3xl text-xl font-bold flex items-center gap-2'>
               <FaLocationDot size={24} />
               <p>{ticket.location}</p>
             </div>
-            <div className='text-movie-black ml-1 font-caros text-lg flex flex-row items-center gap-2'>
+            <div className='text-movie-black ml-1 font-caros md:text-lg text-base flex flex-row items-center gap-2'>
               <FaCalendar size={16} />
               <p>
                 {formatDateString(ticket.day)} • {ticket.hour.toUpperCase()}
@@ -55,7 +55,9 @@ export const TicketHistory = ({ ticket }: TicketHistoryProps) => {
         </div>
         <div className='flex flex-col justify-between items-center mr-4'>
           <div className='flex flex-row gap-2 items-center'>
-            <p className={`${statusColor} font-caros text-xl font-bold`}>
+            <p
+              className={`${statusColor} font-caros md:text-xl text-lg font-bold`}
+            >
               {status}
             </p>
             <div

@@ -32,12 +32,12 @@ const FormTicketRoot = ({
 }: MainFormTicketProps) => {
   return (
     <FormTicketContext.Provider value={{ country, hourSelected, days, state }}>
-      <div className='flex flex-col w-1/4 relative justify-start items-start'>
-        <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 w-[90%] items-center rounded-lg gap-2'>
+      <div className='flex flex-col w-full md:w-1/4 relative md:justify-start justify-center md:items-start items-center'>
+        <div className='aux-container bg-movie-grey flex flex-col px-10 pt-8 pb-10 md:w-[90%] w-[80%] items-center rounded-lg gap-2'>
           {children}
         </div>
         <div
-          className='aux-container-2 bg-movie-grey flex flex-col  w-[90%] items-center
+          className='aux-container-2 bg-movie-grey flex flex-col  md:w-[90%] w-[80%] items-center
              rounded-lg'
         >
           {button}

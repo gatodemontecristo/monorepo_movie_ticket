@@ -73,7 +73,7 @@ export default function DetailPage() {
       outside
     >
       <div className='min-h-screen bg-movie-black p-8 mt-24 flex flex-col items-center gap-4'>
-        <div className='bg-movie-white w-1/3 rounded-3xl p-4 flex flex-col'>
+        <div className='bg-movie-white md:w-1/3 w-full rounded-3xl p-4 flex flex-col'>
           <Image
             src={
               movie.poster_path
@@ -86,12 +86,12 @@ export default function DetailPage() {
             className='w-full h-auto object-cover rounded-3xl  transition-transform duration-500 ease-out group-hover:scale-110'
             priority
           />
-          <div className='flex flex-col p-6 w-full'>
-            <div className='text-movie-black font-caros flex flex-row gap-1 items-center justify-center text-4xl font-semibold line-clamp-3 overflow-hidden text-ellipsis mb-4'>
+          <div className='flex flex-col md:p-6 p-2 w-full'>
+            <div className='text-movie-black font-caros flex flex-row gap-1 items-center justify-center md:text-4xl text-3xl font-semibold line-clamp-3 overflow-hidden text-ellipsis mb-4'>
               <p>{movie.title}</p>{' '}
-              <span className='text-lg'>(#{movie.id})</span>
+              <span className='md:text-lg text-base'>(#{movie.id})</span>
             </div>
-            <div className='flex flex-row justify-between items-center text-lg'>
+            <div className='flex flex-row justify-between items-center md:text-lg text-sm'>
               <div className='flex flex-col  items-start'>
                 <p className='flex flex-row items-center gap-1'>
                   <FaCalendar size={20} /> Date
@@ -117,10 +117,12 @@ export default function DetailPage() {
                 <p>{movie.adult ? 'R' : 'PG-13'}</p>
               </div>
             </div>
-            <div className='flex flex-row text-lg mt-4 '>
+            <div className='flex flex-row md:text-lg text-base mt-4 '>
               <div className='flex flex-col items-start w-1/3 p-2'>
                 <p>Seats</p>
-                <p className='text-2xl font-bold'>{formattedSeats}</p>
+                <p className='md:text-2xl text-xl font-bold'>
+                  {formattedSeats}
+                </p>
               </div>
               <div className='flex flex-col w-2/3 border-s-3 border-dashed border-movie-grey p-2 px-5 justify-start items-start'>
                 <p>QR code generated</p>
@@ -131,10 +133,10 @@ export default function DetailPage() {
               </div>
             </div>
             <div className='flex flex-col text-lg mt-4 '>
-              <p className='font-mont text-movie-grey leading-none text-[15px] text-justify'>
+              <p className='font-mont text-movie-grey leading-none md:text-[15px] text-[12px] text-justify'>
                 {movie.overview}
               </p>
-              <p className='font-mont text-movie-grey leading-none text-[14px] text-center mt-6'>
+              <p className='font-mont text-movie-grey leading-none md:text-[14px] text-[12px] text-center mt-6'>
                 {ticketData.idticket}
               </p>
             </div>

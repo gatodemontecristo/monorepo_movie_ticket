@@ -45,7 +45,7 @@ export default function HistoryPage() {
   return (
     <ScreenContent isLoading={isLoading || !currentUser} outside>
       <div className='min-h-screen bg-movie-black p-8 mt-24 flex flex-col items-center gap-4'>
-        <p className='w-full text-4xl font-mont font-medium text-movie-white mb-8 text-center'>
+        <p className='w-full md:text-4xl text-3xl font-mont font-medium text-movie-white mb-8 text-center'>
           My Ticket History
         </p>
         {userTickets && userTickets.length > 0 ? (
