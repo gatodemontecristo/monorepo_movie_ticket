@@ -18,10 +18,10 @@ export default function NotFound() {
           priority
         />
         <div className='absolute  text-center flex flex-col items-center justify-center h-screen w-screen z-10'>
-          <h1 className='text-8xl font-mont font-bold text-movie-duck mb-4'>
+          <h1 className='md:text-8xl text-7xl font-mont font-bold text-movie-duck mb-4'>
             404
           </h1>
-          <p className='text-2xl font-caros text-movie-white mb-2'>
+          <p className='md:text-2xl text-xl font-caros text-movie-white mb-2'>
             Movie page not found
           </p>
           <p className='text-movie-white opacity-70 font-caros'>
