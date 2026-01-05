@@ -14,6 +14,7 @@ const requiredEnvVars = {
   API_KEY: process.env.NEXT_PUBLIC_TMDB_API_KEY,
   BASE_URL: process.env.NEXT_PUBLIC_TMDB_BASE_URL,
   IMAGE_BASE_URL: process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL,
+  FRONTEND_LOCALHOST: process.env.NEXT_PUBLIC_FRONTEND_LOCALHOST,
 } as const;
 
 // Validate environment variables
@@ -32,6 +33,8 @@ export const TMDB_CONFIG = {
   DEFAULT_LANGUAGE: 'en-US',
   DEFAULT_REGION: 'US',
 } as const;
+
+export const FRONTEND_LOCALHOST = requiredEnvVars.FRONTEND_LOCALHOST;
 
 /**
  * TMDB API Endpoints

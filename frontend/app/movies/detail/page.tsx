@@ -12,6 +12,7 @@ import { IoMdFilm } from 'react-icons/io';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import QRCode from 'react-qr-code';
+import { FRONTEND_LOCALHOST } from '@/config/tmdb';
 
 export default function DetailPage() {
   const router = useRouter();
@@ -128,7 +129,7 @@ export default function DetailPage() {
                 <p>QR code generated</p>
                 <QRCode
                   size={140}
-                  value={`http://localhost:3009/movies/detail?idMovie=${idMovie}&userId=${userId}&ticketId=${ticketId}`}
+                  value={`${FRONTEND_LOCALHOST}movies/detail?idMovie=${idMovie}&userId=${userId}&ticketId=${ticketId}`}
                 />
               </div>
             </div>
