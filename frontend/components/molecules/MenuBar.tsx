@@ -79,7 +79,7 @@ export const MenuBar = () => {
               priority
             />
             <div
-              className={`absolute top-15  right-0 w-48 md:w-72 bg-movie-black/95 backdrop-blur-sm border border-movie-duck/20 rounded-xl shadow-2xl transform transition-all duration-500 ease-initial
+              className={`absolute top-15  right-0 w-52 p-2 md:w-72 bg-movie-black/95 backdrop-blur-sm border border-movie-duck/20 rounded-xl shadow-2xl transform transition-all duration-500 ease-initial
  ${
    showUserTooltip
      ? 'opacity-100 translate-y-0 pointer-events-auto'

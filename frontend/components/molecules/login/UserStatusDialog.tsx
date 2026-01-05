@@ -5,14 +5,14 @@ import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 
 const UserEmailText = ({ email }: { email: string }) => {
   return (
-    <h3 className='text-movie-white font-mont font-semibold text-lg'>
+    <h3 className='text-movie-white font-mont font-semibold md:text-lg text-base truncate'>
       {email}
     </h3>
   );
 };
 const UserEmailId = ({ id }: { id: string }) => {
   return (
-    <p className='text-movie-white/60 text-sm font-mont'>
+    <p className='text-movie-white/60 text-sm font-mont truncate'>
       User ID: {id?.slice(0, 8)}...
     </p>
   );
@@ -61,7 +61,7 @@ export const UserStatusDialog = ({
             <div className='w-12 h-12 bg-movie-duck/20 rounded-full flex items-center justify-center'>
               <FaUserCircle className='text-movie-duck text-2xl' />
             </div>
-            <div>
+            <div className='min-w-0'>
               <UserEmailText email={currentUser.email} />
               <UserEmailId id={currentUser.id || ''} />
             </div>
