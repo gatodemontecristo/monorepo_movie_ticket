@@ -8,6 +8,11 @@ A modern, full-stack movie ticket booking application built with Next.js, Node.j
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
 
+<img width="2860" height="1424" alt="image" src="https://github.com/user-attachments/assets/60942bbb-f46d-4915-8db9-dab1cbfff23d" />
+<img width="2880" height="2546" alt="image" src="https://github.com/user-attachments/assets/0a65e2d2-8b1b-42d6-9758-62adc6352ea0" />
+
+
+
 ## ✨ Features
 
 ### 🎭 Core Functionality
